@@ -1,9 +1,7 @@
 (ns introclojure.eval
-
   (:require [net.cgrand.sjacket :as sj]
             [net.cgrand.sjacket.parser :as p]
-            [clojure.string]
-  ))
+            [clojure.string]))
 
 
 (defn pos-to-idx [text line pos]
@@ -12,9 +10,14 @@
               (take line
                     (clojure.string/split-lines text)))))
 
+
 (defn idx-to-pos [text idx]
-  (let [lines (clojure.string/split-lines (apply str (take (inc idx) text)))]
-    [(-> lines count dec) (- idx (reduce (partial + 1) 0 (map count (or (butlast lines) []))))]))
+  (let [lines
+        (clojure.string/split-lines
+         (apply str (take (inc idx) text)))]
+    [(-> lines count dec)
+     (- idx (reduce (partial + 1) 0
+                    (map count (or (butlast lines) []))))]))
 
 
 
@@ -24,7 +27,6 @@
  ;        (clojure.string/split-lines (apply str (take (inc idx) (str text " ")))))))
 
 
-(reduce (partial + 1) 0 []) ; (map count (or (butlast ["av" "vca" "yo"]) [])))
 
 (idx-to-pos "\n111\n2" 5)
        ;    "0 123 45"

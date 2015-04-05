@@ -8,12 +8,12 @@
             [ring.middleware.reload :as reload]
             [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
             [environ.core :refer [env]]
+            [introclojure.eval]
             [ring.adapter.jetty :refer [run-jetty]]))
 
 (deftemplate page (io/resource "index.html") []
   [:body] (if is-dev? inject-devmode-html identity))
 
-(require 'introclojure.eval)
 
 (use '[ring.middleware.json :only [wrap-json-response]]
      '[ring.util.response :only [response]])
@@ -26,11 +26,9 @@
   (GET "/*" req (page)))
 
 
-
-
 (def http-handler
    (if is-dev?
-    (reload/wrap-reload (wrap-json-response (wrap-defaults #'routes api-defaults)))
+    (reload/wrap-reload (wrap-defaults (wrap-json-response #'routes) api-defaults))
     (wrap-json-response (wrap-defaults routes api-defaults))))
 
 (defn run-web-server [& [port]]
@@ -49,6 +47,7 @@
 
 (defn -main [& [port]]
   (run port))
+
 
 (defonce server (run))
 

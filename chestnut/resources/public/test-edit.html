@@ -120,8 +120,6 @@
 
 
         var clearEval = function (from, to) {
-
-          console.log([from, to]);
           findIntersectedMarks(editor, CodeMirror.Pos(from.line, from.pos),
             CodeMirror.Pos(to.line, to.pos)).forEach(function(m) {
               m.clear();
