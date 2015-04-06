@@ -1,6 +1,5 @@
 (ns workshop.index)
 
-
 "bibliographie :
 - [http://java.ociweb.com/mark/clojure/article.html](http://java.ociweb.com/mark/clojure/article.html)
 - http://www.braveclojure.com/"
@@ -10,8 +9,10 @@
 (require 'clojure.walk)
 
 (defmacro exercice [doc exs result]
-  `(every? true? ~(clojure.walk/postwalk #(if (= %1 '__) result %1) exs)))
+  ;;`(every? true? ~
+  (clojure.walk/postwalk #(if (= %1 '__) result %1) exs))
 ]}]]
+
 
 
 [[:chapter {:tag "intro" :title "Introduction"}]]
@@ -41,7 +42,8 @@ Tout le code Clojure est écrit dans une structure uniforme. Clojure comprends :
 2. les opérations
 "
 
-"On utilise le terme forme pour désigner le code valide structurellement. Les représentations suivantes sont des formes valides :"
+"On utilise le terme forme pour désigner le code valide structurellement.
+Les représentations suivantes sont des formes valides :"
 
 (comment
   1
@@ -65,13 +67,10 @@ opérateur, opérandes, parenthèse fermante\" :"
 
 (comment (operator operand1 operand2 ... operandn))
 
-
 "En comparaison, voici le code Java équivalent :"
-
 
 [[{:lang "Java"}]]
 [[:code "operator(operand1,operand2, ... , operandn);"]]
-
 
 [[{:private [
    (defmacro contains-op? [form] (if (list? form) true false))
@@ -82,8 +81,6 @@ opérateur, opérandes, parenthèse fermante\" :"
  [(= __ 2)
   (contains-op? __)]
  (+ 1 1))
-
-
 
 
 (exercice
