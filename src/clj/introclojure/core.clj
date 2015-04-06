@@ -2,7 +2,7 @@
   (:use compojure.core)
   (:require [compojure.handler :as handler]
             [compojure.route :as route]
-            [ring.middleware.webjars :refer [wrap-webjars]]))
+            #_ [ring.middleware.webjars :refer [wrap-webjars]]))
 
 
 
@@ -21,11 +21,10 @@
 
 (def app
   (-> (handler/site app-routes)
-      (wrap-webjars)
   ))
 
 ;(defonce app 3000)
 
-(do
+#_ (do
   (use 'ring.adapter.jetty)
   (defonce server (run-jetty #'app {:port 8080 :join? false})))

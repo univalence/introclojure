@@ -10,6 +10,7 @@
             [environ.core           :refer [env]]
             [ring.adapter.jetty     :refer [run-jetty]]
             [introclojure.eval]
+            [introclojure.parser]
             [clojure.data.json :as json]
             ))
 
@@ -23,6 +24,7 @@
         (json/write-str (introclojure.eval/eval-from-text text
                                                     (read-string line)
                                                     (read-string pos))))
+  (GET "/exercices" [] introclojure.parser/all)
 
   (GET "/*" req (page)))
 

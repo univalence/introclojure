@@ -1,9 +1,7 @@
-
-
-
-
-
 (ns introclojure.parser)
+
+
+(require '[clojure.java.io :as io])
 
 
 (require '[rewrite-clj.zip :as z])
@@ -19,18 +17,11 @@
 
 
 
-(binding [*plain* false]
+(def all (binding [*plain* true]
+ (render-html-doc2 (parse-content (z/of-string (slurp
 
- (render-html-doc2 "idx2.html" (parse-content (z/of-file "workshop/index.clj")))
- )
+                                   (io/input-stream (io/resource "workshop/index.clj")))))
+ )))
 
- (render-html-doc2 "idx2.html"
-
- (parse-content
-
-  (z/of-string "(comment (+ 1 2))
-                (exercice :yo)
-               (comment (+ 3 4 5))
-               ")))
 
  ; (z/of-file "./workshop/index.clj"))

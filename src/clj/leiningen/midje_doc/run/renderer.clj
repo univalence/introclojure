@@ -197,9 +197,7 @@
 
 
 
- (defn render-html-doc2 [output elems]
-  (let []
-    (spit output
+ (defn render-html-doc2 [elems]
           (html/html
            [:html
             [:head
@@ -219,5 +217,5 @@
              [:section
               (map render-element elems)]]
             [:script {:type "text/javascript"}
-             (slurp-res "template/javascripts/scale.fix.js")]]))))
+             (slurp-res "template/javascripts/scale.fix.js")]]))
 
