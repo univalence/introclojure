@@ -10,7 +10,7 @@
   :test-paths ["spec/clj"]
 
   :dependencies [
-                 ;; Chesnut
+                 ;; Chestnut
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/clojurescript "0.0-2511" :scope "provided"]
                  [ring "1.3.2"]
@@ -21,7 +21,25 @@
                  [environ "1.0.0"]
 
                  ;; lein-midge-doc
+                 [rewrite-clj "0.3.9"]
+                 [hiccup "1.0.4"]
+                 [markdown-clj "0.9.29"]
+                 [stencil "0.3.2"]
+                 [me.raynes/conch "0.6.0"]
+                 [org.clojars.zcaudate/watchtower "0.1.2"]
 
+
+                 [org.clojure/tools.reader "0.8.4"]
+
+                 ;; REPL
+                 [net.cgrand/sjacket "0.1.1"]
+                 [org.clojure/data.json "0.2.6"]
+
+
+                 ;; SLOW CLAP
+                 [org.clojure/core.cache "0.6.3"]
+                 [org.clojure/core.memoize "0.5.6"
+                  :exclusions [org.clojure/core.cache]]
 
                  ]
 

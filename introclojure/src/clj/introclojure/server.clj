@@ -1,14 +1,17 @@
 (ns introclojure.server
   (:require [clojure.java.io :as io]
-            [introclojure.dev :refer [is-dev? inject-devmode-html browser-repl start-figwheel start-less]]
-            [compojure.core :refer [GET defroutes]]
-            [compojure.route :refer [resources]]
+            [introclojure.dev       :refer [is-dev? inject-devmode-html browser-repl start-figwheel start-less]]
+            [compojure.core         :refer [GET defroutes POST]]
+            [compojure.route        :refer [resources]]
             [net.cgrand.enlive-html :refer [deftemplate]]
-            [net.cgrand.reload :refer [auto-reload]]
+            [net.cgrand.reload      :refer [auto-reload]]
             [ring.middleware.reload :as reload]
-            [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
-            [environ.core :refer [env]]
-            [ring.adapter.jetty :refer [run-jetty]]))
+            [ring.middleware.defaults :refer [wrap-defaults api-defaults]]
+            [environ.core           :refer [env]]
+            [ring.adapter.jetty     :refer [run-jetty]]
+            [introclojure.eval]
+            [clojure.data.json :as json]
+            ))
 
 (deftemplate page (io/resource "index.html") []
   [:body] (if is-dev? inject-devmode-html identity))
@@ -16,12 +19,17 @@
 (defroutes routes
   (resources "/")
   (resources "/react" {:root "react"})
+  (POST "/eval" [text line pos]
+        (json/write-str (introclojure.eval/eval-from-text text
+                                                    (read-string line)
+                                                    (read-string pos))))
+
   (GET "/*" req (page)))
 
 (def http-handler
   (if is-dev?
-    (reload/wrap-reload (wrap-defaults #'routes site-defaults))
-    (wrap-defaults routes site-defaults)))
+    (reload/wrap-reload (wrap-defaults #'routes api-defaults))
+    (wrap-defaults routes api-defaults)))
 
 (defn run-web-server [& [port]]
   (let [port (Integer. (or port (env :port) 10555))]
