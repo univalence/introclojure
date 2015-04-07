@@ -49,6 +49,8 @@
             [lein-environ "1.0.0"]
             [lein-less "1.7.2"]]
 
+  :main introclojure.main
+
   :min-lein-version "2.5.0"
 
   :uberjar-name "introclojure.jar"
