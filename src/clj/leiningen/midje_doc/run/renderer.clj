@@ -38,6 +38,24 @@
           fst-str (.substring s 0 fst-idx)]
         (str fst-str rst-new)))))
 
+
+
+(defn render-exercice [title exs solution]
+
+   [:div
+
+    [:h4 "exercice : " title]
+    [:div "résoudre avec les contraintes suivantes"
+     (for [e exs]
+       [:pre (-> e str basic-html-escape)]
+       )]
+
+
+    [:pre "Your code goes here ! "]
+     ]
+  )
+
+
 (defn render-element [elem]
   (condp = (:type elem)
 
@@ -94,15 +112,15 @@
          output))]
 
     :exercice
-    [:div "exercice // TODO RENDERING"
-     [:pre (-> (:content elem)
-               str
-               (basic-html-escape))]
-     ]
+    (apply render-exercice (:content elem))
+
 
     (throw (Exception. (str "not matching clause on " elem)))
 
     ))
+
+
+
 
 
 (defn render-toc-element [elem]
