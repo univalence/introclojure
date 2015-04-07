@@ -24,9 +24,9 @@
         (json/write-str (introclojure.eval/eval-from-text text
                                                     (read-string line)
                                                     (read-string pos))))
-  (GET "/exercices" [] introclojure.parser/all)
+  (GET "/" [] (introclojure.parser/all))
 
-  (GET "/*" req (page)))
+  #_ (GET "/*" req (page)))
 
 (def http-handler
   (if is-dev?
