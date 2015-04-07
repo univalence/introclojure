@@ -94,7 +94,11 @@
          output))]
 
     :exercice
-    [:div "exercice"]
+    [:div "exercice // TODO RENDERING"
+     [:pre (-> (:content elem)
+               str
+               (basic-html-escape))]
+     ]
 
     (throw (Exception. (str "not matching clause on " elem)))
 
