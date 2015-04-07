@@ -1,7 +1,8 @@
 (ns introclojure.eval
   (:require [net.cgrand.sjacket :as sj]
             [net.cgrand.sjacket.parser :as p]
-            [clojure.string]))
+            [clojure.string]
+            [clojure.pprint]))
 
 
 (defn pos-to-idx [text line pos]
@@ -63,15 +64,23 @@
 
 
 
+(defn pprint-to-str [f]
+  (let [s (java.io.StringWriter.)]
+    (binding [*out* s]
+      (clojure.pprint/pprint f))
+    (let [r (.toString s)]
+      (.substring r 0 (dec (.length r))))))
+
+
 
 (defn eval-from-text [text line pos]
 
   (let [ffo (find-form-offsets text)
         idx (pos-to-idx text line pos)
-        [s e :as fo]  (last (filter #(>= idx (first %)) ffo))
+        [s e :as fo]  (or (last (filter #(>= idx (first %)) ffo)) (first ffo))
         f   (.substring text s e)
         ]
-    (assoc (fo-to-info  fo text) :eval (str (eval (read-string f))))
+    (assoc (fo-to-info  fo text) :eval (pprint-to-str (eval (read-string f))))
 
   ))
 
@@ -81,6 +90,6 @@
 
 (idx-to-pos "(+ 1 2)\n a" 13)
 
-(find-form-offsets "(+ 1 2)\n a")
+(find-form-offsets " (+ 1 2)\n a")
 
-(eval-from-text "(+ 1 2)\n a" 0 0)
+(eval-from-text " (+ 1 2)\n a" 0 0)
