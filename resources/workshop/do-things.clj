@@ -421,3 +421,193 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   ; => [1 2 3 4]
   )
 [[:section {:tags "listes" :title "Listes"}]]
+
+
+"Les listes sont similaires à vecteurs en ce qu'ils sont linéaires collections de valeurs. Il ya quelques différences, cependant. Vous ne pouvez pas récupérer les éléments de liste avec get :"
+
+
+(comment
+
+  ;; Here's a list - note the preceding single quote
+  '(1 2 3 4)
+  ; => (1 2 3 4)
+  ;; Notice that the REPL prints the list without a quote. This is OK,
+  ;; and it'll be explained later.
+
+
+  ;; Doesn't work for lists
+  (get '(100 200 300 400) 0)
+
+  ;; This works but has different performance characteristics which we
+  ;; don't care about right now.
+  (nth '(100 200 300 400) 3)
+  ; => 400
+  )
+
+
+"Vous pouvez créer des listes avec la fonction list :"
+
+(comment
+
+  (list 1 2 3 4)
+; => (1 2 3 4)
+)
+
+"Les éléments sont ajoutés au début de la liste:"
+
+(comment
+
+  (Conj '(1 2 3 4))
+;  => (4 1 2 3)
+)
+
+"Quand devriez-vous utiliser une liste et quand faut-il utiliser un vecteur? Pour l'instant, vous êtes probablement mieux de simplement en utilisant des vecteurs. Comme vous en apprendre davantage, vous aurez une bonne idée de quand utiliser quel."
+
+
+[[:section {:tags "sets" :title "Sets"}]]
+
+"Les ensembles sont des collections de valeurs uniques:"
+
+(comment
+
+  ;; Literal notation
+    #{"hannah montanna" "miley cyrus" 20 45}
+
+  ;; If you try to add :b to a set which already contains :b,
+  ;; the set still only has one :b
+  (conj #{:a :b} :b)
+  ; => #{:a :b}
+
+  ;; You can check whether a value exists in a set
+  (get #{:a :b} :a)
+  ; => :a
+
+  (:a #{:a :b})
+  ; => :a
+
+  (get #{:a :b} "hannah montanna")
+  ; => nil
+
+  )
+
+"Vous pouvez créer des ensembles de vecteurs et les listes existantes en utilisant le set fonction. Une utilisation non évidente pour ce est de vérifier si un élément existe dans une collection:"
+
+
+(comment
+  (set [3 3 3 4 4])
+  ; => #{3 4}
+
+  ;; 3 exists in vector
+  (get (set [3 3 3 4 4]) 3)
+  ; => 3
+
+  ;; but 5 doesn't
+  (get (set [3 3 3 4 4]) 5)
+  ; => nil
+
+  )
+"Tout comme vous pouvez créer des cartes et des cartes de hachage triés, vous pouvez créer des ensembles de hachage et des jeux triés:"
+
+(comment
+  (Hash-set 1 1 3 1 2)
+  ;  => # {1 2 3}
+
+  (Triés-set: b: a: c)
+  ;  => # {: A: b: c}
+  )
+
+"Clojure vous permet également de définir la façon dont un ensemble est trié en utilisant l' sorted-set-by fonction, mais ce livre ne couvre pas que."
+
+[[:section {:tags "symboles_naming" :title "Symboles et Naming"}]]
+
+"Les symboles sont des identifiants qui sont normalement utilisés pour se référer à quelque chose. Regardons un def exemple:"
+
+(comment
+  (def failed-movie-titles ["Gone With the Moving Air" "Swellfellas"])
+
+  )
+
+
+"Dans ce cas, def associe la valeur [\"Gone With the Moving Air\" \"Swellfellas\"] avec les symboles failed-movie-titles .
+
+Vous pensez peut-être: «Alors quoi? Tout autre langage de programmation permet de me associer un nom à une valeur. Big Whoop!\" Lisps, toutefois, vous permettent de manipuler des symboles comme des données, quelque chose que nous allons voir beaucoup de quand nous commençons à travailler avec des macros. Fonctions peuvent retourner symboles et les prendre comme arguments:
+
+"
+
+(comment
+  ;; Identity returns its argument
+  (identity 'test)
+  ; => test
+  )
+
+"Pour l'instant, cependant, il est OK pour penser \"Big Whoop!\" et ne pas être très impressionné.
+"
+
+[[:section {:tags "quote" :title "Quote"}]]
+
+"Vous avez peut-être remarqué la apostrophe, ' , dans les exemples ci-dessus. Ceci est appelé \"citant\". Vous apprendrez à connaître en détail dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Voici l'explication rapide pour l'instant.
+
+Donner Clojure un symbole renvoie l '«objet», il se réfère à:"
+
+(comment
+
+  failed-protagonist-names
+  ; => ["Larry Potter" "Doreen the Explorer" "The Incredible Bulk"]
+
+  (first failed-protagonist-names)
+  ; => "Larry Potter"
+  )
+
+
+"Citant un symbole dit Clojure d'utiliser le symbole lui-même comme une structure de données, pas l'objet le symbole se réfère à:"
+
+(comment
+
+  'failed-protagonist-names
+  ; => failed-protagonist-names
+
+  (eval 'failed-protagonist-names)
+  ; => ["Larry Potter" "Doreen the Explorer" "The Incredible Bulk"]
+
+  (first 'failed-protagonist-names)
+  ; => Throws exception!
+
+  (first ['failed-protagonist-names 'failed-antagonist-names])
+  ; => failed-protagonist-names
+  )
+"Vous pouvez également citer collections comme des listes, des cartes et des vecteurs. Tous les symboles de la collection seront non évalués:"
+
+(comment
+
+  '(failed-protagonist-names 0 1)
+  ; => (failed-protagonist-names 0 1)
+
+  (first '(failed-protagonist-names 0 1))
+  ; => failed-protagonist-names
+
+  (second '(failed-protagonist-names 0 1))
+  ; => 0
+  )
+
+
+[[:section {:tags "simplicity" :title "Simplicité"}]]
+
+"Vous avez peut-être remarqué que ce traitement de structures de données ne comprend pas une description de la façon de créer de nouveaux types ou classes. Ce est parce que l'accent mis sur la simplicité Clojure vous encourage à atteindre pour les structures de données "de base" intégrés dans le premier.
+
+Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approche est bizarre et vers l'arrière. Ce que vous trouverez, cependant, ce est que vos données ne ont pas à être bien livré avec une classe pour qu'il soit utile et intelligible. Voici une épigramme aimé par Clojurists qui fait allusion à la philosophie Clojure:"
+
+(comment
+
+  It is better to have 100 functions operate on one data structure
+  than 10 functions on 10 data structures.
+
+  -- Alan Perlis)
+
+
+"Vous en apprendrez plus sur cet aspect de la philosophie de Clojure dans les prochains chapitres. Pour l'instant, cependant, garder un œil sur les moyens que vous gagnez la réutilisation du code en se en tenant à des structures de base de données.
+
+Ainsi conclut notre Clojure structures de données primaire. Maintenant il est temps de creuser dans les fonctions et de voir comment ces structures de données peuvent être utilisés!
+
+"
+
+
