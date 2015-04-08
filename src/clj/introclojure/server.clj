@@ -24,6 +24,9 @@
         (json/write-str (introclojure.eval/eval-from-text text
                                                     (read-string line)
                                                     (read-string pos))))
+
+  (POST "/exercice-eval" [data]
+        (-> data (json/read-str :key-fn keyword) introclojure.exercice/eval-exercice json/write-str))
   (GET "/" [] (introclojure.parser/all))
 
   #_ (GET "/*" req (page)))

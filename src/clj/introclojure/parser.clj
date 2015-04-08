@@ -18,6 +18,9 @@
 
 
 (defn all [] (binding [*plain* true]
+
+
+
  (render-html-doc2 (parse-content (z/of-string (slurp
 
                                    (io/input-stream (io/resource "workshop/index.clj")))))

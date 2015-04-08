@@ -10,6 +10,8 @@
    :subsection 0
    :subsubsection 0
    :example 0
+   :exercice 0
+   :constraint 0
    :image 0
    :fact-level 0})
 

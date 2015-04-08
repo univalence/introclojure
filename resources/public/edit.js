@@ -97,7 +97,9 @@ createCodePad = function (element, exercice_id) {
                 {autoCloseBrackets: true,
                 styleActiveLine: true,
                 lineNumbers: true,
-                lineWrapping: true}),
+                lineWrapping: true,
+                viewportMargin: Infinity
+            }),
 
             checkChanges : function() {
                 this.allCoderes = this.allCoderes.map(function (codePiece) {
@@ -133,6 +135,7 @@ createCodePad = function (element, exercice_id) {
                 var coderes = {markedText : cm.markText(CodeMirror.Pos(evalres.start.line, evalres.start.pos),
                                             CodeMirror.Pos(evalres.end.line,
                                                            evalres.end.pos),
+                                            
                                             {css: ("background-color: hsl(" + Math.floor(Math.random()*255) + ", 90%, 95%) "),
                                              clearWhenEmpty:true}),
                    lineWidget : cm.addLineWidget(evalres.end.line, createResultElement(evalres.eval))};
@@ -163,7 +166,23 @@ createCodePad = function (element, exercice_id) {
                         all: false,
                         selection: {
                             anchor: {line: selection.anchor.line, ch: selection.anchor.ch},
-                            head: {line: selection.head.line, ch: selection.anchor.ch}}})});
+                            head: {line: selection.head.line, ch: selection.anchor.ch}}})}).done(function(data) {
+                        var res = jQuery.parseJSON(data);
+
+                        for (var property in res.exercice) {
+                            if (res.exercice.hasOwnProperty(property)) {
+                                if(res.exercice[property]) {
+
+                                    $("#" + property).removeClass("unvalidated").addClass("validated");
+                                } else {
+                                    $("#" + property).removeClass("validated").addClass("unvalidated");
+                                }
+                            }
+                        }
+
+
+
+                    });
 
 
                     $.post("/eval", {text:cm.getValue(), line : cursor.line, pos : cursor.ch}).done(function(data) {

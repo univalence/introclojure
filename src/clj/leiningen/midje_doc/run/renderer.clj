@@ -2,7 +2,7 @@
   (:require [hiccup.core :as html]
             [introclojure.exercice]
             [markdown.core :refer [md-to-html-string]]
-            [me.raynes.conch :refer [programs]] 
+            [me.raynes.conch :refer [programs]]
             :reload))
 
 (programs pygmentize)
@@ -42,26 +42,31 @@
 
 
 
-(defn render-exercice [title exs solution]
-  (let [eid (introclojure.exercice/exercice-id title exs solution)]
+(defn render-exercice [elem]
+
+  (let [[title exs solution] (:content elem)
+
+        eid (introclojure.exercice/store-and-get-id elem)]
 
    [:div {:class "exercice-box" :id eid}
 
     [:h4 "exercice : " title]
     [:div
-      
+
       [:div {:style "width:30%" :class "constraints"}
        "résoudre avec les contraintes suivantes"
        (for [e exs]
-       
-       [:pre (-> e str basic-html-escape)]
-       )
+
+         (let [cid (introclojure.exercice/store-and-get-id [elem e])]
+
+       [:pre {:id cid}(-> e str basic-html-escape)]
+       ))
 
       ]
-      
 
-      [:div {:class "spad"} 
-       [:script {:type "text/javascript"} 
+
+      [:div {:class "spad"}
+       [:script {:type "text/javascript"}
        "myOnload(function() {createCodePad($(\"#" eid  " .spad\")[0], \"" eid "\");});"
        ]
 
@@ -127,7 +132,7 @@
          output))]
 
     :exercice
-    (apply render-exercice (:content elem))
+    (render-exercice elem)
 
 
     (throw (Exception. (str "not matching clause on " elem)))
@@ -243,6 +248,7 @@
              [:meta {:http-equiv "X-UA-Compatible" :content "chrome=1"}]
              [:meta {:charset "utf-8"}]
              [:meta {:name "viewport" :content "width=device-width, initial-scale=1, user-scalable=no"}]
+
              [:style
               (str
                (slurp-res "template/stylesheets/styles.css")
