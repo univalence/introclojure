@@ -1,6 +1,6 @@
 
 
-editorLoaded = false;
+editorLoaded = true;
 waitingFunctions = [];
 
 myOnload = function (f) {
@@ -15,23 +15,6 @@ myOnload = function (f) {
 
 
 
-var loadScripts = ["/codemirror-5.1/lib/codemirror.js",
- "/codemirror-5.1/addon/edit/closebrackets.js",
- "/codemirror-5.1/mode/clojure/clojure.js",
- "/codemirror-5.1/addon/display/placeholder.js",
- "/codemirror-5.1/addon/runmode/runmode.js"]
-
-
-var loadedScripts = loadScripts.reduce(function (p, next) {
-    var f = function() {return $.getScript(next);};
-    if(p) {
-        return p.then(f, function() {
-            console.log(arguments);});
-    }
-    else {
-        return f();
-    }
-}, undefined);
 
 
 
@@ -42,9 +25,9 @@ function loadCss(s) {
    href: s
 }).appendTo('head');
 
-};
+}
 
-loadedScripts.then(function () {
+
 
 
 loadCss("/codemirror-5.1/lib/codemirror.css");
@@ -195,15 +178,3 @@ createCodePad = function (element, exercice_id) {
 
     }.initEditor();
 };
-
-
-editorLoaded = true;
-waitingFunctions.forEach(function(f) {f();});
-
-
-}, function () {
-    console.log("error loading scripts");}
-
-
-                                );
-

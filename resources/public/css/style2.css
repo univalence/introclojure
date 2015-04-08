@@ -7,7 +7,8 @@
 }
 
 .constraints {
-	float:right;
+width:38%;
+float:right;
 }
 
 .constraints .unvalidated {
@@ -20,6 +21,7 @@
 
 .spad {
 	width: 60%;
+    margin-bottom: 30px;
 
 }
 
@@ -30,3 +32,13 @@
   	height: auto;}
 
 .EvalResult {border-left: 2px solid #000;}
+
+.constraint{
+    border: 1px solid;
+    padding: 2%;
+    padding-bottom: 4%;
+    padding-top: 4%;
+    color: #000000;
+    font-size: 12px;
+    font-style: italic;
+}

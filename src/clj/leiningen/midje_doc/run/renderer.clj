@@ -50,16 +50,16 @@
 
    [:div {:class "exercice-box" :id eid}
 
-    [:h4 "exercice : " title]
+    [:h4 "Exercice : " title]
     [:div
 
-      [:div {:style "width:30%" :class "constraints"}
-       "résoudre avec les contraintes suivantes"
+      [:div {:class "constraints"}
+       "Résoudre avec les contraintes suivantes"
        (for [e exs]
 
          (let [cid (introclojure.exercice/store-and-get-id [elem e])]
 
-       [:pre {:id cid}(-> e str basic-html-escape)]
+       [:div {:id cid :class "constraint"}(-> e str basic-html-escape)]
        ))
 
       ]
@@ -256,7 +256,15 @@
                (slurp-res "template/stylesheets/pygment_trac.css")
                "\n\n")]
 
-             (for [s ["/jquery/jquery-1.11.2.min.js" "/edit.js"]]
+             (for [s ["/jquery/jquery-1.11.2.min.js"
+
+                      "/codemirror-5.1/lib/codemirror.js",
+                       "/codemirror-5.1/addon/edit/closebrackets.js",
+                       "/codemirror-5.1/mode/clojure/clojure.js",
+                       "/codemirror-5.1/addon/display/placeholder.js",
+                       "/codemirror-5.1/addon/runmode/runmode.js"
+                      "/edit.js"
+                      ]]
                [:script {:type "text/javascript" :src s}]
               )
              [:link {:href "/css/style2.css" :rel "stylesheet" :type "text/css"}]

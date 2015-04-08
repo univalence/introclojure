@@ -683,6 +683,40 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
           (catch IllegalStateException e
             "No dice!"))) ())
 
+(exercice
+  "Pour diviser une collection, vous pouvez utiliser la fonction de partition"
+  [(= '((0 1) (2 3)) (__ 2 (range 4)))] partition)
+
+
+(exercice
+
+  "Mais attention, si il n'y a pas suffisamment d'éléments pour former la N séquences"
+  [(= '(__) (partition 3 [:a :b :c :d :e]))] [:a :b :c])
+
+
+(exercice
+
+  "Vous pouvez utiliser la partition-all pour obtenir également des partitions avec moins de n éléments  "
+  [(= __ (partition-all 3 (range 5)))] '((0 1 2) (3 4)))
+
+
+(exercice
+
+  "Si vous avez besoin, vous pouvez commencer chaque séquence avec un décalage"
+  [(= '((0 1 2) (5 6 7) (10 11 12)) (partition 3 __ (range 13)))] 5)
+
+
+(exercice
+
+  "Considérez le padding comme étant la dernière séquence avec certaines valeurs par défaut ..."
+  [(= '((0 1 2) (3 4 5) (6 :hello)) (partition 3 3 [__] (range 7)))] :hello)
+
+
+(exercice
+  "...mais notez qu'il est limité par la taille de la séquence donnée"
+  [(= '((0 1 2) (3 4 5) __) (partition 3 3 [:these :are "my" "words"] (range 7)))] (6 :these :are))
+
+
 
 [[:section {:tags "sets" :title "Sets"}]]
 
@@ -964,7 +998,7 @@ La dernière chose que vous devez savoir sur les appels de fonction est que Cloj
   220 ; final evaluation
   )
 
-[[:section {:tags "appel_de_fonctions_macro_forme_special" :title "Appels de fonction, les appels de macro, et les formes spéciales"}]]
+[[:section {:tags "appel_de_fonctions_macro_forme_special" :title "Fonction, macro, et formes spéciales"}]]
 
 
 "Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur. Il existe deux autres types d'expressions: appels de macro et **formes spéciales**. Vous avez déjà vu un couple formes spéciales:"
@@ -1259,6 +1293,7 @@ Nous voulons souvent de prendre simplement des mots-clés et de \"briser les sor
 
     ;; One would assume that this would put in new coordinates for your ship
     (steer-ship! treasure-location))
+  )
 
   "En général, vous pouvez penser que la déstructuration instruire Clojure comment associer des symboles à valeurs dans une liste, carte, jeu, ou un vecteur.
 
@@ -1266,9 +1301,65 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
 
 
 
-  )
 
-[[:subsection {:tags "corps_de_fonction" :title "Corps de fonction"}]]
+(def test-address
+  {:street-address "123 Test Lane"
+   :city "Testerville"
+   :state "TX"})
+
+(exercice
+  "Déstructuration est un arbitre: il brise les arguments"
+  [(= __ ((fn [[a b]] (str b a))
+           [:foo :bar]))]":bar:foo")
+
+
+(exercice
+  "Que ce soit dans les définitions de fonctions"
+  [(= (str "First comes love, "
+        "then comes marriage, "
+        "then comes Clojure with the baby carriage")
+     ((fn [[a b c]] __)
+       ["love" "marriage" "Clojure"]))](format (str "First comes %s, "
+                                                 "then comes %s, "
+                                                 "then comes %s with the baby carriage")
+                                         a b c))
+
+
+(exercice
+  "Ou dans les expressions"
+  [(= "Rich Hickey aka The Clojurer aka Go Time aka Macro Killah"
+     (let [[first-name last-name & aliases]
+           (list "Rich" "Hickey" "The Clojurer" "Go Time" "Macro Killah")]
+       __))]  (apply str
+                (interpose " "
+                  (apply list
+                    first-name
+                    last-name
+                    (interleave (repeat "aka") aliases)))))
+
+
+(exercice
+  "Vous pouvez retrouver l'argument complète si vous aimez discuter"
+  [(= {:original-parts ["Stephen" "Hawking"] :named-parts {:first "Stephen" :last "Hawking"}}
+     (let [[first-name last-name :as full-name] ["Stephen" "Hawking"]]
+       __))]{:original-parts full-name
+             :named-parts {:first first-name :last last-name}})
+
+
+
+
+
+  (exercice
+    "Ou plus succinctement"
+    [(= "123 Test Lane, Testerville, TX"
+       (let [{:keys [street-address __ __]} test-address]
+         __))] city state)
+
+
+
+
+
+  [[:subsection {:tags "corps_de_fonction" :title "Corps de fonction"}]]
 
 "Votre corps de la fonction peut contenir des formes. Clojure retourne automatiquement la dernière forme évalué:"
 
@@ -1421,6 +1512,145 @@ Voici un exemple type:"
 
 "Woohoo!"
 
+
+
+(defn multiply-by-ten [n]
+  (* 10 n))
+
+(defn square [n] (* n n))
+
+(exercice
+  "Appel d'une fonction est comme donner une accolade avec des parenthèses"
+  [(= __ (square 9))] 81)
+
+
+(exercice
+  "Les fonctions sont généralement définis avant qu'ils ne soient utilisés"
+  [(= __ (multiply-by-ten 2))] 20)
+
+
+(exercice
+  "Mais ils peuvent également être définies en ligne"
+  [(= __ ((fn [n] (* 5 n)) 2))] 10)
+
+
+(exercice
+  "Ou en utilisant une syntaxe encore plus court"
+  [(= __ (#(* 15 %) 4))] 60)
+
+
+(exercice
+  "Même les fonctions anonymes peuvent prendre plusieurs arguments"
+  [(= __ (#(+ %1 %2 %3) 4 5 6))] 15)
+
+
+(exercice
+  "Les arguments peuvent également être ignorés"
+  [(= __ (#(* 15 %2) 1 2))] 30)
+
+
+(exercice
+  "Une fonction peut engendrer une autre"
+  [(= 9 (((fn [] ___)) 4 5))] +)
+
+
+(exercice
+  "Les fonctions peuvent aussi prendre d'autres fonctions comme entrée"
+  [(= 20 ((fn [f] (f 4 5))
+           ___))] *)
+
+
+(exercice
+  "Fonctions d'ordre supérieur prennent des arguments de fonction"
+  [(= 25 (___
+           (fn [n] (* n n))))] (fn [f] (f 5)))
+
+
+(exercice
+  "Mais ils sont souvent mieux écrite en utilisant les noms de fonctions"
+  [(= 25 (___ square))] (fn [f] (f 5)))
+
+
+
+
+(exercice
+  "Vous pouvez créer votre mapping"
+  [(= [1 4 9 16 25] (map (fn [x] __) [1 2 3 4 5]))] (* x x))
+
+
+(exercice
+
+  "Ou utiliser les noms de fonctions existantes"
+  [(= __ (map nil? [:a :b nil :c :d]))] [false false true false false])
+
+
+(exercice
+
+  "Un filtre peut être forte"
+  [(= __ (filter (fn [x] false) '(:anything :goes :here)))] ())
+
+
+(exercice
+
+  "Ou très faible"
+  [(= __ (filter (fn [x] true) '(:anything :goes :here)))] [:anything :goes :here])
+
+
+(exercice
+
+  "Ou quelque part entre les deux"
+  [(= [10 20 30] (filter (fn [x] __) [10 20 30 40 50 60 70 80]))] (< x 31))
+
+
+
+
+
+
+
+
+(defn square [x] (* x x))
+
+(exercice
+  "On peut savoir ce qu'ils cherchent en sachant ce qu'ils ne cherchent pas"
+  [(= [__ __ __] (let [not-a-symbol? (complement symbol?)]
+                   (map not-a-symbol? [:a 'b "c"])))] true false true)
+
+
+(exercice
+
+  "Louange et «complément» peuvent vous aider à séparer le bon grain de l'ivraie"
+  [(= [:wheat "wheat" 'wheat]
+     (let [not-nil? ___]
+       (filter not-nil? [nil :wheat nil "wheat" nil 'wheat nil])))] 4)
+
+
+(exercice
+
+  "Les fonctions partielles permettent la procrastination"
+  [(= 20 (let [multiply-by-5 (partial * 5)]
+           (___ __)))] :a :b :c :d)
+
+
+(exercice
+
+  "N'oubliez pas: premières choses d'abord"
+  [(= [__ __ __ __]
+     (let [ab-adder (partial concat [:a :b])]
+       (ab-adder [__ __])))] :c :d)
+
+
+(exercice
+
+  "Les fonctions peuvent unir leurs forces en une fonction 'composé'"
+  [(= 25 (let [inc-and-square (comp square inc)]
+           (inc-and-square __)))] 4)
+
+
+(exercice
+
+  "Laissez vous tenter par un double dec-er"
+  [(= __ (let [double-dec (comp dec dec)]
+           (double-dec 10)))] 8)
 
 
 
