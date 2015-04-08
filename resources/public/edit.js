@@ -61,49 +61,6 @@ loadCss("/codemirror-5.1/lib/codemirror.css");
 
 
 
-
-allCoderes = []
-
-
-
-var editor = CodeMirror.fromTextArea(document.getElementById("code"),
-                                     {autoCloseBrackets: true,
-                                      styleActiveLine: true,
-                                      lineNumbers: true,
-                                      lineWrapping: true
-                                     });
-
-
-editor.on("changes", function(target, changes) {
-
-
-    allCoderes = allCoderes.map(function (codePiece) {
-        if(codePiece.markedText.find()) {
-
-            var textLine = codePiece.markedText.find().to.line;
-
-            var widgetLine = codePiece.lineWidget.line.lineNo();
-            if(textLine != widgetLine) {
-                var oldWidget = codePiece.lineWidget;
-                codePiece.lineWidget = editor.addLineWidget(textLine,codePiece.lineWidget.node);
-                oldWidget.clear();
-            }
-            return codePiece;
-
-        } else {
-            if(codePiece.lineWidget) {
-                codePiece.lineWidget.clear();
-            }
-            return undefined;
-
-        }
-    });
-
-    allCoderes = allCoderes.filter(function(x) {return x;});
-
-});
-
-
 var createYoloElement = function (html) {
     var outer = document.createElement('div');
     var inner = document.createElement('div');
@@ -142,42 +99,81 @@ var findIntersectedMarks = function (editor, from, to) {
 };
 
 
-var clearEval = function (from, to) {
-    findIntersectedMarks(editor, CodeMirror.Pos(from.line, from.pos),
-                         CodeMirror.Pos(to.line, to.pos)).forEach(function(m) {
-        m.clear();
-        m.coderes.lineWidget.clear();
-    }
-                                                                 );
-};
-
-var createEvalResult = function (cm, evalres) {
-    clearEval(evalres.start, evalres.end);
 
 
-    var coderes = {markedText : cm.markText(CodeMirror.Pos(evalres.start.line, evalres.start.pos),
+createCodePad = function (element, exercice_id) {
+    return {allCoderes:[],
+
+            editor : CodeMirror(element,
+                {autoCloseBrackets: true,
+                styleActiveLine: true,
+                lineNumbers: true,
+                lineWrapping: true}),
+
+            checkChanges : function() {
+                this.allCoderes = this.allCoderes.map(function (codePiece) {
+                   if(codePiece.markedText.find()) {
+                        var textLine = codePiece.markedText.find().to.line;
+                        var widgetLine = codePiece.lineWidget.line.lineNo();
+                        if(textLine != widgetLine) {
+                            var oldWidget = codePiece.lineWidget;
+                            codePiece.lineWidget = editor.addLineWidget(textLine,codePiece.lineWidget.node);
+                            oldWidget.clear();
+                        }
+                        return codePiece;
+                    } else {
+                        if(codePiece.lineWidget) {
+                            codePiece.lineWidget.clear();
+                        }
+                        return undefined;
+                    }
+                });
+                this.allCoderes = this.allCoderes.filter(function(x) {return x;});},
+
+            clearEval : function (from, to) {
+                findIntersectedMarks(this.editor,
+                    CodeMirror.Pos(from.line, from.pos),
+                    CodeMirror.Pos(to.line, to.pos)).forEach(function(m) {
+                        m.clear();
+                        m.coderes.lineWidget.clear();
+                    });},
+
+            createEvalResult : function (evalres) {
+                var cm = this.editor;
+                this.clearEval(evalres.start, evalres.end);
+                var coderes = {markedText : cm.markText(CodeMirror.Pos(evalres.start.line, evalres.start.pos),
                                             CodeMirror.Pos(evalres.end.line,
                                                            evalres.end.pos),
                                             {css: ("background-color: hsl(" + Math.floor(Math.random()*255) + ", 90%, 95%) "),
                                              clearWhenEmpty:true}),
                    lineWidget : cm.addLineWidget(evalres.end.line, createYoloElement(evalres.eval))};
-
-    coderes.markedText.coderes = coderes;
-
-    allCoderes.push(coderes);
+                coderes.markedText.coderes = coderes;
+                this.allCoderes.push(coderes);},
 
 
+            initEditor : function () {
+                var tthis = this;
+                this.editor.on("changes", function() {tthis.checkChanges;});
+                this.editor.addKeyMap({"Cmd-Enter" : function(cm) {
+                    var cursor = cm.getCursor();
+                    $.post("/eval", {text:cm.getValue(), line : cursor.line, pos : cursor.ch}).done(function(data) {
+                        tthis.createEvalResult(jQuery.parseJSON(data));
+                    });
+                }});
+                return tthis;
+            }
 
+
+    }.initEditor();
 };
 
-editor.addKeyMap({"Cmd-Enter" : function(cm) {
-    var cursor = cm.getCursor();
-    $.post("/eval", {text:cm.getValue(), line : cursor.line, pos : cursor.ch}).done(function(data) {
-        createEvalResult(cm, jQuery.parseJSON(data));
-    });
+
+yoloPad = createCodePad(document.getElementById("YOLO"), "YO");
 
 
-}});
+
+
+
 }, function () {
     console.log("error loading scripts");}
 

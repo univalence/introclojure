@@ -45,13 +45,20 @@
    [:div
 
     [:h4 "exercice : " title]
-    [:div "résoudre avec les contraintes suivantes"
-     (for [e exs]
+    [:div
+      
+      [:div {:style "width:30%" :class "constraints"}
+       "résoudre avec les contraintes suivantes"
+       (for [e exs]
        [:pre (-> e str basic-html-escape)]
-       )]
+       )
 
+      ]
+      [:div {:style "width:50%" :class "spad"}
+       [:textarea]
 
-    [:pre "Your code goes here ! "]
+      ]
+     ]
      ]
   )
 
