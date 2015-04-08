@@ -1176,3 +1176,438 @@ Voici un exemple type:"
 "Woohoo!"
 
 [[:chapter {:tags "mise_en_commun" :title "Mise en commun"}]]
+
+"D'ACCORD! Disons tirer tout cela ensemble et utiliser nos connaissances pour un but noble: la fessée autour hobbits!
+
+Afin de frapper un hobbit, nous allons d'abord modéliser ses parties du corps. Chaque partie du corps comprendra sa taille par rapport à nous aider à déterminer quelle est la probabilité que cette partie sera frappé.
+
+Afin d'éviter les répétitions, ce modèle de hobbit ne inclure des entrées pour "pied gauche", "oreille gauche", etc. Par conséquent, nous aurons besoin d'une fonction pour symétriser complètement le modèle.
+
+Enfin, nous allons créer une fonction qui parcourt nos parties du corps et choisit au hasard l'un hit.
+
+Fun!"
+
+[[:section {:tags "the_shire_s_next_top_model" :title "The Shire's Next Top Model"}]]
+
+"Pour notre modèle de hobbit, nous évitons des caractéristiques telles que «jovialité» et «malice» et se concentrer uniquement sur la petite corps du hobbit. Voici notre modèle de hobbit:"
+
+(comment
+  (  def  asym-hobbit-body-parts  [{  :name  "head"  :size  3  }
+                                   {  :name  "left-eye"  :size  1  }
+                                   {  :name  "left-ear"  :size  1  }
+                                   {  :name  "mouth"  :size  1  }
+                                   {  :name  "nose"  :size  1  }
+                                   {  :name  "neck"  :size  2  }
+                                   {  :name  "left-shoulder"  :size  3  }
+                                   {  :name  "left-upper-arm"  :size  3  }
+                                   {  :name  "chest"  :size  10  }
+                                   {  :name  "back"  :size  10  }
+                                   {  :name  "left-forearm"  :size  3  }
+                                   {  :name  "abdomen"  :size  6  }
+                                   {  :name  "left-kidney"  :size  1  }
+                                   {  :name  "left-hand"  :size  2  }
+                                   {  :name  "left-knee"  :size  2  }
+                                   {  :name  "left-thigh"  :size  4  }
+                                   {  :name  "left-lower-leg"  :size  3  }
+                                   {  :name  "left-achilles"  :size  1  }
+                                   {  :name  "left-foot"  :size  2  }])
+
+  )
+
+"Ce est un vecteur de cartes. Chaque carte a le nom de la partie du corps et la taille relative de la partie du corps. Ecoutez, je sais que seuls personnages de dessins animés ont des yeux 1/3 de la taille de leur tête, mais juste aller avec elle, OK?
+
+Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-dessous est le code le plus complexe que nous avons examiné jusqu'ici. Il introduit quelques idées que nous ne avons pas encore couverts. Ne vous inquiétez pas cependant, parce que nous allons examiner en détail:
+
+"
+
+(comment
+  (defn needs-matching-part?
+    [part]
+    (re-find #"^left-" (:name part)))
+
+  (defn make-matching-part
+    [part]
+    {:name (clojure.string/replace (:name part) #"^left-" "right-")
+     :size (:size part)})
+
+  (defn symmetrize-body-parts
+    "Expects a seq of maps which have a :name and :size"
+    [asym-body-parts]
+    (loop [remaining-asym-parts asym-body-parts
+           final-body-parts []]
+      (if (empty? remaining-asym-parts)
+        final-body-parts
+        (let [[part & remaining] remaining-asym-parts
+              final-body-parts (conj final-body-parts part)]
+          (if (needs-matching-part? part)
+            (recur remaining (conj final-body-parts (make-matching-part part)))
+            (recur remaining final-body-parts))))))
+
+  (symmetrize-body-parts asym-hobbit-body-parts)
+  ; => the following is the return value
+  [{:name "head", :size 3}
+   {:name "left-eye", :size 1}
+   {:name "right-eye", :size 1}
+   {:name "left-ear", :size 1}
+   {:name "right-ear", :size 1}
+   {:name "mouth", :size 1}
+   {:name "nose", :size 1}
+   {:name "neck", :size 2}
+   {:name "left-shoulder", :size 3}
+   {:name "right-shoulder", :size 3}
+   {:name "left-upper-arm", :size 3}
+   {:name "right-upper-arm", :size 3}
+   {:name "chest", :size 10}
+   {:name "back", :size 10}
+   {:name "left-forearm", :size 3}
+   {:name "right-forearm", :size 3}
+   {:name "abdomen", :size 6}
+   {:name "left-kidney", :size 1}
+   {:name "right-kidney", :size 1}
+   {:name "left-hand", :size 2}
+   {:name "right-hand", :size 2}
+   {:name "left-knee", :size 2}
+   {:name "right-knee", :size 2}
+   {:name "left-thigh", :size 4}
+   {:name "right-thigh", :size 4}
+   {:name "left-lower-leg", :size 3}
+   {:name "right-lower-leg", :size 3}
+   {:name "left-achilles", :size 1}
+   {:name "right-achilles", :size 1}
+   {:name "left-foot", :size 2}
+   {:name "right-foot", :size 2}]
+  )
+
+"Let's break this down!"
+[[:section {:tags "let" :title "let"}]]
+
+"Dans notre symétriseur ci-dessus, nous avons vu ce qui suit:"
+
+(comment
+
+  (let [[part & remaining] remaining-asym-parts
+        final-body-parts (conj final-body-parts part)]
+    some-stuff)
+  )
+
+
+"Tout cela ne est lier les noms sur la gauche pour les valeurs sur la droite. Vous pouvez penser à \"let\" le plus court pour \"Let it be\", qui est aussi une belle chanson des Beatles (au cas où vous ne saviez pas (dans ce cas, wtf?)). Par exemple, \"Laissez -finale parties de corps soient (conj-finales parties de corps partie) . \""
+
+"Voici quelques exemples simples:"
+
+(comment
+
+  (let [x 3]
+    x)
+  ; => 3
+
+
+  (def dalmatian-list
+    ["Pongo" "Perdita" "Puppy 1" "Puppy 2"]) ; and 97 more...
+  (let [dalmatians (take 2 dalmatian-list)]
+    dalmatians)
+  ; => ("Pongo" "Perdita")
+  )
+
+
+"*let*  introduit également une nouvelle portée:"
+
+(comment
+  (def x 0)
+  (let [x 1] x)
+  ; => 1
+  )
+
+"Cependant, vous pouvez référencer les liaisons existantes dans votre let contraignant:"
+
+(comment
+  (def x 0)
+  (let [x (inc x)] x)
+  ; => 1
+  )
+
+"Vous pouvez également utiliser repos-params de let , tout comme vous pouvez en fonctions:"
+
+(comment
+
+  (let [[pongo & dalmatians] dalmatian-list]
+    [pongo dalmatians])
+  ; => ["Pongo" ("Perdita" "Puppy 1" "Puppy 2")]
+  )
+
+"Notez que la valeur d'un *let* forme est la dernière forme dans son corps qui obtient évaluée.
+
+*let* formes suivent les règles de déstructuration qui nous introduit dans «Appel d'une fonction\" ci-dessus.
+
+Une façon de penser *let* formes, ce est qu'ils fournissent des paramètres et leurs arguments secondaires à côte. *let* formes ont deux utilisations principales:
+
+*Ils fournissent la clarté en vous permettant de nommer les choses
+*Ils vous permettent d'évaluer une expression qu'une seule fois et ré-utiliser le résultat. Ceci est particulièrement important lorsque vous avez besoin de réutiliser le résultat d'un appel de fonction coûteux, comme un appel d'API de réseau. Il est également important lorsque l'expression a des effets secondaires.
+Ayons un autre regard sur  *let* forme dans notre fonction de symétrisation afin que nous puissions comprendre exactement ce qui se passe:"
+
+
+(comment
+  ;; Associate "part" with the first element of "remaining-asym-parts"
+  ;; Associate "remaining" with the rest of the elements in "remaining-asym-parts"
+  ;; Associate "final-body-parts" with the result of (conj final-body-parts part)
+  (let [[part & remaining] remaining-asym-parts
+        final-body-parts (conj final-body-parts part)]
+    (if (needs-matching-part? part)
+      (recur remaining (conj final-body-parts (make-matching-part part)))
+      (recur remaining final-body-parts)))
+  )
+
+"Notez que *part* , *remaining*, et *final-body-parts* de corps sont utilisé plusieurs fois dans le corps du *let* . Si, au lieu d'utiliser les noms *part* , *remaining*, et *final-body-parts* , nous avons utilisé les expressions originales, ce serait un gâchis! Par exemple:"
+
+
+(comment
+
+  (if (needs-matching-part? (first remaining-asym-parts))
+    (recur (rest remaining-asym-parts)
+      (conj (conj final-body-parts (first remaining-asym-parts))
+        (make-matching-part (first remaining-asym-parts))))
+    (recur (rest remaining-asm-parts)
+      (conj (conj final-body-parts (first remaining-asym-parts)))))
+  )
+
+"Alors, let est un moyen pratique d'introduire des noms pour les valeurs."
+
+[[:section {:tags "boucle" :title " boucle"}]]
+
+"Loop fournit une autre façon de faire la récursivité dans Clojure. Regardons un exemple simple:"
+
+(comment
+
+  (loop [iteration 0]
+    (println (str "Iteration " iteration))
+    (if (> iteration 3)
+      (println "Goodbye!")
+      (recur (inc iteration))))
+  ; =>
+  Iteration 0
+  Iteration 1
+  Iteration 2
+  Iteration 3
+  Iteration 4
+  Goodbye!
+  )
+
+"La première ligne, *loop [itération 0]* commence la boucle et présente une liaison avec une valeur initiale. Ce est presque comme appeler une fonction anonyme avec une valeur par défaut. Au premier passage dans la boucle, *iteration* a une valeur de 0.
+
+Ensuite, il imprime un petit message super intéressant.
+
+Ensuite, il vérifie la valeur de *iteration* - si elle est supérieure à 3, alors il est temps de dire au revoir. Sinon, nous bouclons via *recur* . Ce est comme appeler la fonction anonyme créée par *loop* , mais cette fois nous passons un argument, (itération inc) .
+
+Vous pourriez en fait accomplir la même chose tout en utilisant les fonctions:"
+
+(comment
+
+  (defn recursive-printer
+    ([]
+      (recursive-printer 0))
+    ([iteration]
+      (println (str "Iteration " iteration))
+      (if (> iteration 3)
+        (println "Goodbye!")
+        (recursive-printer (inc iteration)))))
+  (recursive-printer)
+  ; =>
+  Iteration 0
+  Iteration 1
+  Iteration 2
+  Iteration 3
+  Iteration 4
+  Goodbye!
+  )
+
+"Comme vous pouvez le voir, ce est un peu plus verbeux. En outre, la boucle a de bien meilleures performances."
+
+
+[[:section {:tags "expressions_regulieres" :title "Expressions régulières"}]]
+
+"Les expressions régulières sont des outils pour effectuer le filtrage sur le texte. Je ne entrerai pas dans la façon dont ils travaillent, mais voici leur notation littérale:"
+(comment
+  ;; pound, open quote, close quote
+  #"regular-expression"
+  )
+
+"Dans notre symétriseur, re-trouver renvoie true ou false selon que le nom de la partie commence par la chaîne \"gauche\":"
+
+(comment
+  (defn needs-matching-part?
+    [part]
+    (re-find #"^left-" (:name part)))
+  (needs-matching-part? {:name "left-eye"})
+  ; => true
+  (needs-matching-part? {:name "neckbeard"})
+  ; => false
+  )
+
+
+"*make-matching-part* utilise une expression régulière pour remplacer \" *left \" par \"* right- \" :"
+
+
+[[:section {:tags "symetriseur" :title "Symétriseur"}]]
+
+"Maintenant, nous allons analyser le symétriseur pleinement. Remarque points de flottent dans l'océan, comme *~~~1~~~* :"
+
+(comment
+  (def asym-hobbit-body-parts [{:name "head" :size 3}
+                               {:name "left-eye" :size 1}
+                               {:name "left-ear" :size 1}
+                               {:name "mouth" :size 1}
+                               {:name "nose" :size 1}
+                               {:name "neck" :size 2}
+                               {:name "left-shoulder" :size 3}
+                               {:name "left-upper-arm" :size 3}
+                               {:name "chest" :size 10}
+                               {:name "back" :size 10}
+                               {:name "left-forearm" :size 3}
+                               {:name "abdomen" :size 6}
+                               {:name "left-kidney" :size 1}
+                               {:name "left-hand" :size 2}
+                               {:name "left-knee" :size 2}
+                               {:name "left-thigh" :size 4}
+                               {:name "left-lower-leg" :size 3}
+                               {:name "left-achilles" :size 1}
+                               {:name "left-foot" :size 2}])
+
+  (defn needs-matching-part?
+    [part]
+    (re-find #"^left-" (:name part)))
+
+  (defn make-matching-part
+    [part]
+    {:name (clojure.string/replace (:name part) #"^left-" "right-")
+     :size (:size part)})
+
+  ; ~~~1~~~
+  (defn symmetrize-body-parts
+    "Expects a seq of maps which have a :name and :size"
+    [asym-body-parts] ;
+    (loop [remaining-asym-parts asym-body-parts ; ~~~2~~~
+           final-body-parts []]
+      (if (empty? remaining-asym-parts) ; ~~~3~~~
+        final-body-parts
+        (let [[part & remaining] remaining-asym-parts ; ~~~4~~~
+              final-body-parts (conj final-body-parts part)]
+          (if (needs-matching-part? part) ; ~~~5~~~
+            (recur remaining (conj final-body-parts (make-matching-part part))) ; ~~~6~~~
+            (recur remaining final-body-parts))))))
+  )
+
+
+"1. Cette fonction utilise une stratégie générale qui est commun dans la programmation fonctionnelle.
+ Compte tenu d'une séquence (dans ce cas, un vecteur de parties du corps et de leurs tailles), divisé en continu la séquence dans une «tête» et une «queue».Traiter la tête, l'ajouter à un certain résultat, et ensuite utiliser la récursivité pour poursuivre le processus avec la queue.
+
+2. Commencez boucle sur les parties du corps. La \"queue\" de la séquence sera lié à *remaining-asym-parts* . Initialement, il est lié à la séquence complète passée à la fonction, *asym-body-parts* . Créer une séquence de résultats, *final-body-parts* ; sa valeur initiale est un vecteur vide.
+
+
+3. Si remaining-asym-parts est vide, cela signifie que nous avons traité la séquence entière et nous pouvons retourner le résultat, *final-body-parts*.
+
+4. Sinon, diviser la liste en tête, partie , et la queue, *remaining* . En outre, ajouter une *part* à *final-body-parts* de corps et re-lier le résultat du nom *final-body-parts* . Cela peut sembler bizarre, et il est intéressant de comprendre pourquoi cela fonctionne.
+
+5. Notre séquence croissante de *final-body-parts* comprend déjà la partie du corps que nous sommes en train d'examiner, partie . Ici, nous décidons si nous devons ajouter la partie du corps correspondant à la liste.
+
+6.Si oui, puis ajouter le résultat de *make-matching-part* à *final-body-parts* de corps et de se reproduire. Sinon, se reproduire.
+
+
+Si vous êtes nouveau à ce genre de programmation, cela pourrait prendre un certain temps de déchiffrer. Rester avec elle! Une fois que vous comprenez ce qui se passe, vous vous sentirez comme un million de dollars!
+"
+
+[[:section {:tags "symetriseur_reduice" :title "Symétriseur et reduice"}]]
+
+"Le modèle de «traiter chaque élément d'une séquence et de construire un résultat\" est si commun qu'il ya une fonction pour cela: réduire .
+
+Voici un exemple simple:"
+
+(comment
+  ;; sum with reduce
+  (reduce + [1 2 3 4])
+  ; => 10
+  )
+
+"C'est comme demander à Clojure de faire ca:"
+
+(comment
+
+  (+ (+ (+ 1 2) 3) 4)
+
+  )
+
+"C'est a dire :"
+
+"1. Appliquer la fonction donnée pour les deux premiers éléments d'une séquence. Ce est là (+ 1 2) vient.
+2. Appliquer la fonction donnée pour le résultat et l'élément suivant de la séquence. Dans ce cas, le résultat de l'étape 1 est 3 , et l'élément suivant de la séquence est 3 aussi. Donc, vous vous retrouvez avec (3 + 3) .
+3. Répétez l'étape 2 pour chaque élément restant dans la séquence.
+Reduce prend également une valeur initiale en option. 15 est la valeur initiale ici:"
+
+(comment
+  (reduce + 15 [1 2 3 4])
+  )
+
+"Si vous fournissez une valeur initiale, puis réduire commence en appliquant la fonction donnée à la valeur initiale et le premier élément de la séquence, plutôt que les deux premiers éléments de la séquence.
+
+Pour mieux comprendre comment réduire œuvres, voici une façon qu'il puisse être mis en œuvre:"
+
+(comment
+  (defn my-reduce
+    ([f initial coll]
+      (loop [result initial
+             remaining coll]
+        (if (empty? remaining)
+          result
+          (recur (f result (first remaining)) (rest remaining)))))
+    ([f [head & tail]]
+      (my-reduce f head tail)))
+  )
+
+"Nous pourrions ré-implémenter Symétriser comme suit:"
+
+(comment
+
+  (defn better-symmetrize-body-parts
+    "Expects a seq of maps which have a :name and :size"
+    [asym-body-parts]
+    (reduce (fn [final-body-parts part]
+              (let [final-body-parts (conj final-body-parts part)]
+                (if (needs-matching-part? part)
+                  (conj final-body-parts (make-matching-part part))
+                  final-body-parts)))
+      []
+      asym-body-parts))
+  )
+
+"Sympa !"
+
+
+[[:chapter {:tags "hobbit_violence" :title "Hobbit violence"}]]
+
+"Ma parole, ce est vraiment Clojure pour les braves et True!
+
+Maintenant, nous allons créer une fonction qui permettra de déterminer quelle partie du hobbit se fait frapper:"
+
+(comment
+
+  (defn hit
+    [asym-body-parts]
+    (let [sym-parts (better-symmetrize-body-parts asym-body-parts)
+          body-part-size-sum (reduce + 0 (map :size sym-parts))
+          target (inc (rand body-part-size-sum))]
+      (loop [[part & rest] sym-parts
+             accumulated-size (:size part)]
+        (if (> accumulated-size target)
+          part
+          (recur rest (+ accumulated-size (:size part)))))))
+
+  (hit asym-hobbit-body-parts)
+  ; => {:name "right-upper-arm", :size 3}
+
+  (hit asym-hobbit-body-parts)
+  ; => {:name "chest", :size 10}
+
+  (hit asym-hobbit-body-parts)
+  ; => {:name "left-eye", :size 1}
+  )
+
+"Oh mon dieu, ce pauvre hobbit! Vous monstre!"
