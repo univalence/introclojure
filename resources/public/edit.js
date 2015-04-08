@@ -91,6 +91,7 @@ var findIntersectedMarks = function (editor, from, to) {
 
 createCodePad = function (element, exercice_id) {
     return {allCoderes:[],
+            e_id:exercice_id,
 
             editor : CodeMirror(element,
                 {autoCloseBrackets: true,
@@ -144,6 +145,17 @@ createCodePad = function (element, exercice_id) {
                 this.editor.on("changes", function() {tthis.checkChanges;});
                 this.editor.addKeyMap({"Cmd-Enter" : function(cm) {
                     var cursor = cm.getCursor();
+
+                    var selection = cm.listSelections()[0];
+
+                    $.post("/exercice-eval", {data: JSON.stringify({e_id:tthis.e_id, text:cm.getValue(), 
+                        reset: false,
+                        all: false,
+                        selection: {
+                            anchor: {line: selection.anchor.line, ch: selection.anchor.ch},
+                            head: {line: selection.head.line, ch: selection.anchor.ch}}})});
+
+
                     $.post("/eval", {text:cm.getValue(), line : cursor.line, pos : cursor.ch}).done(function(data) {
                         tthis.createEvalResult(jQuery.parseJSON(data));
                     });

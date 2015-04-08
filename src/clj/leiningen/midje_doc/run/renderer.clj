@@ -60,7 +60,7 @@
 
       [:div {:style "width:50%" :class "spad" :id eid} 
        [:script {:type "text/javascript"} 
-       "myOnload(function() {createCodePad(document.getElementById(\"" eid "\"), 2);});"
+       "myOnload(function() {createCodePad(document.getElementById(\"" eid "\"), \"" eid "\");});"
        ]
 
       ])
