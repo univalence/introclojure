@@ -143,6 +143,16 @@ createCodePad = function (element, exercice_id) {
             initEditor : function () {
                 var tthis = this;
                 this.editor.on("changes", function() {tthis.checkChanges;});
+
+                this.editor.on("focus", function() {
+                    var sel = "#" + tthis.e_id +  " .constraints pre:not(.validated)";
+                    console.log(sel);
+                    console.log($(sel));
+
+
+                    $(sel).addClass("unvalidated");
+                });
+
                 this.editor.addKeyMap({"Cmd-Enter" : function(cm) {
                     var cursor = cm.getCursor();
 

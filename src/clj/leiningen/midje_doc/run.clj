@@ -2,9 +2,9 @@
   (:require [leiningen.midje-doc.run.renderer :refer [render-html-doc]]
             [leiningen.midje-doc.run.parser :refer [parse-content]]
             [rewrite-clj.zip :as z]
-            [watchtower.core :refer [watcher file-filter
+            #_ [watchtower.core :refer [watcher file-filter
                                      ignore-dotfiles extensions
-                                     rate on-add on-modify on-delete]]
+                                     rate on-modify on-delete]]
             [me.raynes.conch :refer [programs]] :reload))
 
 (programs which)
@@ -32,7 +32,9 @@
         (let [doc (get dmap k)]
           (run-doc k (merge attrs doc) project))))))
 
-(defn run-watch [project]
+
+(def run-watch)
+#_ (defn run-watch [project]
   (let [p-once (fn [_] (run-once project))]
     (p-once nil)
     (watcher [(:root project)]
@@ -41,7 +43,7 @@
              (file-filter (extensions :clj :cljs)) ;; filter by extensions
              (on-modify  p-once); Optional
              (on-delete  p-once); Optional
-             (on-add     p-once))))
+             )))
 
 (defn check-pygmentize []
   (try (not (= "" (which "pygmentize")))

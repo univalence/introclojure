@@ -43,8 +43,9 @@
 
 
 (defn render-exercice [title exs solution]
+  (let [eid (introclojure.exercice/exercice-id title exs solution)]
 
-   [:div
+   [:div {:class "exercice-box" :id eid}
 
     [:h4 "exercice : " title]
     [:div
@@ -52,21 +53,22 @@
       [:div {:style "width:30%" :class "constraints"}
        "résoudre avec les contraintes suivantes"
        (for [e exs]
+       
        [:pre (-> e str basic-html-escape)]
        )
 
       ]
-      (let [eid (introclojure.exercice/exercice-id title exs solution)]
+      
 
-      [:div {:style "width:50%" :class "spad" :id eid} 
+      [:div {:class "spad"} 
        [:script {:type "text/javascript"} 
-       "myOnload(function() {createCodePad(document.getElementById(\"" eid "\"), \"" eid "\");});"
+       "myOnload(function() {createCodePad($(\"#" eid  " .spad\")[0], \"" eid "\");});"
        ]
 
-      ])
+      ]
      ]
      ]
-  )
+  ))
 
 
 (defn render-element [elem]
@@ -251,8 +253,7 @@
              (for [s ["/jquery/jquery-1.11.2.min.js" "/edit.js"]]
                [:script {:type "text/javascript" :src s}]
               )
-
-            
+             [:link {:href "/css/style2.css" :rel "stylesheet" :type "text/css"}]
 
               ]
             [:body
