@@ -62,27 +62,22 @@
            #(zipmap [:line :pos]
                     (idx-to-pos text %)) fo)))
 
-
-
 (defn pprint-to-str [f]
-  (let [s (java.io.StringWriter.)]
-    (binding [*out* s]
-      (clojure.pprint/pprint f))
-    (let [r (.toString s)]
-      (.substring r 0 (dec (.length r))))))
-
+  (if (var? f)
+    (str f)
+    (let [s (java.io.StringWriter.)]
+      (binding [*out* s]
+        (clojure.pprint/pprint f))
+      (let [r (.toString s)]
+        (.substring r 0 (dec (.length r)))))))
 
 
 (defn eval-from-text [text line pos]
-
   (let [ffo (find-form-offsets text)
         idx (pos-to-idx text line pos)
         [s e :as fo]  (or (last (filter #(>= idx (first %)) ffo)) (first ffo))
-        f   (.substring text s e)
-        ]
-    (assoc (fo-to-info  fo text) :eval (pprint-to-str (eval (read-string f))))
-
-  ))
+        f   (.substring text s e)]
+    (assoc (fo-to-info  fo text) :eval (pprint-to-str (eval (read-string f))))))
 
 
 (find-form-offsets "(+ 1 2)\n(+ 3 4)")
@@ -92,4 +87,4 @@
 
 (find-form-offsets " (+ 1 2)\n a")
 
-(eval-from-text " (+ 1 2)\n a" 0 0)
+(eval-from-text "(def a 1)\n a" 0 0)
