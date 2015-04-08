@@ -126,6 +126,51 @@ Une dernière remarque: je utilise aussi l'expression de terme pour désigner le
 
 "Pour contourner cette limitation apparente, nous avons le do opérateur:"
 
+(exercice
+  "Vous ferez face à de nombreuses décisions"
+  [ (= __ (if (false? (= 4 5))
+            :a
+            :b))] :a)
+
+
+(exercice
+  "Certains d'entre eux vous laisse pas d'alternative"
+  [(= __ (if (> 4 3)
+           []))] [])
+
+
+(exercice
+  "Et dans une telle situation, vous pouvez ne rien avoir"
+  [(= __ (if (nil? 0)
+           [:a :b :c]))]nil)
+
+
+(exercice
+  "Dans d'autres cas  votre alternative peut être intéressant"
+  [(= :glory (if (not (empty? ()))
+               :doom
+               __))] :glory)
+
+
+(exercice
+  "Ou votre destin peut être scellé"
+  [(= 'doom (if-not (zero? __)
+              'doom
+              'more-doom))]1)
+
+
+(exercice
+  "En cas d'urgence,sonorez les alarmes "
+  [ (= :sirens
+      (explain-defcon-level __))]:cocked-pistol)
+
+
+(exercice
+  "Mais l'admettre quand vous ne savez pas quoi faire"
+  [(= __
+     (explain-defcon-level :yo-mama))] :say-what?)
+
+
 [[:subsection {:tag "do" :title "do"}]]
 
 "*do* vous permet de «boucler» des formes multiples. Essayez ce qui suit dans votre REPL:"
@@ -201,7 +246,7 @@ Dans ce cas, vous contraignant le nom *failed-protagonist-names* à un vecteur c
 [[:chapter {:tag "data_structure" :title "Structures de données"}]]
 
 
-"Clojure est livré avec une poignée de structures de données qui vous allez vous trouver en utilisant la majorité du temps. Si vous venez d'un milieu orienté objet, vous serez surpris de voir combien vous pouvez faire avec les types " de base " présentés ici.
+"Clojure est livré avec une poignée de structures de données qui vous allez vous trouver en utilisant la majorité du temps. Si vous venez d'un milieu orienté objet, vous serez surpris de voir combien vous pouvez faire avec les types \" de base \" présentés ici.
 
 Toutes les structures de données Clojure sont immuables, ce qui signifie que vous ne pouvez pas les changer en place. Il ya pas d'équivalent pour la Clojure Ruby suit:"
 (comment
@@ -225,7 +270,7 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
 
 [[:section {:tags "nil_true_false_truthiness_equality" :title "nil, true, false,  Equality"}]]
 
-"Clojure a true et false valeurs. nil est utilisé pour indiquer "aucune valeur" dans Clojure. Vous pouvez vérifier si une valeur est nil avec le intelligemment nommé nil? fonction:"
+"Clojure a true et false valeurs. nil est utilisé pour indiquer \"aucune valeur\" dans Clojure. Vous pouvez vérifier si une valeur est nil avec le intelligemment nommé nil? fonction:"
 
 (comment
   (nil? 1)
@@ -249,7 +294,7 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   )
 
 
-"Certains autres langues vous obligent à utiliser différents opérateurs lorsque l'on compare les valeurs de différents types. Par exemple, vous pourriez avoir à utiliser une sorte de l'opérateur spécial "chaîne de l'égalité" particulièrement fait juste pour les chaînes. Vous ne avez pas besoin de quelque chose bizarre ou pénible comme ça pour tester l'égalité lors de l'utilisation des structures de données intégrées de Clojure."
+"Certains autres langues vous obligent à utiliser différents opérateurs lorsque l'on compare les valeurs de différents types. Par exemple, vous pourriez avoir à utiliser une sorte de l'opérateur spécial \"chaîne de l'égalité\" particulièrement fait juste pour les chaînes. Vous ne avez pas besoin de quelque chose bizarre ou pénible comme ça pour tester l'égalité lors de l'utilisation des structures de données intégrées de Clojure."
 
 [[:section {:tags "nombres" :title "Nombres"}]]
 
@@ -344,6 +389,66 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
 "Les vrais Clojurists ne feront presque jamais cela. Cependant, Les vrais Clojurists  utilisent des mots clés pour rechercher les valeurs dans les maps:
 "
 
+
+(exercice
+  "Une valeur doit être fournie pour chaque clé"
+  [(= {:a 1} (hash-map :a __))] 1)
+
+
+(exercice
+  "La taille est le nombre d'entrées"
+  [(= __ (count {:a 1 :b 2}))] 2)
+
+(exercice
+  "Vous pouvez rechercher la valeur pour une clé donnée"
+  [(= __ (get {:a 1 :b 2} :b))] 2)
+
+
+(exercice
+  "Maps peut êtres utilisé comme une functions pour faire des lookups"
+  [(= __ ({:a 1 :b 2} :a))] 1)
+
+
+(exercice
+  "Et peut être utilisé comme un mot clés"
+  [(= __ (:a {:a 1 :b 2}))] 1)
+
+
+(exercice
+  "Mais les clés d'une map ne sont pas nécessairement des mots clés"
+  [(= __ ({2010 "Vancouver" 2014 "Sochi" 2018 "PyeongChang"} 2014))] "Sochi")
+
+
+(exercice
+  "Vous ne pouvez pas être en mesure de trouver une entrée pour une clé"
+  [(= __ (get {:a 1 :b 2} :c))] nil)
+
+
+(exercice
+  "Mais vous pouvez fournir votre propre valeur par défaut"
+  [(= __ (get {:a 1 :b 2} :c :key-not-found))] :key-not-found)
+
+
+(exercice
+  "Vous pouvez savoir si une clé est présente"
+  [(= __ (contains? {:a nil :b nil} :b))] true)
+
+
+(exercice
+  "Ou si elle est absente"
+  [(= __ (contains? {:a nil :b nil} :c))] false)
+
+
+(exercice
+  "Les maps sont immuables, mais vous pouvez créer une nouvelle version améliorée"
+  [(= {1 "January" 2 __} (assoc {1 "January"} 2 "February"))] "February")
+
+
+
+
+
+
+
 [[:section {:tags "keywords" :title "Mots Clés"}]]
 
 "Les mots-clés en Clojure sont mieux compris par la façon dont ils sont utilisés. Ils sont principalement utilisés comme clés dans les maps, comme vous pouvez le voir ci-dessus. Exemples de mots clés:"
@@ -420,6 +525,50 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   (conj [1 2 3] 4)
   ; => [1 2 3 4]
   )
+
+
+(exercice
+  "Vous pouvez utiliser des vecteurs dans clojure comme des structures de tableau "
+  [(= __ (count [42]))]1)
+
+(exercice
+  "Vous pouvez créer un vecteur à partir d'une liste"
+  [(= __ (vec '(1)))][1])
+
+(exercice
+  "Ou à partir de certains éléments"
+  [(= __ (vector nil nil))][nil nil])
+
+(exercice
+  "Mais vous pouvez le remplir avec n'importe quel nombre d'éléments"
+  [(= [1 __] (vec '(1 2)))] 2)
+
+(exercice
+  "Conjoindre à un vecteur est différent que de conjoindre à une liste"
+  [(= __ (conj [111 222] 333))][111 222 333])
+
+(exercice
+  "Vous pouvez obtenir le premier élément d'un vecteur comme ça"
+  [(= __ (first [:peanut :butter :and :jelly]))]:peanut)
+
+
+(exercice  "Et le dernier d'une façon similaire"
+  [(= __ (last [:peanut :butter :and :jelly]))]:jelly)
+
+(exercice
+  "Ou n'importe quel indice si vous le souhaitez"
+  [(= __ (nth [:peanut :butter :and :jelly] 3))]:jelly)
+
+(exercice
+  "Vous pouvez également découper un vecteur"
+  [(= __ (subvec [:peanut :butter :and :jelly] 1 3))] [:butter :and])
+
+(exercice
+  "L'égalité  des collections est une question de valeurs"
+  [(= (list 1 2 3) (vector 1 2 __))]3)
+
+
+
 [[:section {:tags "listes" :title "Listes"}]]
 
 
@@ -462,6 +611,77 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 )
 
 "Quand devriez-vous utiliser une liste et quand faut-il utiliser un vecteur? Pour l'instant, vous êtes probablement mieux de simplement en utilisant des vecteurs. Comme vous en apprendre davantage, vous aurez une bonne idée de quand utiliser quel."
+
+
+
+
+(exercice
+
+  "On peut accèder au premier élément..."
+  [(= __ (first '(1 2 3 4 5)))]1)
+
+
+(exercice
+  "Ainsi que le reste"
+  [(= __ (rest '(1 2 3 4 5)))][2 3 4 5])
+
+
+(exercice
+  "Comptez vos bénédictions"
+  [(= __ (count '(dracula dooku chocula)))]3)
+
+
+(exercice
+  "Avant qu'ils ne disparaissent"
+  [(= __ (count '()))]0)
+
+
+(exercice
+
+  "Le reste, quand rien n'est laissé, est vide"
+  [(= __ (rest '(100)))]())
+
+
+(exercice
+
+  "Construction en ajoutant un élément à l'avant est facile"
+  [(= __ (cons :a '(:b :c :d :e)))][:a :b :c :d :e])
+
+
+(exercice
+
+  "Conjoindre un élément à une liste ne est pas difficile non plus"
+  [(= __ (conj '(:a :b :c :d) :e))] [:e :a :b :c :d])
+
+
+(exercice
+
+  "Vous pouvez utiliser une liste comme une pile pour obtenir le premier élément"
+  [(= __ (peek '(:a :b :c :d :e)))]:a)
+
+
+(exercice
+
+  "Ou les autres"
+  [(= __ (pop '(:a :b :c :d :e)))][:b :c :d :e])
+
+
+(exercice
+
+  "Mais attention si vous essayez de rien pop"
+  [(= __ (try
+           (pop '())
+           (catch IllegalStateException e
+             "No dice!")))]"No dice!")
+
+
+(exercice
+
+  "Le reste de rien n'est pas si stricte"
+  (= __ (try
+          (rest '())
+          (catch IllegalStateException e
+            "No dice!"))) ())
 
 
 [[:section {:tags "sets" :title "Sets"}]]
@@ -517,6 +737,32 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   )
 
 "Clojure vous permet également de définir la façon dont un ensemble est trié en utilisant l' sorted-set-by fonction, mais ce livre ne couvre pas que."
+
+
+(exercice
+  "Vous pouvez créer un ensemble en convertissant une autre collection"
+  [(= #{3} (set __))][3])
+
+(exercice
+  "Compter, c'est comme compter les autres collections"
+  [(= __ (count #{1 2 3}))]3)
+
+(exercice
+  "Rappelez-vous qu'un set est un set * mathématique *"
+  [(= __ (set '(1 1 2 2 3 3 4 4 5 5)))]#{1 2 3 4 5})
+
+(exercice
+  "Vous pouvez demander à clojure l'union de deux ensembles"
+  [(= __ (clojure.set/union #{1 2 3 4} #{2 3 5}))] #{1 2 3 4 5})
+
+(exercice
+  "Et aussi l'intersection"
+  [(= __ (clojure.set/intersection #{1 2 3 4} #{2 3 5}))] #{2 3})
+
+(exercice
+  "Mais ne oubliez pas la différence"
+  [(= __ (clojure.set/difference #{1 2 3 4 5} #{2 3 5}))]#{1 4})
+
 
 [[:section {:tags "symboles_naming" :title "Symboles et Naming"}]]
 
@@ -592,7 +838,7 @@ Donner Clojure un symbole renvoie l '«objet», il se réfère à:"
 
 [[:section {:tags "simplicity" :title "Simplicité"}]]
 
-"Vous avez peut-être remarqué que ce traitement de structures de données ne comprend pas une description de la façon de créer de nouveaux types ou classes. Ce est parce que l'accent mis sur la simplicité Clojure vous encourage à atteindre pour les structures de données "de base" intégrés dans le premier.
+"Vous avez peut-être remarqué que ce traitement de structures de données ne comprend pas une description de la façon de créer de nouveaux types ou classes. Ce est parce que l'accent mis sur la simplicité Clojure vous encourage à atteindre pour les structures de données \"de base\" intégrés dans le premier.
 
 Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approche est bizarre et vers l'arrière. Ce que vous trouverez, cependant, ce est que vos données ne ont pas à être bien livré avec une classe pour qu'il soit utile et intelligible. Voici une épigramme aimé par Clojurists qui fait allusion à la philosophie Clojure:"
 
@@ -1175,13 +1421,17 @@ Voici un exemple type:"
 
 "Woohoo!"
 
+
+
+
+
 [[:chapter {:tags "mise_en_commun" :title "Mise en commun"}]]
 
 "D'ACCORD! Disons tirer tout cela ensemble et utiliser nos connaissances pour un but noble: la fessée autour hobbits!
 
 Afin de frapper un hobbit, nous allons d'abord modéliser ses parties du corps. Chaque partie du corps comprendra sa taille par rapport à nous aider à déterminer quelle est la probabilité que cette partie sera frappé.
 
-Afin d'éviter les répétitions, ce modèle de hobbit ne inclure des entrées pour "pied gauche", "oreille gauche", etc. Par conséquent, nous aurons besoin d'une fonction pour symétriser complètement le modèle.
+Afin d'éviter les répétitions, ce modèle de hobbit ne inclure des entrées pour \"pied gauche\", \"oreille gauche\", etc. Par conséquent, nous aurons besoin d'une fonction pour symétriser complètement le modèle.
 
 Enfin, nous allons créer une fonction qui parcourt nos parties du corps et choisit au hasard l'un hit.
 
@@ -1341,8 +1591,8 @@ Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-desso
 
 Une façon de penser *let* formes, ce est qu'ils fournissent des paramètres et leurs arguments secondaires à côte. *let* formes ont deux utilisations principales:
 
-*Ils fournissent la clarté en vous permettant de nommer les choses
-*Ils vous permettent d'évaluer une expression qu'une seule fois et ré-utiliser le résultat. Ceci est particulièrement important lorsque vous avez besoin de réutiliser le résultat d'un appel de fonction coûteux, comme un appel d'API de réseau. Il est également important lorsque l'expression a des effets secondaires.
+* Ils fournissent la clarté en vous permettant de nommer les choses
+* Ils vous permettent d'évaluer une expression qu'une seule fois et ré-utiliser le résultat. Ceci est particulièrement important lorsque vous avez besoin de réutiliser le résultat d'un appel de fonction coûteux, comme un appel d'API de réseau. Il est également important lorsque l'expression a des effets secondaires.
 Ayons un autre regard sur  *let* forme dans notre fonction de symétrisation afin que nous puissions comprendre exactement ce qui se passe:"
 
 
@@ -1501,7 +1751,6 @@ Vous pourriez en fait accomplir la même chose tout en utilisant les fonctions:"
  Compte tenu d'une séquence (dans ce cas, un vecteur de parties du corps et de leurs tailles), divisé en continu la séquence dans une «tête» et une «queue».Traiter la tête, l'ajouter à un certain résultat, et ensuite utiliser la récursivité pour poursuivre le processus avec la queue.
 
 2. Commencez boucle sur les parties du corps. La \"queue\" de la séquence sera lié à *remaining-asym-parts* . Initialement, il est lié à la séquence complète passée à la fonction, *asym-body-parts* . Créer une séquence de résultats, *final-body-parts* ; sa valeur initiale est un vecteur vide.
-
 
 3. Si remaining-asym-parts est vide, cela signifie que nous avons traité la séquence entière et nous pouvons retourner le résultat, *final-body-parts*.
 
