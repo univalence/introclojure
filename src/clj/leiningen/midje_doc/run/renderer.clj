@@ -1,7 +1,9 @@
 (ns leiningen.midje-doc.run.renderer
   (:require [hiccup.core :as html]
+            [introclojure.exercice]
             [markdown.core :refer [md-to-html-string]]
-            [me.raynes.conch :refer [programs]] :reload))
+            [me.raynes.conch :refer [programs]] 
+            :reload))
 
 (programs pygmentize)
 
@@ -54,10 +56,14 @@
        )
 
       ]
-      [:div {:style "width:50%" :class "spad"}
-       [:textarea]
+      (let [eid (introclojure.exercice/exercice-id title exs solution)]
 
-      ]
+      [:div {:style "width:50%" :class "spad" :id eid} 
+       [:script {:type "text/javascript"} 
+       "myOnload(function() {createCodePad(document.getElementById(\"" eid "\"), 2);});"
+       ]
+
+      ])
      ]
      ]
   )
@@ -209,7 +215,9 @@
                (slurp-res "template/stylesheets/styles.css")
                "\n\n"
                (slurp-res "template/stylesheets/pygment_trac.css")
-               "\n\n")]]
+               "\n\n")]
+
+              ]
             [:body
              [:header
               heading
@@ -238,7 +246,15 @@
                (slurp-res "template/stylesheets/styles.css")
                "\n\n"
                (slurp-res "template/stylesheets/pygment_trac.css")
-               "\n\n")]]
+               "\n\n")]
+
+             (for [s ["/jquery/jquery-1.11.2.min.js" "/edit.js"]]
+               [:script {:type "text/javascript" :src s}]
+              )
+
+            
+
+              ]
             [:body
              [:header
               (render-toc elems)

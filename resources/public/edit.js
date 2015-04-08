@@ -1,24 +1,15 @@
 
 
+editorLoaded = false;
+waitingFunctions = [];
 
-
-// THIS IS TERRIBLE
-function loadDep(filename, filetype){
-    if (filetype=="js"){ //if filename is a external JavaScript file
-        var fileref=document.createElement('script');
-        fileref.setAttribute("type","text/javascript");
-        fileref.setAttribute("src", filename);
+myOnload = function (f) {
+    if(editorLoaded) {
+        f();
+    } else {
+        waitingFunctions.push(f);
     }
-    else if (filetype=="css"){ //if filename is an external CSS file
-        var fileref=document.createElement("link")
-        fileref.setAttribute("rel", "stylesheet")
-        fileref.setAttribute("type", "text/css")
-        fileref.setAttribute("href", filename)
-    }
-    if (typeof fileref!="undefined")
-        document.getElementsByTagName("head")[0].appendChild(fileref)
-        }
-
+}
 
 
 
@@ -60,8 +51,7 @@ loadCss("/codemirror-5.1/lib/codemirror.css");
 
 
 
-
-var createYoloElement = function (html) {
+var createResultElement = function (html) {
     var outer = document.createElement('div');
     var inner = document.createElement('div');
     outer.appendChild(inner);
@@ -97,8 +87,6 @@ var findIntersectedMarks = function (editor, from, to) {
         return (comparePos(f.to, from) > 0 && comparePos(to, f.from) > 0);
     });
 };
-
-
 
 
 createCodePad = function (element, exercice_id) {
@@ -146,7 +134,7 @@ createCodePad = function (element, exercice_id) {
                                                            evalres.end.pos),
                                             {css: ("background-color: hsl(" + Math.floor(Math.random()*255) + ", 90%, 95%) "),
                                              clearWhenEmpty:true}),
-                   lineWidget : cm.addLineWidget(evalres.end.line, createYoloElement(evalres.eval))};
+                   lineWidget : cm.addLineWidget(evalres.end.line, createResultElement(evalres.eval))};
                 coderes.markedText.coderes = coderes;
                 this.allCoderes.push(coderes);},
 
@@ -168,10 +156,8 @@ createCodePad = function (element, exercice_id) {
 };
 
 
-yoloPad = createCodePad(document.getElementById("YOLO"), "YO");
-
-
-
+editorLoaded = true;
+waitingFunctions.forEach(function(f) {f();});
 
 
 }, function () {
