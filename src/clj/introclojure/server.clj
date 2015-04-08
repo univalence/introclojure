@@ -11,6 +11,7 @@
             [ring.adapter.jetty     :refer [run-jetty]]
             [introclojure.eval]
             [introclojure.parser]
+            [introclojure.exercice]
             [clojure.data.json :as json]
             ))
 

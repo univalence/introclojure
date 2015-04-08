@@ -106,10 +106,7 @@
 
 
 
-
-store
-
-(eval-exercice {:e_id "s1",
+#_ (eval-exercice {:e_id "s1",
  :text "(def a 1)\n\n(+ a a)",
  :reset false,
  :all false,
