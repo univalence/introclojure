@@ -33,7 +33,7 @@ Comme vous passez par le chapitre, je recommande que vous tapez les exemples dan
 
 "Tout le code Clojure est écrit dans une structure uniforme. Clojure comprend:
 
-* Représentations littérales de structures de données comme les numéros, cordes, cartes, et vecteurs
+* Représentations littérales de structures de données comme les numéros, cordes, maps, et vecteurs
 * Opérations
 Nous utilisons la forme de terme pour se référer au code structurellement valide. Ces représentations littérales sont des formes toutes valides:
 
@@ -324,7 +324,7 @@ Vous pouvez rechercher des valeurs dans les cartes avec la fonction *get* :"
   )
 
 
-"Le get-in fonction vous permet de rechercher des valeurs dans les cartes imbriquées:"
+"Le get-in fonction vous permet de rechercher des valeurs dans les maps imbriquées:"
 (comment
   (get-in {:a 0 :b {:c "ho hum"}} [:b :c])
   ; => "ho hum"
@@ -346,7 +346,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
 
 [[:section {:tags "keywords" :title "Mots Clés"}]]
 
-"Les mots-clés en Clojure sont mieux compris par la façon dont ils sont utilisés. Ils sont principalement utilisés comme clés dans les cartes, comme vous pouvez le voir ci-dessus. Exemples de mots clés:"
+"Les mots-clés en Clojure sont mieux compris par la façon dont ils sont utilisés. Ils sont principalement utilisés comme clés dans les maps, comme vous pouvez le voir ci-dessus. Exemples de mots clés:"
 
 
 (comment
@@ -376,14 +376,14 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
 
 "Je pense que ce est super cool et réel Clojurists le fais tout le temps. Vous devriez le faire aussi!
 
-Outre l'utilisation de la carte littéraux, vous pouvez utiliser le hash-map fonction pour créer une carte:"
+Outre l'utilisation de la map littéraux, vous pouvez utiliser le hash-map fonction pour créer une map:"
 
 (comment
   (hash-map :a 1 :b 2)
 ; => {:a 1 :b 2}
 )
 
-"Clojure vous permet également de créer des cartes triées, mais je ne couvrira pas cela."
+"Clojure vous permet également de créer des maps triées, mais je ne couvrira pas cela."
 
 [[:section {:tags "vectors" :title "Vecteurs"}]]
 
@@ -506,7 +506,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   ; => nil
 
   )
-"Tout comme vous pouvez créer des cartes et des cartes de hachage triés, vous pouvez créer des ensembles de hachage et des jeux triés:"
+"Tout comme vous pouvez créer des maps et des maps de hachage triés, vous pouvez créer des ensembles de hachage et des jeux triés:"
 
 (comment
   (Hash-set 1 1 3 1 2)
@@ -575,7 +575,7 @@ Donner Clojure un symbole renvoie l '«objet», il se réfère à:"
   (first ['failed-protagonist-names 'failed-antagonist-names])
   ; => failed-protagonist-names
   )
-"Vous pouvez également citer collections comme des listes, des cartes et des vecteurs. Tous les symboles de la collection seront non évalués:"
+"Vous pouvez également citer collections comme des listes, des maps et des vecteurs. Tous les symboles de la collection seront non évalués:"
 
 (comment
 
@@ -611,3 +611,568 @@ Ainsi conclut notre Clojure structures de données primaire. Maintenant il est t
 "
 
 
+[[:chapter {:tag "fonctions" :title "Fonctions"}]]
+
+"Une des raisons les gens vont écrous sur Lisps, ce est qu'ils vous permettent de construire des programmes qui se comportent de façon complexe, mais le premier bloc de construction - la fonction - est si simple. Cette section vous initier à la beauté et l'élégance de fonctions Lisp en expliquant:
+
+*Appel de fonctions
+*Comment fonctions diffèrent de macros et les formulaires spéciaux
+*Définir des fonctions
+*Les fonctions anonymes
+*Fonctions retour"
+
+[[:section {:tags "appel_de_fonctions" :title "Appel de fonctions"}]]
+
+"A présent, vous avez vu de nombreux exemples d'appels de fonction:"
+
+(comment
+
+  (+ 1 2 3 4)
+  (* 1 2 3 4)
+  (Première [1 2 3 4])
+  )
+
+
+"Je suis déjà allé sur la façon dont toutes les expressions Clojure ont la même syntaxe: parenthèse ouvrante, l'opérateur, opérandes, de fermer la parenthèse. \"Appel de fonction\" est juste un autre terme pour une expression où l'opérateur est une expression de fonction. Une expression de fonction est juste une expression qui renvoie une fonction.
+
+Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez intéressant. Voici une expression de fonction qui renvoie le + fonction (de plus):"
+
+(comment
+
+  ;; Return value of "or" is first truthy value, and + is truthy
+  (or + -)
+  )
+
+"Vous pouvez utiliser cette expression que l'opérateur dans une autre expression:"
+
+(comment
+
+  ((or + -) 1 2 3)
+  ; => 6
+  )
+
+"Voici appels de fonction un couple de plus valides qui reviennent 6:"
+
+(comment
+
+  ;; Return value of "and" is first falsey value or last truthy value.
+  ;; + is the last truthy value
+  ((and (= 1 1) +) 1 2 3)
+
+  ;; Return value of "first" is the first element in a sequence
+  ((first [+ 0]) 1 2 3)
+
+
+  )
+
+"Cependant, ce ne sont pas les appels de fonction valides:"
+(comment
+  ;; Numbers aren't functions
+  (1 2 3 4)
+
+  ;; Neither are strings
+  ("test" 1 2 3)
+  )
+
+"Si vous exécutez ces derniers dans votre REPL vous obtiendrez quelque chose comme"
+
+(comment
+  ClassCastException java.lang.String cannot be cast to clojure.lang.IFn
+  user/eval728 (NO_SOURCE_FILE:1)
+  )
+"Vous êtes susceptible de voir cette erreur autant de fois que vous continuez avec Clojure. \"X ne peut pas être converti en clojure.lang.IFn\" signifie simplement que vous essayez quelque chose comme une fonction quand elle ne est pas.
+
+la flexibilité de fonction ne se arrête pas avec l'expression de fonction! Syntaxiquement, les fonctions peuvent prendre des expressions comme arguments - y compris d'autres fonctions.
+
+Prenez la map fonction (à ne pas confondre avec la structure de données de map). map crée une nouvelle liste en appliquant une fonction à chaque membre d'une collection:"
+
+(comment
+
+  ;; The "inc" function increments a number by 1
+  (inc 1.1)
+  ; => 2.1
+
+  (map inc [0 1 2 3])
+  ; => (1 2 3 4)
+  )
+
+
+"(Notez que map ne retourne pas un vecteur, même si nous avons fourni un vecteur comme argument. Vous apprendrez pourquoi plus tard. Pour l'instant, espérons que ce est OK et attendu.)
+
+En effet, la capacité de Clojure pour recevoir fonctions comme arguments vous permet de construire des abstractions plus puissants. Ceux qui connaissent mal ce genre de programmation pensent des fonctions que vous permettant de généraliser les opérations plus instances de données. Par exemple, la + fonction abstraction outre, plus de chiffres précis.
+
+. En revanche, Clojure (et tous Lisps) vous permet de créer des fonctions qui généralisent sur ​​les processus map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - une fonction - plus de toute collection.
+
+La dernière chose que vous devez savoir sur les appels de fonction est que Clojure évalue tous les arguments de la fonction récursive avant de les transmettre à la fonction. Voici comment Clojure va évaluer un appel de fonction dont les arguments sont aussi des appels de fonctions:"
+
+
+(comment
+
+  ;; Here's the function call. It kicks off the evaluation process
+  (+ (inc 199) (/ 100 (- 7 2)))
+
+  ;; All sub-forms are evaluated before applying the "+" function
+  (+ 200 (/ 100 (- 7 2))) ; evaluated "(inc 199)"
+  (+ 200 (/ 100 5)) ; evaluated (- 7 2)
+  (+ 200 20) ; evaluated (/ 100 5)
+  220 ; final evaluation
+  )
+
+[[:section {:tags "appel_de_fonctions_macro_forme_special" :title "Appels de fonction, les appels de macro, et les formes spéciales"}]]
+
+
+"Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur. Il existe deux autres types d'expressions: appels de macro et **formes spéciales**. Vous avez déjà vu un couple formes spéciales:"
+
+(comment
+
+  (def failed-movie-titles ["Gone With the Moving Air" "Swellfellas"])
+  (if (= severity :mild)
+    (def error-message (str error-message "MILDLY INCONVENIENCED!"))
+    (def error-message (str error-message "DOOOOOOOMED!")))
+  )
+
+"Vous apprendrez tout ce qu'il ya à savoir sur les appels de macro et les formes spéciales dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Pour l'instant, cependant, la principale caractéristique qui rend formes spéciales \"spécial\", ce est qu'ils ne évaluent pas toujours tous leurs opérandes, contrairement appels de fonction.
+Prenez if , par exemple. Sa structure générale est:"
+
+(comment
+  (if boolean-form
+    then-form
+    optional-else-form)
+  )
+
+
+"Maintenant, imaginez que vous aviez un if déclaration de ce genre:"
+
+
+(comment
+  (if good-mood
+    (tweet walking-on-sunshine-lyrics)
+    (tweet mopey-country-song-lyrics))
+  )
+
+"Si Clojure évalué deux tweet appels de fonction, puis tes followers finiraient très confus.
+
+Une autre caractéristique qui différencie les formes spéciales, ce est que vous ne pouvez pas les utiliser comme arguments de fonctions.
+
+En général, les formes particulières à mettre en œuvre la fonctionnalité Clojure de base qui ne peut pas être mis en œuvre avec des fonctions. Il ya seulement une poignée de formes spéciales Clojure, et il est assez étonnant que cette langue riche est mis en œuvre avec un tel petit ensemble de blocs de construction.
+
+Macros sont semblables à des formes particulières en ce qu'elles évaluent leurs opérandes différemment des appels de fonction et ils ont aussi ne peuvent pas être passés comme arguments à des fonctions. Mais ce détour a pris assez longtemps; il est temps d'apprendre à définir des fonctions!"
+
+
+[[:section {:tags "definition_de_fonctions" :title "Définition de fonctions"}]]
+
+"Les définitions de fonctions sont constituées de cinq parties principales:
+
+*defn
+*Un nom
+*(Facultatif) un docstring
+*Les Paramètres
+*Le corps de la fonction
+"
+
+"Voici un exemple d'une définition de fonction et appelant la fonction:"
+
+(comment
+
+  (defn too-enthusiastic
+    "Return a cheer that might be a bit too enthusiastic"
+    [name]
+    (str "OH. MY. GOD! " name " YOU ARE MOST DEFINITELY LIKE THE BEST "
+      "MAN SLASH WOMAN EVER I LOVE YOU AND WE SHOULD RUN AWAY TO SOMEWHERE"))
+
+  (too-enthusiastic "Zelda")
+  ; => "OH. MY. GOD! Zelda YOU ARE MOST DEFINITELY LIKE THE BEST MAN SLASH WOMAN EVER I LOVE YOU AND WE SHOULD RUN AWAY TO SOMEWHERE"
+
+  )
+
+"Débutons plus profondément dans le docstring, paramètres, et le corps de la fonction."
+[[:subsection {:tags "definition_de_fonctions" :title "Définition de fonctions"}]]
+
+
+"Le docstring est vraiment cool. Vous pouvez afficher l'docstring pour une fonction dans le REPL avec (doc fn-name) , par exemple (doc map) . Le docstring est également utilisé si vous utilisez un outil pour générer la documentation de votre code. Dans l'exemple ci-dessus, \"Return a cheer that might be a bit too enthusiasti\" est le docstring."
+
+[[:subsection {:tags "Les_parametres" :title "Les Paramètres"}]]
+
+"Clojure fonctions peuvent être définies avec zéro ou plusieurs paramètres:"
+
+(comment
+  (defn no-params
+    []
+    "I take no parameters!")
+
+  (defn one-param
+    [x]
+    (str "I take one param: " x " It'd better be a string!"))
+
+  (defn two-params
+    [x y]
+    (str "Two parameters! That's nothing! Pah! I will smoosh them "
+      "together to spite you! " x y))
+  )
+
+"Les fonctions peuvent également être surchargés par arité. Cela signifie que un corps de fonction différent de fonctionner selon le nombre d'arguments passés à une fonction.
+
+Voici la forme générale d'une définition de fonction de plusieurs arité. Notez que chaque définition de arité est entre parenthèses et a une liste d'arguments:"
+
+(comment
+
+  (defn multi-arity
+    ;; 3-arity arguments and body
+    ([first-arg second-arg third-arg]
+      (do-things first-arg second-arg third-arg))
+    ;; 2-arity arguments and body
+    ([first-arg second-arg]
+      (do-things first-arg second-arg))
+    ;; 1-arity arguments and body
+    ([first-arg]
+      (do-things first-arg)))
+  )
+
+"Surcharge par arité est un moyen de fournir des valeurs par défaut pour les arguments. Dans ce cas, \"karate\" est l'argument par défaut pour le chop-type param:"
+
+(comment
+
+  (defn x-chop
+    "Describe the kind of chop you're inflicting on someone"
+    ([name chop-type]
+      (str "I " chop-type " chop " name "! Take that!"))
+    ([name]
+      (x-chop name "karate")))
+  )
+
+
+"Si vous appelez x-chop avec deux arguments, la fonction fonctionne comme il le ferait si elle ne était pas une fonction multi-arité:"
+
+(comment
+  (x-chop "Kanye West" "slap")
+  ; => "I slap chop Kanye West! Take that!"
+  )
+
+"Si vous appelez x-chop avec un seul argument, cependant, puis x-chop sera effectivement se appeler avec le second argument \"karate\" fourni:"
+
+(comment
+
+  (x-chop "Kanye East")
+  ; => "I karate chop Kanye East! Take that!"
+
+  )
+
+
+"Il peut sembler inhabituel de définir une fonction en termes de lui-même de ce genre. Si oui, super! Vous apprenez une nouvelle façon de faire les choses!
+
+Vous pouvez également faire de chaque arité faire quelque chose de complètement indépendant:"
+
+(comment
+
+  (defn weird-arity
+    ([]
+      "Destiny dressed you this morning my friend, and now Fear is
+      trying to pull off your pants. If you give up, if you give in,
+      you're gonna end up naked with Fear just standing there laughing
+      at your dangling unmentionables! - the Tick")
+    ([number]
+      (inc number)))
+
+  )
+
+"Mais le plus probable, vous ne voulez pas le faire.Clojure vous permet également de définir des fonctions arité variable en incluant un \"reste-param\", comme dans \"mettre le reste de ces arguments dans une liste avec le nom suivant\":"
+
+(comment
+  (defn codger-communication
+    [whippersnapper]
+    (str "Get off my lawn, " whippersnapper "!!!"))
+
+  (defn codger
+    [& whippersnappers] ;; the ampersand indicates the "rest-param"
+    (map codger-communication whippersnappers))
+
+  (codger "Billy" "Anne-Marie" "The Incredible Bulk")
+  ; =>
+  ; ("Get off my lawn, Billy!!!"
+  ;  "Get off my lawn, Anne-Marie!!!"
+  ;  "Get off my lawn, The Incredible Bulk!!!")
+
+  )
+
+
+"Comme vous pouvez le voir, lorsque vous fournissez des arguments aux fonctions arité variable, les arguments sont traités comme une liste.
+
+Vous pouvez mélanger repos-params avec params normales, mais le reste-param doit venir en dernier:"
+
+(comment
+  (defn favorite-things
+    [name & things]
+    (str "Hi, " name ", here are my favorite things: "
+      (clojure.string/join ", " things)))
+
+  (favorite-things "Doreen" "gum" "shoes" "kara-te")
+  ; => "Hi, Doreen, here are my favorite things: gum, shoes, kara-te"
+  )
+
+"Enfin, Clojure a une façon plus sophistiquée de la définition des paramètres appelé \"déstructuration\", qui mérite son propre paragraphe:"
+[[:subsection {:tags "Destructuration" :title "Déstructuration"}]]
+
+"L'idée de base derrière déstructuration est qu'il vous permet de lier de façon concise *symboles* à des *valeurs* au sein d'une *collection*. Regardons un exemple de base:"
+
+
+(comment
+
+
+  ;; Return the first element of a collection
+  (defn my-first
+    [[first-thing]] ; Notice that first-thing is within a vector
+    first-thing)
+
+  (my-first ["oven" "bike" "waraxe"])
+  ; => "oven"
+
+  )
+
+"Voici comment vous voulez faire la même chose sans déstructuration:"
+
+(comment
+
+  (defn my-other-first
+    [collection]
+    (first collection))
+  (my-other-first ["nickel" "hair"])
+  ; => "nickel"
+  )
+
+
+
+"Comme vous pouvez le voir, les my-first associés le symbole first-thing avec le premier élément du vecteur qui a été adoptée en argument. Vous dites my-first à le faire en plaçant le symbole first-thing dans un vecteur.
+
+Ce vecteur est comme une énorme pancarte tenue jusqu'à Clojure qui dit, \"Hey! Cette fonction va recevoir une liste ou un vecteur ou un ensemble comme un argument. Faire ma vie plus facile en démontant la structure de l'argument pour moi et l'association significative noms avec différentes parties de l'argument! \"
+
+Lorsque déstructuration un vecteur ou d'une liste, vous pouvez nommer autant d'éléments que vous voulez et aussi utiliser params repos:
+"
+
+(comment
+
+  (defn chooser
+    [[first-choice second-choice & unimportant-choices]]
+    (println (str "Your first choice is: " first-choice))
+    (println (str "Your second choice is: " second-choice))
+    (println (str "We're ignoring the rest of your choices. "
+               "Here they are in case you need to cry over them: "
+               (clojure.string/join ", " unimportant-choices))))
+  (chooser ["Marmalade", "Handsome Jack", "Pigpen", "Aquaman"])
+  ; =>
+  ; Your first choice is: Marmalade
+  ; Your second choice is: Handsome Jack
+  ; We're ignoring the rest of your choices. Here they are in case \
+  ; you need to cry over them: Pigpen, Aquaman
+
+  )
+
+"Vous pouvez aussi déstructurer maps. De la même manière que vous dites Clojure à déstructurer un vecteur ou une liste en fournissant un vecteur comme un paramètre, vous destucture maps en fournissant une carte comme un paramètre:"
+
+(comment
+
+  (defn announce-treasure-location
+    [{lat :lat lng :lng}]
+    (println (str "Treasure lat: " lat))
+    (println (str "Treasure lng: " lng)))
+  (announce-treasure-location {:lat 28.22 :lng 81.33})
+  ; =>
+  ; Treasure lat: 28.22
+  ; Treasure lng: 81.33
+  )
+
+"Regardons de plus à cette ligne:"
+
+(comment
+  [{lat :lat lng :lng}]
+
+  )
+
+"Ce est comme dire à Clojure, \"Yo Clojure me faire une flava et associer le symbole! lat avec la valeur correspondant à la clé :lat . Faites la même chose avec lng et :lng , ok ?. \"
+
+Nous voulons souvent de prendre simplement des mots-clés et de \"briser les sortir\" d'une carte, donc il ya une syntaxe plus courte pour que:"
+
+(comment
+
+  ;; Works the same as above.
+  (defn announce-treasure-location
+    [{:keys [lat lng]}]
+    (println (str "Treasure lat: " lat))
+    (println (str "Treasure lng: " lng)))
+
+  )
+
+"Vous pouvez conserver l'accès à l'argument de la carte originale en utilisant le :as mot-clé. Dans l'exemple ci-dessous, la carte originale est accessible avec treasure-location :"
+
+
+(comment
+  ;; Works the same as above.
+  (defn receive-treasure-location
+    [{:keys [lat lng] :as treasure-location}]
+    (println (str "Treasure lat: " lat))
+    (println (str "Treasure lng: " lng))
+
+    ;; One would assume that this would put in new coordinates for your ship
+    (steer-ship! treasure-location))
+
+  "En général, vous pouvez penser que la déstructuration instruire Clojure comment associer des symboles à valeurs dans une liste, carte, jeu, ou un vecteur.
+
+Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la fonction!"
+
+
+
+  )
+
+[[:subsection {:tags "corps_de_fonction" :title "Corps de fonction"}]]
+
+"Votre corps de la fonction peut contenir des formes. Clojure retourne automatiquement la dernière forme évalué:"
+
+(comment
+  (defn illustrative-function
+  []
+  (+ 1 304)
+  30
+  "joe")
+(illustrative-function)
+; => "joe"
+
+(defn number-comment
+  [x]
+  (if (> x 6)
+    "Oh my gosh! What a big number!"
+    "That number's OK, I guess"))
+
+(number-comment 5)
+; => "That number's OK, I guess"
+
+(number-comment 7)
+; => "Oh my gosh! What a big number!"
+
+)
+
+
+[[:subsection {:tags "toutes_les_fonctions_sont_crees_egaux" :title "Toutes les fonctions sont créés égaux"}]]
+
+"Une dernière remarque: dans Clojure, il n'y a pas privilégiés fonctions. + est seulement une fonction, - est juste une fonction, inc et map sont seulement fonctions. Ils ne sont pas mieux que vos fonctions! Donc, ne les laissez pas vous donner toute la lèvre.
+
+Plus important encore, ce fait permet de démontrer la simplicité sous-jacente de Clojure. D'une certaine manière, Clojure est très bête. Lorsque vous effectuez un appel de fonction, Clojure dit simplement, \" map ? Bien sûr,! Je vais juste se appliquent quel que soit ce et de progresser. \" Il ne se soucie pas ce que la fonction est ou d'où il vient, il traite toutes les fonctions de la même. À la base, Clojure ne donne pas deux hamburger retourne propos addition, multiplication, ou la cartographie. Il se soucie peu près l'application de fonctions.
+
+Comme vous programmez avec Clojure plus, vous verrez que cette simplicité est grande. Vous ne avez pas à vous inquiéter à propos de la syntaxe des règles ou spéciaux pour travailler avec des fonctions. Ils fonctionnent tous de la même chose!"
+
+[[:section {:tags "fonctions_anonymes" :title "Fonctions anonymes"}]]
+
+"Dans Clojure, vos fonctions ne ont pas à avoir des noms. En fait, vous vous retrouvez à l'aide des fonctions anonymes tout le temps. Comment mystérieuse!
+
+Il ya deux façons de créer des fonctions anonymes. La première consiste à utiliser le fn forme:
+"
+
+(comment
+
+  ;; This looks a lot like defn, doesn't it?
+  (fn [param-list]
+    function body)
+
+  ;; Example
+  (map (fn [name] (str "Hi, " name))
+    ["Darth Vader" "Mr. Magoo"])
+  ; => ("Hi, Darth Vader" "Hi, Mr. Magoo")
+
+  ;; Another example
+  ((fn [x] (* x 3)) 8)
+  ; => 24
+  )
+
+
+"Vous pouvez traiter fn presque identique à la façon dont vous traitez defn . Les listes de paramètres et les corps des fonctions fonctionnent exactement de la même chose. Vous pouvez utiliser l'argument déstructuration, repos-params, et ainsi de suite.
+Vous pouvez même associer votre fonction anonyme avec un nom, qui ne devrait pas venir comme une surprise:
+"
+
+(comment
+
+  (def my-special-multiplier (fn [x] (* x 3)))
+  (my-special-multiplier 12)
+  ; => 36
+  )
+
+
+"(Si ce ne est une surprise, alors ... surprise!)
+
+Il ya une autre façon, plus compacte pour créer des fonctions anonymes:"
+
+(comment
+
+  ;; Whoa this looks weird.
+  #(* % 3)
+
+  ;; Apply this weird looking thing
+  (#(* % 3) 8)
+  ; => 24
+
+  ;; Another example
+  (map #(str "Hi, " %)
+    ["Darth Vader" "Mr. Magoo"])
+  ; => ("Hi, Darth Vader" "Hi, Mr. Magoo")
+
+  )
+
+
+"Vous pouvez voir que ce est nettement plus compact, mais il est probablement aussi confus. Brisons le bas.
+
+Ce type de fonction anonyme ressemble beaucoup à un appel de fonction, sauf qu'il est précédé d'un dièse, # :
+
+"
+
+(comment
+
+  ;; Function call
+  (* 8 3)
+
+  ;; Anonymous function
+  #(* % 3)
+  )
+
+"Cette similitude vous permet de voir plus rapidement ce qui se passera lorsque cette fonction anonyme soit appliquée. \"Oh,\" vous pouvez dire à vous-même, \"cela va multiplier par trois son argument\".
+
+Comme vous l'aurez deviné maintenant, le signe pour cent, % , indique l'argument passé à la fonction. Si votre fonction anonyme prend plusieurs arguments, vous pouvez les distinguer comme ceci: 1% , 2% , 3% , etc. % est équivalente à 1% :"
+
+
+(comment
+  (#(str %1 " and " %2) "corn bread" "butter beans")
+  ; => "corn bread and butter beans"
+  )
+
+"Vous pouvez également passer un param de repos:"
+
+(comment
+
+  (#(identity %&) 1 "blarg" :yip)
+  ; => (1 "blarg" :yip)
+  )
+
+"La principale différence entre cette forme et fn est que cette forme peut facilement devenir illisible et est mieux utilisé pour les fonctions courts."
+
+
+[[:section {:tags "fonctions_renvoyant" :title "Fonctions renvoyant"}]]
+
+"Les fonctions peuvent renvoyer d'autres fonctions. Les fonctions sont retournés fermetures, ce qui signifie qu'ils peuvent accéder à toutes les variables qui étaient dans la portée lorsque la fonction a été créée.
+
+Voici un exemple type:"
+
+(comment
+
+  ;; inc-by is in scope, so the returned function has access to it even
+  ;; when the returned function is used outside inc-maker
+  (defn inc-maker
+    "Create a custom incrementor"
+    [inc-by]
+    #(+ % inc-by))
+
+  (def inc3 (inc-maker 3))
+
+  (inc3 7)
+  ; => 10
+  )
+
+
+"Woohoo!"
+
+[[:chapter {:tags "mise_en_commun" :title "Mise en commun"}]]
