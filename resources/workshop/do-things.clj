@@ -14,12 +14,7 @@
 "Faire des choses: un cours Clojure crash
 
 Il est temps de savoir comment effectivement faire des choses avec Clojure! Hot Damn!
-
-Alors que vous avez sans doute entendu parler de l'appui de concurrence génial de Clojure et d'autres caractéristiques prodigieuses, caractéristique la plus saillante de Clojure est que ce est un Lisp. Dans ce chapitre, vous allez découvrir les éléments qui composent ce noyau Lisp: syntaxe, les fonctions et données. Cela vous donnera une base solide pour représenter et résoudre des problèmes dans Clojure.
-
-Ce travail de fond vous permettra également d'écrire du code super important. Dans la dernière section, vous allez lier le tout en créant un modèle d'un hobbit et écrire une fonction pour frapper dans un endroit aléatoire. Super! Important!
-
-Comme vous passez par le chapitre, je recommande que vous tapez les exemples dans un REPL et de les exécuter. Programmation dans une nouvelle langue est une compétence, et, tout comme yodel ou la natation synchronisée, vous devez pratiquer l'apprendre. Par ailleurs, \"Natation synchronisée pour yodelers pour les braves et True\" est due à être publié en Août 20never. Vérifiez-le!"
+"
 
 
 
@@ -33,9 +28,9 @@ Comme vous passez par le chapitre, je recommande que vous tapez les exemples dan
 
 "Tout le code Clojure est écrit dans une structure uniforme. Clojure comprend:
 
-* Représentations littérales de structures de données comme les numéros, cordes, maps, et vecteurs
+* Représentations littérales de structures de données comme les nombres, Strings, maps, et vecteurs
 * Opérations
-Nous utilisons la forme de terme pour se référer au code structurellement valide. Ces représentations littérales sont des formes toutes valides:
+Nous utilisons le terme **form** pour se référer au code structurellement valide. Ces représentations littérales sont des form toutes valides:
 
 "
 (comment
@@ -45,13 +40,14 @@ Nous utilisons la forme de terme pour se référer au code structurellement vali
 
   )
 
-"Votre code contiendra rarement littéraux flottants, bien sûr, car ils ne *font* rien de leur propre chef. Au lieu de cela, vous allez utiliser des littéraux dans les opérations. Les opérations sont la façon dont vous *faites les choses*. Toutes les opérations prennent la forme, \"ouverture parthensis, opérateur, opérandes, parenthèse fermante\":"
+"Votre code contiendra rarement de littéraux flottants, bien sûr, car ils ne font rien de leur propre chef. Au lieu de cela, vous allez utiliser des littéraux dans les opérations.
+Les opérations sont la façon dont vous *faites les choses*. Toutes les opérations prennent la forme, \"parenthèse ouverte, opérateur, opérandes, parenthèse fermante\":"
 (comment
 
   (operator operand1 operand2 ... operandn)
   )
 
-"Notez qu'il n'y a pas de virgules. Clojure utilise espaces pour séparer opérandes et il traite des virgules comme espaces. Voici quelques opérations d'exemple:"
+"Notez qu'il n'y a pas de virgules. Clojure utilise espaces pour séparer opérandes et il traite des virgules comme des espaces. Voici quelques opérations d'exemple:"
 (comment
 
   (+ 1 2 3)
@@ -62,9 +58,10 @@ Nous utilisons la forme de terme pour se référer au code structurellement vali
   )
 
 
-"Pour rappel, Clojure est constitué de formes. Formes ont une structure uniforme. Ils se composent de littéraux et les opérations. Opérations consistent en des formulaires joints entre parenthèses.
+"Pour récapituler, Clojure est constitué de **form**. Les **forms** ont une structure uniforme. Ils se composent de littéraux et les opérations.
+Les opérations sont des forms entourés entre parenthèses.
 
-Pour faire bonne mesure, voici quelque chose qui ne est pas une forme parce qu'il n'a pas une parenthèse de fermeture:"
+Pour faire bonne mesure, voici quelque chose qui n'est pas une form parce qu'il n'a pas une parenthèse fermante:"
 
 
 [[{:lang "Clojure"}]]
@@ -72,7 +69,9 @@ Pour faire bonne mesure, voici quelque chose qui ne est pas une forme parce qu'i
 (+
 "]]
 
-"Uniformité structurelle de Clojure est probablement différente de ce que vous êtes habitué. Dans d'autres langues, différentes opérations peuvent avoir différentes structures en fonction de l'opérateur et les opérandes. Par exemple, JavaScript emploie un assortiment de notation infixe, les opérateurs points, et les parenthèses:"
+"L'uniformité structurelle de Clojure est probablement différente de ce que vous êtes habitué.
+Dans d'autres langues, différentes opérations peuvent avoir différentes structures en fonction de l'opérateur et les opérandes.
+Par exemple, JavaScript emploie un assortiment de notation infixe, les opérateurs points, et les parenthèses:"
 
 (comment
 
@@ -80,14 +79,15 @@ Pour faire bonne mesure, voici quelque chose qui ne est pas une forme parce qu'i
   "It was the panda " .concat ("in the library ", "with a dust buster")
   )
 
-"La structure de Clojure est très simple et cohérent par comparaison. Peu importe ce que l'opérateur vous utilisez ou quel type de données que vous êtes d'exploitation sur, la structure est la même.
+"La structure de Clojure est très simple et cohérent par comparaison.
+ Peu importe l'opérateur vous utilisez ou quel type de données que vous êtes d'exploitation sur, la structure est la même.
 
-Une dernière remarque: je utilise aussi l'expression de terme pour désigner les formes Clojure. Ne soyez pas trop accroché sur la terminologie, cependant."
+Une dernière remarque: j'utilise aussi l'expression de terme pour désigner les forms Clojure. Ne soyez pas trop accroché sur la terminologie, cependant."
 
 
 [[:section {:tag "flow_control" :title "Flow Control"}]]
 
-"Voici quelques opérateurs de contrôle de flux de base. Tout au long du livre, vous rencontrez plus."
+"Voici quelques opérateurs de contrôle de flux de base. Tout au long tuto, vous rencontrez plus."
 
 
 [[:subsection {:tag "if" :title "if"}]]
@@ -173,7 +173,7 @@ Une dernière remarque: je utilise aussi l'expression de terme pour désigner le
 
 [[:subsection {:tag "do" :title "do"}]]
 
-"*do* vous permet de «boucler» des formes multiples. Essayez ce qui suit dans votre REPL:"
+"*do* vous permet de «boucler» des forms multiples. Essayez ce qui suit dans votre REPL:"
 
 (comment
   (if true
@@ -998,10 +998,10 @@ La dernière chose que vous devez savoir sur les appels de fonction est que Cloj
   220 ; final evaluation
   )
 
-[[:section {:tags "appel_de_fonctions_macro_forme_special" :title "Fonction, macro, et formes spéciales"}]]
+[[:section {:tags "appel_de_fonctions_macro_forme_special" :title "Fonction, macro, et forms spéciales"}]]
 
 
-"Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur. Il existe deux autres types d'expressions: appels de macro et **formes spéciales**. Vous avez déjà vu un couple formes spéciales:"
+"Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur. Il existe deux autres types d'expressions: appels de macro et **forms spéciales**. Vous avez déjà vu un couple forms spéciales:"
 
 (comment
 
@@ -1011,7 +1011,7 @@ La dernière chose que vous devez savoir sur les appels de fonction est que Cloj
     (def error-message (str error-message "DOOOOOOOMED!")))
   )
 
-"Vous apprendrez tout ce qu'il ya à savoir sur les appels de macro et les formes spéciales dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Pour l'instant, cependant, la principale caractéristique qui rend formes spéciales \"spécial\", ce est qu'ils ne évaluent pas toujours tous leurs opérandes, contrairement appels de fonction.
+"Vous apprendrez tout ce qu'il ya à savoir sur les appels de macro et les forms spéciales dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Pour l'instant, cependant, la principale caractéristique qui rend forms spéciales \"spécial\", ce est qu'ils ne évaluent pas toujours tous leurs opérandes, contrairement appels de fonction.
 Prenez if , par exemple. Sa structure générale est:"
 
 (comment
@@ -1032,11 +1032,11 @@ Prenez if , par exemple. Sa structure générale est:"
 
 "Si Clojure évalué deux tweet appels de fonction, puis tes followers finiraient très confus.
 
-Une autre caractéristique qui différencie les formes spéciales, ce est que vous ne pouvez pas les utiliser comme arguments de fonctions.
+Une autre caractéristique qui différencie les forms spéciales, ce est que vous ne pouvez pas les utiliser comme arguments de fonctions.
 
-En général, les formes particulières à mettre en œuvre la fonctionnalité Clojure de base qui ne peut pas être mis en œuvre avec des fonctions. Il ya seulement une poignée de formes spéciales Clojure, et il est assez étonnant que cette langue riche est mis en œuvre avec un tel petit ensemble de blocs de construction.
+En général, les forms particulières à mettre en œuvre la fonctionnalité Clojure de base qui ne peut pas être mis en œuvre avec des fonctions. Il ya seulement une poignée de forms spéciales Clojure, et il est assez étonnant que cette langue riche est mis en œuvre avec un tel petit ensemble de blocs de construction.
 
-Macros sont semblables à des formes particulières en ce qu'elles évaluent leurs opérandes différemment des appels de fonction et ils ont aussi ne peuvent pas être passés comme arguments à des fonctions. Mais ce détour a pris assez longtemps; il est temps d'apprendre à définir des fonctions!"
+Macros sont semblables à des forms particulières en ce qu'elles évaluent leurs opérandes différemment des appels de fonction et ils ont aussi ne peuvent pas être passés comme arguments à des fonctions. Mais ce détour a pris assez longtemps; il est temps d'apprendre à définir des fonctions!"
 
 
 [[:section {:tags "definition_de_fonctions" :title "Définition de fonctions"}]]
@@ -1361,7 +1361,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
 
   [[:subsection {:tags "corps_de_fonction" :title "Corps de fonction"}]]
 
-"Votre corps de la fonction peut contenir des formes. Clojure retourne automatiquement la dernière forme évalué:"
+"Votre corps de la fonction peut contenir des forms. Clojure retourne automatiquement la dernière forme évalué:"
 
 (comment
   (defn illustrative-function
@@ -1817,9 +1817,9 @@ Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-desso
 
 "Notez que la valeur d'un *let* forme est la dernière forme dans son corps qui obtient évaluée.
 
-*let* formes suivent les règles de déstructuration qui nous introduit dans «Appel d'une fonction\" ci-dessus.
+*let* forms suivent les règles de déstructuration qui nous introduit dans «Appel d'une fonction\" ci-dessus.
 
-Une façon de penser *let* formes, ce est qu'ils fournissent des paramètres et leurs arguments secondaires à côte. *let* formes ont deux utilisations principales:
+Une façon de penser *let* forms, ce est qu'ils fournissent des paramètres et leurs arguments secondaires à côte. *let* forms ont deux utilisations principales:
 
 * Ils fournissent la clarté en vous permettant de nommer les choses
 * Ils vous permettent d'évaluer une expression qu'une seule fois et ré-utiliser le résultat. Ceci est particulièrement important lorsque vous avez besoin de réutiliser le résultat d'un appel de fonction coûteux, comme un appel d'API de réseau. Il est également important lorsque l'expression a des effets secondaires.
