@@ -25,6 +25,7 @@
                                                     (read-string line)
                                                     (read-string pos))))
   (GET "/" [] (introclojure.parser/all))
+  (GET "/do-things" [] (introclojure.parser/do-things))
 
   #_ (GET "/*" req (page)))
 
