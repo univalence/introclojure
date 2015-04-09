@@ -166,6 +166,8 @@ Une dernière remarque: j'utilise aussi le terme **expression** pour désigner l
     :cocked-pistol     :sirens
     :say-what?))
 
+""
+
 
 (exercice
   "En cas d'urgence,sonorez les alarmes "
@@ -210,7 +212,7 @@ Dans ce cas, *Success!* est imprimé dans le REPL et \"abra cadabra\" est retour
 
 "Utilisez *when* lorsque vous voulez faire plusieurs choses quand une certaine condition est vrai, et vous ne voulez pas faire quelque chose quand la condition est fausse.
 
-Cela couvre les opérateurs de contrôle de flux essentiels!"
+Cela couvre les opérateurs de contrôle essentiels!"
 
 
 
@@ -687,10 +689,10 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 (exercice
 
   "Le reste de rien n'est pas si stricte"
-  (= __ (try
+  [(= __ (try
           (rest '())
           (catch IllegalStateException e
-            "No dice!"))) ())
+            "No dice!")))] ())
 
 (exercice
   "Pour diviser une collection, vous pouvez utiliser la fonction de partition"
