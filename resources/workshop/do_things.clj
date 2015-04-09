@@ -12,7 +12,7 @@
 
 
 (exercice
-  "Ceci est un REPL "
+  "Ceci est un REPL n'hésitez tester les exemples ici ! "
   [] [])
 
 "Faire des choses: un cours Clojure crash
@@ -310,13 +310,16 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   )
 
 
-"Certains autres langues vous obligent à utiliser différents opérateurs lorsque l'on compare les valeurs de différents types. Par exemple, vous pourriez avoir à utiliser une sorte de l'opérateur spécial \"chaîne de l'égalité\" particulièrement fait juste pour les chaînes. Vous ne avez pas besoin de quelque chose bizarre ou pénible comme ça pour tester l'égalité lors de l'utilisation des structures de données intégrées de Clojure."
+"Certains autres languages vous obligent à utiliser différents opérateurs lorsque l'on compare les valeurs de différents types. Par exemple, vous pourriez avoir à utiliser un opérateur spécial \"égalité de String\" particulièrement fait juste pour les chaînes de caractère.
+Vous n'avez pas besoin de quelque chose bizarre ou pénible comme ça pour tester l'égalité lors de l'utilisation des structures de données intégrées de Clojure."
 
 [[:section {:tags "nombres" :title "Nombres"}]]
 
-"Clojure support numérique a assez sophistiqué. Je ne vais pas passer beaucoup de temps se attarder sur les détails techniques ennuyeux (comme la coercition et de la contagion), parce que cela va obtenir de la manière de faire les choses. Si vous êtes intéressé par ces détails ennuyeux, consultez http://clojure.org/data_structures#Data Ouvrages d'art-Numbers . Autant dire que Clojure va gaiement gérer à peu près tout ce que vous lui lancez."
+"Le support des nombres dans Clojure est assez sophistiqué. Je ne vais pas passer beaucoup de temps sur les détails techniques ennuyeux (comme la coercition et de la contagion).
+ Si vous êtes intéressé par ces détails ennuyeux, consultez http://clojure.org/data_structures#Data. Autant dire que Clojure va gaiement gérer à peu près tout ce que vous lui lancez."
 
-"Dans le même temps, nous allons travailler avec des nombres entiers et flottants. Nous allons aussi travailler avec des ratios, qui Clojure peut représenter directement. Voici un nombre entier, un flotteur, et un rapport:"
+"Dans le même temps, nous allons travailler avec des nombres entiers et flottants. Nous allons aussi travailler avec des ratios,
+que Clojure peut représenter directement. Voici un nombre entier, un flotteur, et un rapport:"
 
 (comment
 
@@ -336,11 +339,11 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   )
 
 
-"Notez que Clojure ne permet guillemets pour délimiter les chaînes. 'Lord Voldemort' , par exemple, ne est pas une chaîne valide. Notez également que Clojure n'a pas interpolation de chaîne. Il ne permet concaténation via le str fonction:"
+"Notez que Clojure ne permet pas les guillemets pour délimiter les chaînes. 'Lord Voldemort' , par exemple, n'est pas une chaîne valide. Notez également que Clojure n'a pas interpolation de chaîne. Il ne permet pas la concaténation via la fonction str :"
 
-[[:section {:tags "map" :title "maps"}]]
+[[:section {:tags "map" :title "Maps"}]]
 
-"Les maps sont semblables à des dictionnaires ou hachés dans d'autres langues. Ils sont une façon d'associer une valeur à une autre valeur. Voici par exemple map littéraux:"
+"Les maps sont semblables à des dictionnaires dans d'autres langues. Voici par exemple map littéraux:"
 
 (comment
 
@@ -359,9 +362,9 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   {:name {:first "John" :middle "Jacob" :last "Jingleheimerschmidt"}}
   )
 
-"Notez que les valeurs d'une map peuvent être de tout type. Chaîne, nombre, map, vecteur, même fonctionner! Clojure ne se soucient pas!
+"Notez que les valeurs d'une map peuvent être de tout type. Chaîne, nombre, map, vecteur, même fonctionner!
 
-Vous pouvez rechercher des valeurs dans les cartes avec la fonction *get* :"
+Vous pouvez rechercher des valeurs dans les Maps avec la fonction *get* :"
 
 (comment
 
@@ -373,7 +376,7 @@ Vous pouvez rechercher des valeurs dans les cartes avec la fonction *get* :"
   )
 
 
-"*get* retourera nil si elle ne trouve pas votre clé, mais vous pouvez lui donner une valeur par défaut pour retourner:"
+"*get* retourera **nil** si elle ne trouve pas votre clé, mais vous pouvez lui donner une valeur par défaut pour retourner:"
 
 (comment
 
@@ -467,7 +470,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
 
 [[:section {:tags "keywords" :title "Mots Clés"}]]
 
-"Les mots-clés en Clojure sont mieux compris par la façon dont ils sont utilisés. Ils sont principalement utilisés comme clés dans les maps, comme vous pouvez le voir ci-dessus. Exemples de mots clés:"
+"Les mots-clés en Clojure sont mieux compris par les cas d'utilisation. Ils sont principalement utilisés comme clés dans les maps, comme vous pouvez le voir ci-dessus. Exemples de mots clés:"
 
 
 (comment
@@ -495,7 +498,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
   ; => "FAERIES"
   )
 
-"Je pense que ce est super cool et réel Clojurists le fais tout le temps. Vous devriez le faire aussi!
+"Je pense que c'est super cool et les *reals* Clojurists le font tout le temps. Vous devriez le faire aussi!
 
 Outre l'utilisation de la map littéraux, vous pouvez utiliser le hash-map fonction pour créer une map:"
 
@@ -504,7 +507,7 @@ Outre l'utilisation de la map littéraux, vous pouvez utiliser le hash-map fonct
 ; => {:a 1 :b 2}
 )
 
-"Clojure vous permet également de créer des maps triées, mais je ne couvrira pas cela."
+"Clojure vous permet également de créer des maps triées."
 
 [[:section {:tags "vectors" :title "Vecteurs"}]]
 
@@ -588,7 +591,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 [[:section {:tags "listes" :title "Listes"}]]
 
 
-"Les listes sont similaires à vecteurs en ce qu'ils sont linéaires collections de valeurs. Il ya quelques différences, cependant. Vous ne pouvez pas récupérer les éléments de liste avec get :"
+"Les listes sont similaires à vecteurs sur certain point. Cependant, vous ne pouvez pas récupérer les éléments de liste avec get :"
 
 
 (comment
@@ -625,8 +628,6 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   (Conj '(1 2 3 4))
 ;  => (4 1 2 3)
 )
-
-"Quand devriez-vous utiliser une liste et quand faut-il utiliser un vecteur? Pour l'instant, vous êtes probablement mieux de simplement en utilisant des vecteurs. Comme vous en apprendre davantage, vous aurez une bonne idée de quand utiliser quel."
 
 
 
@@ -760,7 +761,8 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 
   )
 
-"Vous pouvez créer des ensembles de vecteurs et les listes existantes en utilisant le set fonction. Une utilisation non évidente pour ce est de vérifier si un élément existe dans une collection:"
+"Vous pouvez créer des ensembles de vecteurs et les listes existantes en utilisant la fonction set .
+Une utilisation non évidente est de vérifier si un élément existe dans une collection:"
 
 
 (comment
@@ -776,7 +778,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   ; => nil
 
   )
-"Tout comme vous pouvez créer des maps et des maps de hachage triés, vous pouvez créer des ensembles de hachage et des jeux triés:"
+"Tout comme vous pouvez créer des maps , vous pouvez créer des ensembles de hachage et des jeux triés:"
 
 (comment
   (Hash-set 1 1 3 1 2)
@@ -786,7 +788,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   ;  => # {: A: b: c}
   )
 
-"Clojure vous permet également de définir la façon dont un ensemble est trié en utilisant l' sorted-set-by fonction, mais ce livre ne couvre pas que."
+"Clojure vous permet également de définir la façon dont un ensemble est trié en utilisant la fonction sorted-set-by."
 
 
 (exercice
@@ -826,7 +828,9 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 
 "Dans ce cas, def associe la valeur [\"Gone With the Moving Air\" \"Swellfellas\"] avec les symboles failed-movie-titles .
 
-Vous pensez peut-être: «Alors quoi? Tout autre langage de programmation permet de me associer un nom à une valeur. Big Whoop!\" Lisps, toutefois, vous permettent de manipuler des symboles comme des données, quelque chose que nous allons voir beaucoup de quand nous commençons à travailler avec des macros. Fonctions peuvent retourner symboles et les prendre comme arguments:
+Vous pensez peut-être: «Alors quoi? Tout autre langage de programmation permet de m'associer un nom à une valeur. Big Whoop!\"
+Lisps, toutefois, vous permettent de manipuler des symboles comme des données, quelque chose que nous allons voir beaucoup de quand nous commençons à travailler avec des macros.
+ Fonctions peuvent retourner symboles et les prendre comme arguments:
 
 "
 
@@ -836,14 +840,13 @@ Vous pensez peut-être: «Alors quoi? Tout autre langage de programmation permet
   ; => test
   )
 
-"Pour l'instant, cependant, il est OK pour penser \"Big Whoop!\" et ne pas être très impressionné.
-"
 
 [[:section {:tags "quote" :title "Quote"}]]
 
-"Vous avez peut-être remarqué la apostrophe, ' , dans les exemples ci-dessus. Ceci est appelé \"citant\". Vous apprendrez à connaître en détail dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Voici l'explication rapide pour l'instant.
+"Vous avez peut-être remarqué l'apostrophe, ' , dans les exemples ci-dessus. Ceci est appelé \"citant\".
+  Voici l'explication rapide pour l'instant.
 
-Donner Clojure un symbole renvoie l '«objet», il se réfère à:"
+Donner à Clojure un symbole  il renvoie l '«objet», il se réfère à:"
 
 (comment
 
