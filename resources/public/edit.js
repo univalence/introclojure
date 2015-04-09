@@ -144,7 +144,7 @@ createCodePad = function (element, exercice_id) {
                     $(sel).addClass("unvalidated");
                 });
 
-                this.editor.addKeyMap({"Cmd-Enter" : function(cm) {
+                var launchEval = function(cm) {
                     var cursor = cm.getCursor();
 
                     var selection = cm.listSelections()[0];
@@ -172,12 +172,14 @@ createCodePad = function (element, exercice_id) {
                             tthis.createEvalResult(result);
                         }
                         );
-
-
-
                     });
 
-                }});
+                }
+
+                this.editor.addKeyMap({
+                    "Cmd-Enter" : launchEval,
+                    "Ctrl-Enter" : launchEval
+                });
                 return tthis;
             }
 
