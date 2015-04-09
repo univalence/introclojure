@@ -135,17 +135,16 @@
     (assoc r# :out (str out-w#))))
 
 
-(eval-wrap (read-string "(println :a)"))
+#_ (eval-wrap (read-string "(println :a)"))
 
-(fmap pprint-to-str (eval-wrap (list read-string "(")) (complement #{:out}))
+#_ (fmap pprint-to-str (eval-wrap (list read-string "(")) (complement #{:out}))
 
-(fmap inc {:a 1 :b 2} (complement #{:b}))
+#_ (fmap inc {:a 1 :b 2} (complement #{:b}))
 
 
 (defn eval-exercice
   ([m] (eval-exercice m @store))
   ([{:keys [e_id text reset all selection] :as m} store ]
-  (clojure.pprint/pprint m)
   (let [exo (store e_id)
         {:keys [line ch]} (:anchor selection)
         [_ cts _] (:content exo)
