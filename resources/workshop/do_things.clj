@@ -858,7 +858,7 @@ Donner à Clojure un symbole  il renvoie l '«objet», il se réfère à:"
   )
 
 
-"Citant un symbole dit Clojure d'utiliser le symbole lui-même comme une structure de données, pas l'objet le symbole se réfère à:"
+"*Quoter* un symbole dit à Clojure d'utiliser le symbole lui-même comme une structure de données, pas l'objet le symbole se réfèrant à lui :"
 
 (comment
 
@@ -874,7 +874,7 @@ Donner à Clojure un symbole  il renvoie l '«objet», il se réfère à:"
   (first ['failed-protagonist-names 'failed-antagonist-names])
   ; => failed-protagonist-names
   )
-"Vous pouvez également citer collections comme des listes, des maps et des vecteurs. Tous les symboles de la collection seront non évalués:"
+"Vous pouvez également *quoter* la collections comme des listes, des maps et des vecteurs. Tous les symboles de la collection seront non évalués:"
 
 (comment
 
@@ -891,9 +891,11 @@ Donner à Clojure un symbole  il renvoie l '«objet», il se réfère à:"
 
 [[:section {:tags "simplicity" :title "Simplicité"}]]
 
-"Vous avez peut-être remarqué que ce traitement de structures de données ne comprend pas une description de la façon de créer de nouveaux types ou classes. Ce est parce que l'accent mis sur la simplicité Clojure vous encourage à atteindre pour les structures de données \"de base\" intégrés dans le premier.
+"Vous avez peut-être remarqué que ce traitement de structures de données ne comprend pas une description de la façon de créer de nouveaux types ou classes.
+Ce est parce que l'accent mis sur la simplicité Clojure vous encourage à atteindre pour les structures de données \"de base\" intégrés dans le premier.
 
-Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approche est bizarre et vers l'arrière. Ce que vous trouverez, cependant, ce est que vos données ne ont pas à être bien livré avec une classe pour qu'il soit utile et intelligible. Voici une épigramme aimé par Clojurists qui fait allusion à la philosophie Clojure:"
+Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approche est bizarre et vers l'arrière.
+Voici une épigramme aimé par Clojurists qui fait allusion à la philosophie Clojure:"
 
 (comment
 
@@ -903,16 +905,11 @@ Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approch
   -- Alan Perlis)
 
 
-"Vous en apprendrez plus sur cet aspect de la philosophie de Clojure dans les prochains chapitres. Pour l'instant, cependant, garder un œil sur les moyens que vous gagnez la réutilisation du code en se en tenant à des structures de base de données.
-
-Ainsi conclut notre Clojure structures de données primaire. Maintenant il est temps de creuser dans les fonctions et de voir comment ces structures de données peuvent être utilisés!
-
-"
 
 
 [[:chapter {:tag "fonctions" :title "Fonctions"}]]
 
-"Une des raisons les gens vont écrous sur Lisps, ce est qu'ils vous permettent de construire des programmes qui se comportent de façon complexe, mais le premier bloc de construction - la fonction - est si simple. Cette section vous initier à la beauté et l'élégance de fonctions Lisp en expliquant:
+"Une des raisons qui fait que les gens son fou de Lisps, c'est qu'ils vous permettent de construire des programmes qui se comportent de façon complexe, mais le premier bloc de construction - la fonction - est si simple. Cette section vous initier à la beauté et l'élégance de fonctions Lisp en expliquant:
 
 *Appel de fonctions
 *Comment fonctions diffèrent de macros et les formulaires spéciaux
