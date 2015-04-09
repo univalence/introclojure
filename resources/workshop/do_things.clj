@@ -8,7 +8,12 @@
               ]}]]
 
 
+[[:chapter {:tag "introdution" :title "Introduction"}]]
 
+
+(exercice
+  "Ceci est un REPL n'hésitez tester les exemples ici ! "
+  [] [])
 
 "Faire des choses: un cours Clojure crash
 
@@ -166,6 +171,8 @@ Une dernière remarque: j'utilise aussi le terme **expression** pour désigner l
     :cocked-pistol     :sirens
     :say-what?))
 
+""
+
 
 (exercice
   "En cas d'urgence,sonorez les alarmes "
@@ -210,7 +217,7 @@ Dans ce cas, *Success!* est imprimé dans le REPL et \"abra cadabra\" est retour
 
 "Utilisez *when* lorsque vous voulez faire plusieurs choses quand une certaine condition est vrai, et vous ne voulez pas faire quelque chose quand la condition est fausse.
 
-Cela couvre les opérateurs de contrôle de flux essentiels!"
+Cela couvre les opérateurs de contrôle essentiels!"
 
 
 
@@ -227,7 +234,7 @@ Une dernière chose avant de passer aux structures de données: vous utilisez *d
      "The Incredible Bulk"])
   )
 "
-Dans ce cas, vous contraignant le nom *failed-protagonist-names* à un vecteur contenant trois cordes. Remarquez que je utilise le terme «lier», alors que dans d'autres langauges vous diriez que vous *attribuer* une valeur à une *variable*. Par exemple, en Ruby, vous pouvez effectuer plusieurs affectations à une variable de «construire» sa valeur:
+Dans ce cas, vous contraignant le nom *failed-protagonist-names* à un vecteur contenant trois cordes. Remarquez que j'utilise le terme «lier», alors que dans d'autres langauges vous diriez que vous *attribuer* une valeur à une *variable*. Par exemple, en Ruby, vous pouvez effectuer plusieurs affectations à une variable de «construire» sa valeur:
 "
 (comment
 
@@ -249,12 +256,12 @@ Dans ce cas, vous contraignant le nom *failed-protagonist-names* à un vecteur c
   )
 
 
-"Cependant, ce est vraiment mauvais Clojure. Pour l'instant, vous devez traiter def comme si ce est la définition des constantes. Mais ne ayez pas peur! Au cours des prochains chapitres, vous apprendrez comment travailler avec cette limitation apparente en codant dans le style fonctionnel."
+"Cependant, c'est vraiment du mauvais Clojure. Pour l'instant, vous devez traiter def comme si ce est la définition des constantes. Mais n'ayez pas peur! Au cours des prochains chapitres, vous apprendrez comment travailler avec cette limitation apparente en codant dans le style fonctionnel."
 
 [[:chapter {:tag "data_structure" :title "Structures de données"}]]
 
 
-"Clojure est livré avec une poignée de structures de données qui vous allez vous trouver en utilisant la majorité du temps. Si vous venez d'un milieu orienté objet, vous serez surpris de voir combien vous pouvez faire avec les types \" de base \" présentés ici.
+"Clojure est livré avec une poignée de structures de données que vous décrouvriez seul car utilisées la majorité du temps. Si vous venez d'un milieu orienté objet, vous serez surpris de voir combien vous pouvez faire avec les types \" de base \" présentés ici.
 
 Toutes les structures de données Clojure sont immuables, ce qui signifie que vous ne pouvez pas les changer en place. Il ya pas d'équivalent pour la Clojure Ruby suit:"
 (comment
@@ -279,7 +286,7 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
 
 [[:section {:tags "nil_true_false_truthiness_equality" :title "nil, true, false,  Equality"}]]
 
-"Clojure a true et false valeurs. nil est utilisé pour indiquer \"aucune valeur\" dans Clojure. Vous pouvez vérifier si une valeur est nil avec le intelligemment nommé nil? fonction:"
+"Clojure a les valeurs true et false . nil est utilisé pour indiquer \"aucune valeur\" dans Clojure. Vous pouvez vérifier si une valeur est nil avec la fonction nil? :"
 
 (comment
   (nil? 1)
@@ -303,13 +310,16 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   )
 
 
-"Certains autres langues vous obligent à utiliser différents opérateurs lorsque l'on compare les valeurs de différents types. Par exemple, vous pourriez avoir à utiliser une sorte de l'opérateur spécial \"chaîne de l'égalité\" particulièrement fait juste pour les chaînes. Vous ne avez pas besoin de quelque chose bizarre ou pénible comme ça pour tester l'égalité lors de l'utilisation des structures de données intégrées de Clojure."
+"Certains autres languages vous obligent à utiliser différents opérateurs lorsque l'on compare les valeurs de différents types. Par exemple, vous pourriez avoir à utiliser un opérateur spécial \"égalité de String\" particulièrement fait juste pour les chaînes de caractère.
+Vous n'avez pas besoin de quelque chose bizarre ou pénible comme ça pour tester l'égalité lors de l'utilisation des structures de données intégrées de Clojure."
 
 [[:section {:tags "nombres" :title "Nombres"}]]
 
-"Clojure support numérique a assez sophistiqué. Je ne vais pas passer beaucoup de temps se attarder sur les détails techniques ennuyeux (comme la coercition et de la contagion), parce que cela va obtenir de la manière de faire les choses. Si vous êtes intéressé par ces détails ennuyeux, consultez http://clojure.org/data_structures#Data Ouvrages d'art-Numbers . Autant dire que Clojure va gaiement gérer à peu près tout ce que vous lui lancez."
+"Le support des nombres dans Clojure est assez sophistiqué. Je ne vais pas passer beaucoup de temps sur les détails techniques ennuyeux (comme la coercition et de la contagion).
+ Si vous êtes intéressé par ces détails ennuyeux, consultez http://clojure.org/data_structures#Data. Autant dire que Clojure va gaiement gérer à peu près tout ce que vous lui lancez."
 
-"Dans le même temps, nous allons travailler avec des nombres entiers et flottants. Nous allons aussi travailler avec des ratios, qui Clojure peut représenter directement. Voici un nombre entier, un flotteur, et un rapport:"
+"Dans le même temps, nous allons travailler avec des nombres entiers et flottants. Nous allons aussi travailler avec des ratios,
+que Clojure peut représenter directement. Voici un nombre entier, un flotteur, et un rapport:"
 
 (comment
 
@@ -329,11 +339,11 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   )
 
 
-"Notez que Clojure ne permet guillemets pour délimiter les chaînes. 'Lord Voldemort' , par exemple, ne est pas une chaîne valide. Notez également que Clojure n'a pas interpolation de chaîne. Il ne permet concaténation via le str fonction:"
+"Notez que Clojure ne permet pas les guillemets pour délimiter les chaînes. 'Lord Voldemort' , par exemple, n'est pas une chaîne valide. Notez également que Clojure n'a pas interpolation de chaîne. Il ne permet pas la concaténation via la fonction str :"
 
-[[:section {:tags "map" :title "maps"}]]
+[[:section {:tags "map" :title "Maps"}]]
 
-"Les maps sont semblables à des dictionnaires ou hachés dans d'autres langues. Ils sont une façon d'associer une valeur à une autre valeur. Voici par exemple map littéraux:"
+"Les maps sont semblables à des dictionnaires dans d'autres langues. Voici par exemple map littéraux:"
 
 (comment
 
@@ -352,9 +362,9 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   {:name {:first "John" :middle "Jacob" :last "Jingleheimerschmidt"}}
   )
 
-"Notez que les valeurs d'une map peuvent être de tout type. Chaîne, nombre, map, vecteur, même fonctionner! Clojure ne se soucient pas!
+"Notez que les valeurs d'une map peuvent être de tout type. Chaîne, nombre, map, vecteur, même fonctionner!
 
-Vous pouvez rechercher des valeurs dans les cartes avec la fonction *get* :"
+Vous pouvez rechercher des valeurs dans les Maps avec la fonction *get* :"
 
 (comment
 
@@ -366,7 +376,7 @@ Vous pouvez rechercher des valeurs dans les cartes avec la fonction *get* :"
   )
 
 
-"*get* retourera nil si elle ne trouve pas votre clé, mais vous pouvez lui donner une valeur par défaut pour retourner:"
+"*get* retourera **nil** si elle ne trouve pas votre clé, mais vous pouvez lui donner une valeur par défaut pour retourner:"
 
 (comment
 
@@ -460,7 +470,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
 
 [[:section {:tags "keywords" :title "Mots Clés"}]]
 
-"Les mots-clés en Clojure sont mieux compris par la façon dont ils sont utilisés. Ils sont principalement utilisés comme clés dans les maps, comme vous pouvez le voir ci-dessus. Exemples de mots clés:"
+"Les mots-clés en Clojure sont mieux compris par les cas d'utilisation. Ils sont principalement utilisés comme clés dans les maps, comme vous pouvez le voir ci-dessus. Exemples de mots clés:"
 
 
 (comment
@@ -488,7 +498,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
   ; => "FAERIES"
   )
 
-"Je pense que ce est super cool et réel Clojurists le fais tout le temps. Vous devriez le faire aussi!
+"Je pense que c'est super cool et les *reals* Clojurists le font tout le temps. Vous devriez le faire aussi!
 
 Outre l'utilisation de la map littéraux, vous pouvez utiliser le hash-map fonction pour créer une map:"
 
@@ -497,7 +507,7 @@ Outre l'utilisation de la map littéraux, vous pouvez utiliser le hash-map fonct
 ; => {:a 1 :b 2}
 )
 
-"Clojure vous permet également de créer des maps triées, mais je ne couvrira pas cela."
+"Clojure vous permet également de créer des maps triées."
 
 [[:section {:tags "vectors" :title "Vecteurs"}]]
 
@@ -581,7 +591,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 [[:section {:tags "listes" :title "Listes"}]]
 
 
-"Les listes sont similaires à vecteurs en ce qu'ils sont linéaires collections de valeurs. Il ya quelques différences, cependant. Vous ne pouvez pas récupérer les éléments de liste avec get :"
+"Les listes sont similaires à vecteurs sur certain point. Cependant, vous ne pouvez pas récupérer les éléments de liste avec get :"
 
 
 (comment
@@ -618,8 +628,6 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   (Conj '(1 2 3 4))
 ;  => (4 1 2 3)
 )
-
-"Quand devriez-vous utiliser une liste et quand faut-il utiliser un vecteur? Pour l'instant, vous êtes probablement mieux de simplement en utilisant des vecteurs. Comme vous en apprendre davantage, vous aurez une bonne idée de quand utiliser quel."
 
 
 
@@ -687,10 +695,10 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 (exercice
 
   "Le reste de rien n'est pas si stricte"
-  (= __ (try
+  [(= __ (try
           (rest '())
           (catch IllegalStateException e
-            "No dice!"))) ())
+            "No dice!")))] ())
 
 (exercice
   "Pour diviser une collection, vous pouvez utiliser la fonction de partition"
@@ -753,7 +761,8 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 
   )
 
-"Vous pouvez créer des ensembles de vecteurs et les listes existantes en utilisant le set fonction. Une utilisation non évidente pour ce est de vérifier si un élément existe dans une collection:"
+"Vous pouvez créer des ensembles de vecteurs et les listes existantes en utilisant la fonction set .
+Une utilisation non évidente est de vérifier si un élément existe dans une collection:"
 
 
 (comment
@@ -769,7 +778,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   ; => nil
 
   )
-"Tout comme vous pouvez créer des maps et des maps de hachage triés, vous pouvez créer des ensembles de hachage et des jeux triés:"
+"Tout comme vous pouvez créer des maps , vous pouvez créer des ensembles de hachage et des jeux triés:"
 
 (comment
   (Hash-set 1 1 3 1 2)
@@ -779,7 +788,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   ;  => # {: A: b: c}
   )
 
-"Clojure vous permet également de définir la façon dont un ensemble est trié en utilisant l' sorted-set-by fonction, mais ce livre ne couvre pas que."
+"Clojure vous permet également de définir la façon dont un ensemble est trié en utilisant la fonction sorted-set-by."
 
 
 (exercice
@@ -819,7 +828,9 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 
 "Dans ce cas, def associe la valeur [\"Gone With the Moving Air\" \"Swellfellas\"] avec les symboles failed-movie-titles .
 
-Vous pensez peut-être: «Alors quoi? Tout autre langage de programmation permet de me associer un nom à une valeur. Big Whoop!\" Lisps, toutefois, vous permettent de manipuler des symboles comme des données, quelque chose que nous allons voir beaucoup de quand nous commençons à travailler avec des macros. Fonctions peuvent retourner symboles et les prendre comme arguments:
+Vous pensez peut-être: «Alors quoi? Tout autre langage de programmation permet de m'associer un nom à une valeur. Big Whoop!\"
+Lisps, toutefois, vous permettent de manipuler des symboles comme des données, quelque chose que nous allons voir beaucoup de quand nous commençons à travailler avec des macros.
+ Fonctions peuvent retourner symboles et les prendre comme arguments:
 
 "
 
@@ -829,14 +840,13 @@ Vous pensez peut-être: «Alors quoi? Tout autre langage de programmation permet
   ; => test
   )
 
-"Pour l'instant, cependant, il est OK pour penser \"Big Whoop!\" et ne pas être très impressionné.
-"
 
 [[:section {:tags "quote" :title "Quote"}]]
 
-"Vous avez peut-être remarqué la apostrophe, ' , dans les exemples ci-dessus. Ceci est appelé \"citant\". Vous apprendrez à connaître en détail dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Voici l'explication rapide pour l'instant.
+"Vous avez peut-être remarqué l'apostrophe, ' , dans les exemples ci-dessus. Ceci est appelé \"citant\".
+  Voici l'explication rapide pour l'instant.
 
-Donner Clojure un symbole renvoie l '«objet», il se réfère à:"
+Donner à Clojure un symbole  il renvoie l '«objet», il se réfère à:"
 
 (comment
 
@@ -848,7 +858,7 @@ Donner Clojure un symbole renvoie l '«objet», il se réfère à:"
   )
 
 
-"Citant un symbole dit Clojure d'utiliser le symbole lui-même comme une structure de données, pas l'objet le symbole se réfère à:"
+"*Quoter* un symbole dit à Clojure d'utiliser le symbole lui-même comme une structure de données, pas l'objet le symbole se réfèrant à lui :"
 
 (comment
 
@@ -864,7 +874,7 @@ Donner Clojure un symbole renvoie l '«objet», il se réfère à:"
   (first ['failed-protagonist-names 'failed-antagonist-names])
   ; => failed-protagonist-names
   )
-"Vous pouvez également citer collections comme des listes, des maps et des vecteurs. Tous les symboles de la collection seront non évalués:"
+"Vous pouvez également *quoter* la collections comme des listes, des maps et des vecteurs. Tous les symboles de la collection seront non évalués:"
 
 (comment
 
@@ -881,9 +891,11 @@ Donner Clojure un symbole renvoie l '«objet», il se réfère à:"
 
 [[:section {:tags "simplicity" :title "Simplicité"}]]
 
-"Vous avez peut-être remarqué que ce traitement de structures de données ne comprend pas une description de la façon de créer de nouveaux types ou classes. Ce est parce que l'accent mis sur la simplicité Clojure vous encourage à atteindre pour les structures de données \"de base\" intégrés dans le premier.
+"Vous avez peut-être remarqué que ce traitement de structures de données ne comprend pas une description de la façon de créer de nouveaux types ou classes.
+Ce est parce que l'accent mis sur la simplicité Clojure vous encourage à atteindre pour les structures de données \"de base\" intégrés dans le premier.
 
-Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approche est bizarre et vers l'arrière. Ce que vous trouverez, cependant, ce est que vos données ne ont pas à être bien livré avec une classe pour qu'il soit utile et intelligible. Voici une épigramme aimé par Clojurists qui fait allusion à la philosophie Clojure:"
+Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approche est bizarre et vers l'arrière.
+Voici une épigramme aimé par Clojurists qui fait allusion à la philosophie Clojure:"
 
 (comment
 
@@ -893,16 +905,11 @@ Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approch
   -- Alan Perlis)
 
 
-"Vous en apprendrez plus sur cet aspect de la philosophie de Clojure dans les prochains chapitres. Pour l'instant, cependant, garder un œil sur les moyens que vous gagnez la réutilisation du code en se en tenant à des structures de base de données.
-
-Ainsi conclut notre Clojure structures de données primaire. Maintenant il est temps de creuser dans les fonctions et de voir comment ces structures de données peuvent être utilisés!
-
-"
 
 
 [[:chapter {:tag "fonctions" :title "Fonctions"}]]
 
-"Une des raisons les gens vont écrous sur Lisps, ce est qu'ils vous permettent de construire des programmes qui se comportent de façon complexe, mais le premier bloc de construction - la fonction - est si simple. Cette section vous initier à la beauté et l'élégance de fonctions Lisp en expliquant:
+"Une des raisons qui fait que les gens son fou de Lisps, c'est qu'ils vous permettent de construire des programmes qui se comportent de façon complexe, mais le premier bloc de construction - la fonction - est si simple. Cette section vous initier à la beauté et l'élégance de fonctions Lisp en expliquant:
 
 *Appel de fonctions
 *Comment fonctions diffèrent de macros et les formulaires spéciaux
@@ -918,13 +925,11 @@ Ainsi conclut notre Clojure structures de données primaire. Maintenant il est t
 
   (+ 1 2 3 4)
   (* 1 2 3 4)
-  (Première [1 2 3 4])
+  (first [1 2 3 4])
   )
 
 
-"Je suis déjà allé sur la façon dont toutes les expressions Clojure ont la même syntaxe: parenthèse ouvrante, l'opérateur, opérandes, de fermer la parenthèse. \"Appel de fonction\" est juste un autre terme pour une expression où l'opérateur est une expression de fonction. Une expression de fonction est juste une expression qui renvoie une fonction.
-
-Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez intéressant. Voici une expression de fonction qui renvoie le + fonction (de plus):"
+" Voici une expression de fonction qui renvoie la fonction + :"
 
 (comment
 
@@ -932,7 +937,7 @@ Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez
   (or + -)
   )
 
-"Vous pouvez utiliser cette expression que l'opérateur dans une autre expression:"
+"Vous pouvez utiliser cette expression comme un opérateur dans une autre expression:"
 
 (comment
 
@@ -940,7 +945,7 @@ Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez
   ; => 6
   )
 
-"Voici appels de fonction un couple de plus valides qui reviennent 6:"
+"2 autres exemples plus valide"
 
 (comment
 
@@ -969,11 +974,11 @@ Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez
   ClassCastException java.lang.String cannot be cast to clojure.lang.IFn
   user/eval728 (NO_SOURCE_FILE:1)
   )
-"Vous êtes susceptible de voir cette erreur autant de fois que vous continuez avec Clojure. \"X ne peut pas être converti en clojure.lang.IFn\" signifie simplement que vous essayez quelque chose comme une fonction quand elle ne est pas.
+"La flexibilité des fonctions ne se arrête pas avec l'expression des fonctions!
 
-la flexibilité de fonction ne se arrête pas avec l'expression de fonction! Syntaxiquement, les fonctions peuvent prendre des expressions comme arguments - y compris d'autres fonctions.
+Syntaxiquement, les fonctions peuvent prendre des expressions comme arguments, y compris d'autres fonctions.
 
-Prenez la map fonction (à ne pas confondre avec la structure de données de map). map crée une nouvelle liste en appliquant une fonction à chaque membre d'une collection:"
+Prenez la fonction map  (à ne pas confondre avec la structure de données de map). map crée une nouvelle liste en appliquant une fonction à chaque membre d'une collection:"
 
 (comment
 
@@ -986,13 +991,15 @@ Prenez la map fonction (à ne pas confondre avec la structure de données de map
   )
 
 
-"(Notez que map ne retourne pas un vecteur, même si nous avons fourni un vecteur comme argument. Vous apprendrez pourquoi plus tard. Pour l'instant, espérons que ce est OK et attendu.)
+"(Notez que map ne retourne pas un vecteur, même si nous avons fourni un vecteur comme argument. Vous apprendrez pourquoi plus tard.
 
-En effet, la capacité de Clojure pour recevoir fonctions comme arguments vous permet de construire des abstractions plus puissants. Ceux qui connaissent mal ce genre de programmation pensent des fonctions que vous permettant de généraliser les opérations plus instances de données. Par exemple, la + fonction abstraction outre, plus de chiffres précis.
+En effet, la capacité de Clojure pour recevoir fonctions comme arguments vous permet de construire des abstractions plus puissants.
 
-. En revanche, Clojure (et tous Lisps) vous permet de créer des fonctions qui généralisent sur ​​les processus map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - une fonction - plus de toute collection.
+Clojure (et tous Lisps) vous permet de créer des fonctions qui généralisent sur ​​les processus map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - une fonction - plus de toute collection.
 
-La dernière chose que vous devez savoir sur les appels de fonction est que Clojure évalue tous les arguments de la fonction récursive avant de les transmettre à la fonction. Voici comment Clojure va évaluer un appel de fonction dont les arguments sont aussi des appels de fonctions:"
+La dernière chose que vous devez savoir sur les appels de fonction est que Clojure évalue tous les arguments de la fonction récursive avant de les transmettre à la fonction.
+
+Voici comment Clojure va évaluer un appel de fonction dont les arguments sont aussi des appels de fonctions:"
 
 
 (comment
@@ -1010,7 +1017,8 @@ La dernière chose que vous devez savoir sur les appels de fonction est que Cloj
 [[:section {:tags "appel_de_fonctions_macro_forme_special" :title "Fonction, macro, et forms spéciales"}]]
 
 
-"Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur. Il existe deux autres types d'expressions: appels de macro et **forms spéciales**. Vous avez déjà vu un couple forms spéciales:"
+"Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur.
+Il existe deux autres types d'expressions: appels de macro et **forms spéciales**. Vous avez déjà vu un couple forms spéciales:"
 
 (comment
 
@@ -1039,11 +1047,10 @@ Prenez if , par exemple. Sa structure générale est:"
     (tweet mopey-country-song-lyrics))
   )
 
-"Si Clojure évalué deux tweet appels de fonction, puis tes followers finiraient très confus.
+"
+Une  caractéristique qui différencie les forms spéciales, ce est que vous ne pouvez pas les utiliser comme arguments de fonctions.
 
-Une autre caractéristique qui différencie les forms spéciales, ce est que vous ne pouvez pas les utiliser comme arguments de fonctions.
-
-En général, les forms particulières à mettre en œuvre la fonctionnalité Clojure de base qui ne peut pas être mis en œuvre avec des fonctions. Il ya seulement une poignée de forms spéciales Clojure, et il est assez étonnant que cette langue riche est mis en œuvre avec un tel petit ensemble de blocs de construction.
+En général, les forms particulières à mettre en œuvre la fonctionnalité Clojure de base qui ne peut pas être mis en œuvre avec des fonctions. Il y a seulement une poignée de forms spéciales Clojure, et il est assez étonnant que cette langue riche est mis en œuvre avec un tel petit ensemble de blocs de construction.
 
 Macros sont semblables à des forms particulières en ce qu'elles évaluent leurs opérandes différemment des appels de fonction et ils ont aussi ne peuvent pas être passés comme arguments à des fonctions. Mais ce détour a pris assez longtemps; il est temps d'apprendre à définir des fonctions!"
 
@@ -1059,7 +1066,7 @@ Macros sont semblables à des forms particulières en ce qu'elles évaluent leur
 *Le corps de la fonction
 "
 
-"Voici un exemple d'une définition de fonction et appelant la fonction:"
+"Voici un exemple d'une définition de fonction et  appelant la fonction:"
 
 (comment
 
@@ -1078,11 +1085,13 @@ Macros sont semblables à des forms particulières en ce qu'elles évaluent leur
 [[:subsection {:tags "definition_de_fonctions" :title "Définition de fonctions"}]]
 
 
-"Le docstring est vraiment cool. Vous pouvez afficher l'docstring pour une fonction dans le REPL avec (doc fn-name) , par exemple (doc map) . Le docstring est également utilisé si vous utilisez un outil pour générer la documentation de votre code. Dans l'exemple ci-dessus, \"Return a cheer that might be a bit too enthusiasti\" est le docstring."
+"Le docstring est vraiment cool. Vous pouvez afficher lz docstring pour une fonction dans le REPL avec (doc fn-name) , par exemple (doc map) .
+Le docstring est également utilisé si vous utilisez un outil pour générer la documentation de votre code.
+Dans l'exemple ci-dessus, \"Return a cheer that might be a bit too enthusiasti\" est le docstring."
 
 [[:subsection {:tags "Les_parametres" :title "Les Paramètres"}]]
 
-"Clojure fonctions peuvent être définies avec zéro ou plusieurs paramètres:"
+"Les fonctions Clojure peuvent être définies avec zéro ou plusieurs paramètres:"
 
 (comment
   (defn no-params
@@ -1099,9 +1108,9 @@ Macros sont semblables à des forms particulières en ce qu'elles évaluent leur
       "together to spite you! " x y))
   )
 
-"Les fonctions peuvent également être surchargés par arité. Cela signifie que un corps de fonction différent de fonctionner selon le nombre d'arguments passés à une fonction.
+"Les fonctions peuvent également être surchargés par arité. Cela signifie qu'un corps de fonction fonctionne différent  selon le nombre d'arguments passés à une fonction.
 
-Voici la forme générale d'une définition de fonction de plusieurs arité. Notez que chaque définition de arité est entre parenthèses et a une liste d'arguments:"
+Voici la forme générale d'une définition de fonction de plusieurs arité"
 
 (comment
 
@@ -1322,7 +1331,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
            [:foo :bar]))]":bar:foo")
 
 
-(exercice
+#_(exercice
   "Que ce soit dans les définitions de fonctions"
   [(= (str "First comes love, "
         "then comes marriage, "
@@ -1334,7 +1343,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
                                          a b c))
 
 
-(exercice
+#_(exercice
   "Ou dans les expressions"
   [(= "Rich Hickey aka The Clojurer aka Go Time aka Macro Killah"
      (let [[first-name last-name & aliases]
@@ -1347,7 +1356,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
                     (interleave (repeat "aka") aliases)))))
 
 
-(exercice
+#_(exercice
   "Vous pouvez retrouver l'argument complète si vous aimez discuter"
   [(= {:original-parts ["Stephen" "Hawking"] :named-parts {:first "Stephen" :last "Hawking"}}
      (let [[first-name last-name :as full-name] ["Stephen" "Hawking"]]
@@ -1528,14 +1537,18 @@ Voici un exemple type:"
 
 (defn square [n] (* n n))
 
+""
 (exercice
   "Appel d'une fonction est comme donner une accolade avec des parenthèses"
-  [(= __ (square 9))] 81)
+  [(defn square [n] (* n n))
+    (= __ (square 9))] 81)
 
 
 (exercice
   "Les fonctions sont généralement définis avant qu'ils ne soient utilisés"
-  [(= __ (multiply-by-ten 2))] 20)
+  [
+    (defn multiply-by-ten [n] (* 10 n))
+   (= __ (multiply-by-ten 2))] 20)
 
 
 (exercice
@@ -1549,12 +1562,12 @@ Voici un exemple type:"
 
 
 (exercice
-  "Même les fonctions anonymes peuvent prendre plusieurs arguments"
-  [(= __ (#(+ %1 %2 %3) 4 5 6))] 15)
+  "Même les fonctions anonymes peuvent prendre plusieurs arguments (= __ ( #(+ %1 %2 %3) 4 5 6))"
+  [(= __ ( #(+ %1 %2 %3) 4 5 6))] 15)
 
 
 (exercice
-  "Les arguments peuvent également être ignorés"
+  "Les arguments peuvent également être ignorés (= __ (#(* 15 %2) 1 2))"
   [(= __ (#(* 15 %2) 1 2))] 30)
 
 
