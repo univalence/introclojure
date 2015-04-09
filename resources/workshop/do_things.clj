@@ -10,6 +10,10 @@
 
 
 
+(exercice
+  "Ceci est un REPL "
+  [] [])
+
 "Faire des choses: un cours Clojure crash
 
 Il est temps de savoir comment effectivement faire des choses avec Clojure! Hot Damn!
