@@ -33,7 +33,9 @@
        (do (introclojure.exercice/reload-exercices)
            (introclojure.parser/do-things)))
 
-  (GET "/do-things" [] (introclojure.parser/do-things))
+
+  (GET "/:tag" [tag] (do (introclojure.exercice/reload-exercices)
+                      (introclojure.parser/content tag)))
 
   #_ (GET "/*" req (page)))
 
