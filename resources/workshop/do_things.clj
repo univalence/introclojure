@@ -1047,11 +1047,10 @@ Prenez if , par exemple. Sa structure générale est:"
     (tweet mopey-country-song-lyrics))
   )
 
-"Si Clojure évalué deux tweet appels de fonction, puis tes followers finiraient très confus.
+"
+Une  caractéristique qui différencie les forms spéciales, ce est que vous ne pouvez pas les utiliser comme arguments de fonctions.
 
-Une autre caractéristique qui différencie les forms spéciales, ce est que vous ne pouvez pas les utiliser comme arguments de fonctions.
-
-En général, les forms particulières à mettre en œuvre la fonctionnalité Clojure de base qui ne peut pas être mis en œuvre avec des fonctions. Il ya seulement une poignée de forms spéciales Clojure, et il est assez étonnant que cette langue riche est mis en œuvre avec un tel petit ensemble de blocs de construction.
+En général, les forms particulières à mettre en œuvre la fonctionnalité Clojure de base qui ne peut pas être mis en œuvre avec des fonctions. Il y a seulement une poignée de forms spéciales Clojure, et il est assez étonnant que cette langue riche est mis en œuvre avec un tel petit ensemble de blocs de construction.
 
 Macros sont semblables à des forms particulières en ce qu'elles évaluent leurs opérandes différemment des appels de fonction et ils ont aussi ne peuvent pas être passés comme arguments à des fonctions. Mais ce détour a pris assez longtemps; il est temps d'apprendre à définir des fonctions!"
 
@@ -1067,7 +1066,7 @@ Macros sont semblables à des forms particulières en ce qu'elles évaluent leur
 *Le corps de la fonction
 "
 
-"Voici un exemple d'une définition de fonction et appelant la fonction:"
+"Voici un exemple d'une définition de fonction et  appelant la fonction:"
 
 (comment
 
@@ -1086,11 +1085,13 @@ Macros sont semblables à des forms particulières en ce qu'elles évaluent leur
 [[:subsection {:tags "definition_de_fonctions" :title "Définition de fonctions"}]]
 
 
-"Le docstring est vraiment cool. Vous pouvez afficher l'docstring pour une fonction dans le REPL avec (doc fn-name) , par exemple (doc map) . Le docstring est également utilisé si vous utilisez un outil pour générer la documentation de votre code. Dans l'exemple ci-dessus, \"Return a cheer that might be a bit too enthusiasti\" est le docstring."
+"Le docstring est vraiment cool. Vous pouvez afficher lz docstring pour une fonction dans le REPL avec (doc fn-name) , par exemple (doc map) .
+Le docstring est également utilisé si vous utilisez un outil pour générer la documentation de votre code.
+Dans l'exemple ci-dessus, \"Return a cheer that might be a bit too enthusiasti\" est le docstring."
 
 [[:subsection {:tags "Les_parametres" :title "Les Paramètres"}]]
 
-"Clojure fonctions peuvent être définies avec zéro ou plusieurs paramètres:"
+"Les fonctions Clojure peuvent être définies avec zéro ou plusieurs paramètres:"
 
 (comment
   (defn no-params
@@ -1107,9 +1108,9 @@ Macros sont semblables à des forms particulières en ce qu'elles évaluent leur
       "together to spite you! " x y))
   )
 
-"Les fonctions peuvent également être surchargés par arité. Cela signifie que un corps de fonction différent de fonctionner selon le nombre d'arguments passés à une fonction.
+"Les fonctions peuvent également être surchargés par arité. Cela signifie qu'un corps de fonction fonctionne différent  selon le nombre d'arguments passés à une fonction.
 
-Voici la forme générale d'une définition de fonction de plusieurs arité. Notez que chaque définition de arité est entre parenthèses et a une liste d'arguments:"
+Voici la forme générale d'une définition de fonction de plusieurs arité"
 
 (comment
 
