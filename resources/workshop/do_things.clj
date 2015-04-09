@@ -925,13 +925,11 @@ Voici une épigramme aimé par Clojurists qui fait allusion à la philosophie Cl
 
   (+ 1 2 3 4)
   (* 1 2 3 4)
-  (Première [1 2 3 4])
+  (first [1 2 3 4])
   )
 
 
-"Je suis déjà allé sur la façon dont toutes les expressions Clojure ont la même syntaxe: parenthèse ouvrante, l'opérateur, opérandes, de fermer la parenthèse. \"Appel de fonction\" est juste un autre terme pour une expression où l'opérateur est une expression de fonction. Une expression de fonction est juste une expression qui renvoie une fonction.
-
-Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez intéressant. Voici une expression de fonction qui renvoie le + fonction (de plus):"
+" Voici une expression de fonction qui renvoie la fonction + :"
 
 (comment
 
@@ -939,7 +937,7 @@ Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez
   (or + -)
   )
 
-"Vous pouvez utiliser cette expression que l'opérateur dans une autre expression:"
+"Vous pouvez utiliser cette expression comme un opérateur dans une autre expression:"
 
 (comment
 
@@ -947,7 +945,7 @@ Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez
   ; => 6
   )
 
-"Voici appels de fonction un couple de plus valides qui reviennent 6:"
+"2 autres exemples plus valide"
 
 (comment
 
@@ -976,11 +974,11 @@ Il pourrait ne pas être évident, mais cela vous permet d'écrire du code assez
   ClassCastException java.lang.String cannot be cast to clojure.lang.IFn
   user/eval728 (NO_SOURCE_FILE:1)
   )
-"Vous êtes susceptible de voir cette erreur autant de fois que vous continuez avec Clojure. \"X ne peut pas être converti en clojure.lang.IFn\" signifie simplement que vous essayez quelque chose comme une fonction quand elle ne est pas.
+"La flexibilité des fonctions ne se arrête pas avec l'expression des fonctions!
 
-la flexibilité de fonction ne se arrête pas avec l'expression de fonction! Syntaxiquement, les fonctions peuvent prendre des expressions comme arguments - y compris d'autres fonctions.
+Syntaxiquement, les fonctions peuvent prendre des expressions comme arguments, y compris d'autres fonctions.
 
-Prenez la map fonction (à ne pas confondre avec la structure de données de map). map crée une nouvelle liste en appliquant une fonction à chaque membre d'une collection:"
+Prenez la fonction map  (à ne pas confondre avec la structure de données de map). map crée une nouvelle liste en appliquant une fonction à chaque membre d'une collection:"
 
 (comment
 
@@ -993,13 +991,15 @@ Prenez la map fonction (à ne pas confondre avec la structure de données de map
   )
 
 
-"(Notez que map ne retourne pas un vecteur, même si nous avons fourni un vecteur comme argument. Vous apprendrez pourquoi plus tard. Pour l'instant, espérons que ce est OK et attendu.)
+"(Notez que map ne retourne pas un vecteur, même si nous avons fourni un vecteur comme argument. Vous apprendrez pourquoi plus tard.
 
-En effet, la capacité de Clojure pour recevoir fonctions comme arguments vous permet de construire des abstractions plus puissants. Ceux qui connaissent mal ce genre de programmation pensent des fonctions que vous permettant de généraliser les opérations plus instances de données. Par exemple, la + fonction abstraction outre, plus de chiffres précis.
+En effet, la capacité de Clojure pour recevoir fonctions comme arguments vous permet de construire des abstractions plus puissants.
 
-. En revanche, Clojure (et tous Lisps) vous permet de créer des fonctions qui généralisent sur ​​les processus map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - une fonction - plus de toute collection.
+Clojure (et tous Lisps) vous permet de créer des fonctions qui généralisent sur ​​les processus map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - une fonction - plus de toute collection.
 
-La dernière chose que vous devez savoir sur les appels de fonction est que Clojure évalue tous les arguments de la fonction récursive avant de les transmettre à la fonction. Voici comment Clojure va évaluer un appel de fonction dont les arguments sont aussi des appels de fonctions:"
+La dernière chose que vous devez savoir sur les appels de fonction est que Clojure évalue tous les arguments de la fonction récursive avant de les transmettre à la fonction.
+
+Voici comment Clojure va évaluer un appel de fonction dont les arguments sont aussi des appels de fonctions:"
 
 
 (comment
@@ -1017,7 +1017,8 @@ La dernière chose que vous devez savoir sur les appels de fonction est que Cloj
 [[:section {:tags "appel_de_fonctions_macro_forme_special" :title "Fonction, macro, et forms spéciales"}]]
 
 
-"Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur. Il existe deux autres types d'expressions: appels de macro et **forms spéciales**. Vous avez déjà vu un couple forms spéciales:"
+"Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur.
+Il existe deux autres types d'expressions: appels de macro et **forms spéciales**. Vous avez déjà vu un couple forms spéciales:"
 
 (comment
 
