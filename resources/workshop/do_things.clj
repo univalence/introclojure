@@ -8,6 +8,7 @@
               ]}]]
 
 
+[[:chapter {:tag "introdution" :title "Introduction"}]]
 
 
 (exercice
@@ -233,7 +234,7 @@ Une dernière chose avant de passer aux structures de données: vous utilisez *d
      "The Incredible Bulk"])
   )
 "
-Dans ce cas, vous contraignant le nom *failed-protagonist-names* à un vecteur contenant trois cordes. Remarquez que je utilise le terme «lier», alors que dans d'autres langauges vous diriez que vous *attribuer* une valeur à une *variable*. Par exemple, en Ruby, vous pouvez effectuer plusieurs affectations à une variable de «construire» sa valeur:
+Dans ce cas, vous contraignant le nom *failed-protagonist-names* à un vecteur contenant trois cordes. Remarquez que j'utilise le terme «lier», alors que dans d'autres langauges vous diriez que vous *attribuer* une valeur à une *variable*. Par exemple, en Ruby, vous pouvez effectuer plusieurs affectations à une variable de «construire» sa valeur:
 "
 (comment
 
@@ -255,12 +256,12 @@ Dans ce cas, vous contraignant le nom *failed-protagonist-names* à un vecteur c
   )
 
 
-"Cependant, ce est vraiment mauvais Clojure. Pour l'instant, vous devez traiter def comme si ce est la définition des constantes. Mais ne ayez pas peur! Au cours des prochains chapitres, vous apprendrez comment travailler avec cette limitation apparente en codant dans le style fonctionnel."
+"Cependant, c'est vraiment du mauvais Clojure. Pour l'instant, vous devez traiter def comme si ce est la définition des constantes. Mais n'ayez pas peur! Au cours des prochains chapitres, vous apprendrez comment travailler avec cette limitation apparente en codant dans le style fonctionnel."
 
 [[:chapter {:tag "data_structure" :title "Structures de données"}]]
 
 
-"Clojure est livré avec une poignée de structures de données qui vous allez vous trouver en utilisant la majorité du temps. Si vous venez d'un milieu orienté objet, vous serez surpris de voir combien vous pouvez faire avec les types \" de base \" présentés ici.
+"Clojure est livré avec une poignée de structures de données que vous décrouvriez seul car utilisées la majorité du temps. Si vous venez d'un milieu orienté objet, vous serez surpris de voir combien vous pouvez faire avec les types \" de base \" présentés ici.
 
 Toutes les structures de données Clojure sont immuables, ce qui signifie que vous ne pouvez pas les changer en place. Il ya pas d'équivalent pour la Clojure Ruby suit:"
 (comment
@@ -285,7 +286,7 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
 
 [[:section {:tags "nil_true_false_truthiness_equality" :title "nil, true, false,  Equality"}]]
 
-"Clojure a true et false valeurs. nil est utilisé pour indiquer \"aucune valeur\" dans Clojure. Vous pouvez vérifier si une valeur est nil avec le intelligemment nommé nil? fonction:"
+"Clojure a les valeurs true et false . nil est utilisé pour indiquer \"aucune valeur\" dans Clojure. Vous pouvez vérifier si une valeur est nil avec la fonction nil? :"
 
 (comment
   (nil? 1)
@@ -1328,7 +1329,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
            [:foo :bar]))]":bar:foo")
 
 
-(exercice
+#_(exercice
   "Que ce soit dans les définitions de fonctions"
   [(= (str "First comes love, "
         "then comes marriage, "
@@ -1340,7 +1341,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
                                          a b c))
 
 
-(exercice
+#_(exercice
   "Ou dans les expressions"
   [(= "Rich Hickey aka The Clojurer aka Go Time aka Macro Killah"
      (let [[first-name last-name & aliases]
@@ -1353,7 +1354,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
                     (interleave (repeat "aka") aliases)))))
 
 
-(exercice
+#_(exercice
   "Vous pouvez retrouver l'argument complète si vous aimez discuter"
   [(= {:original-parts ["Stephen" "Hawking"] :named-parts {:first "Stephen" :last "Hawking"}}
      (let [[first-name last-name :as full-name] ["Stephen" "Hawking"]]
@@ -1534,14 +1535,18 @@ Voici un exemple type:"
 
 (defn square [n] (* n n))
 
+""
 (exercice
   "Appel d'une fonction est comme donner une accolade avec des parenthèses"
-  [(= __ (square 9))] 81)
+  [(defn square [n] (* n n))
+    (= __ (square 9))] 81)
 
 
 (exercice
   "Les fonctions sont généralement définis avant qu'ils ne soient utilisés"
-  [(= __ (multiply-by-ten 2))] 20)
+  [
+    (defn multiply-by-ten [n] (* 10 n))
+   (= __ (multiply-by-ten 2))] 20)
 
 
 (exercice
@@ -1555,12 +1560,12 @@ Voici un exemple type:"
 
 
 (exercice
-  "Même les fonctions anonymes peuvent prendre plusieurs arguments"
-  [(= __ (#(+ %1 %2 %3) 4 5 6))] 15)
+  "Même les fonctions anonymes peuvent prendre plusieurs arguments (= __ ( #(+ %1 %2 %3) 4 5 6))"
+  [(= __ ( #(+ %1 %2 %3) 4 5 6))] 15)
 
 
 (exercice
-  "Les arguments peuvent également être ignorés"
+  "Les arguments peuvent également être ignorés (= __ (#(* 15 %2) 1 2))"
   [(= __ (#(* 15 %2) 1 2))] 30)
 
 
