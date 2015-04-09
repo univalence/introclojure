@@ -126,20 +126,27 @@
              [k (if (fkey k) (f v) v)]))))
 
 
+
 (defmacro eval-wrap [f]
   `(let [out-w# (new java.io.StringWriter)
+         ;cur-ns#  (.getName *ns*)
         r# (binding [*out* out-w#]
       (try
-        {:result (eval ~f)}
+        {:result
+           (binding [*ns* (create-ns (symbol "exercices"))]
+             (use 'clojure.core)
+             (use 'workshop.index)
+             (eval ~f))}
         (catch Exception e# {:err e#})))]
-    (assoc r# :out (str out-w#))))
+     (assoc r# :out (str out-w#))))
 
-
-#_ (eval-wrap (read-string "(println :a)"))
 
 #_ (fmap pprint-to-str (eval-wrap (list read-string "(")) (complement #{:out}))
-
 #_ (fmap inc {:a 1 :b 2} (complement #{:b}))
+
+
+(defn reload-exercices []
+  (load "/workshop/index"))
 
 
 (defn eval-exercice
@@ -155,11 +162,9 @@
         f    (.substring text s e)]
 
     {:exercice (into {} (for [c cts]
-                 [(store [exo c]) (=
-
-
-                                   (:result (eval-wrap (clojure.walk/postwalk #(if (= %1 '__)
-                                                                                 (read-string f) %1) c)))
+                 [(store [exo c]) (= (:result
+                                      (eval-wrap
+                                       (clojure.walk/postwalk #(if (= %1 '__) (read-string f) %1) c)))
 
                                    true)]))
      :eval [(merge (fo-to-info  fo text)

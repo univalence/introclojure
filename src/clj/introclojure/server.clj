@@ -28,7 +28,9 @@
 
   (POST "/exercice-eval" [data]
         (-> data (json/read-str :key-fn keyword) introclojure.exercice/eval-exercice json/write-str))
-  (GET "/" [] (introclojure.parser/all))
+  (GET "/" []
+       (do (introclojure.exercice/reload-exercices)
+           (introclojure.parser/all)))
   (GET "/do-things" [] (introclojure.parser/do-things))
 
   #_ (GET "/*" req (page)))
