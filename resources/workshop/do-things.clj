@@ -79,15 +79,15 @@ Par exemple, JavaScript emploie un assortiment de notation infixe, les opérateu
   "It was the panda " .concat ("in the library ", "with a dust buster")
   )
 
-"La structure de Clojure est très simple et cohérent par comparaison.
- Peu importe l'opérateur vous utilisez ou quel type de données que vous êtes d'exploitation sur, la structure est la même.
+"La structure de Clojure est très simple et cohérente par comparaison.
+ Peu importe l'opérateur utilisé ou le type de données que vous êtes d'exploiter , la structure est la même.
 
-Une dernière remarque: j'utilise aussi l'expression de terme pour désigner les forms Clojure. Ne soyez pas trop accroché sur la terminologie, cependant."
+Une dernière remarque: j'utilise aussi le terme **expression** pour désigner les forms Clojure. Cependant, ne soyez pas trop rigide sur la terminologie."
 
 
 [[:section {:tag "flow_control" :title "Flow Control"}]]
 
-"Voici quelques opérateurs de contrôle de flux de base. Tout au long tuto, vous rencontrez plus."
+"Voici quelques opérateurs de contrôle  de base. Tout au long tuto, vous en rencontrerez plus."
 
 
 [[:subsection {:tag "if" :title "if"}]]
@@ -110,7 +110,7 @@ Une dernière remarque: j'utilise aussi l'expression de terme pour désigner les
   )
 
 
-"Notez que chaque branche du cas ne peut avoir une forme. Ceci est différent de la plupart des langues. Par exemple, en Ruby vous pouvez écrire:"
+"Notez que chaque branche d'un *if* ne peut avoir qu'une form. Ceci est différent de la plupart des langues. Par exemple, en Ruby vous pouvez écrire:"
 
 (comment
 
@@ -124,7 +124,7 @@ Une dernière remarque: j'utilise aussi l'expression de terme pour désigner les
   )
 
 
-"Pour contourner cette limitation apparente, nous avons le do opérateur:"
+"Pour contourner cette limitation, nous avons l'opérateur  *do* :"
 
 (exercice
   "Vous ferez face à de nombreuses décisions"
@@ -157,6 +157,15 @@ Une dernière remarque: j'utilise aussi l'expression de terme pour désigner les
   [(= 'doom (if-not (zero? __)
               'doom
               'more-doom))]1)
+
+(defn explain-defcon-level [exercise-term]
+  (case exercise-term
+    :fade-out          :you-and-what-army
+    :double-take       :call-me-when-its-important
+    :round-house       :o-rly
+    :fast-pace         :thats-pretty-bad
+    :cocked-pistol     :sirens
+    :say-what?))
 
 
 (exercice
