@@ -34,7 +34,7 @@ loadCss("/codemirror-5.1/lib/codemirror.css");
 
 
 
-var createResultElement = function (html) {
+var createResultElement = function (comp) {
     var outer = document.createElement('div');
     var inner = document.createElement('div');
     outer.appendChild(inner);
@@ -44,14 +44,18 @@ var createResultElement = function (html) {
         inner.innerHTML += s;
     };
 
-    html.split("\n").forEach(function (s) {
-        var dumb = document.createElement('div');
-        CodeMirror.runMode(s, "text/x-clojure", dumb);
-        inner.appendChild(dumb);
-        appendToInner("<br>");
+    [comp.out ,comp.result , comp.err].filter(function(x) {return x;}).forEach(function(html) {
+
+        html.split("\n").forEach(function (s) {
+            var dumb = document.createElement('div');
+            CodeMirror.runMode(s, "text/x-clojure", dumb);
+            inner.appendChild(dumb);
+            appendToInner("<br>");
+        });
+        inner.removeChild(inner.lastChild);
     });
 
-    inner.removeChild(inner.lastChild);
+   
 
     return outer;
 }
@@ -106,22 +110,23 @@ createCodePad = function (element, exercice_id) {
 
             clearEval : function (from, to) {
                 findIntersectedMarks(this.editor,
-                    CodeMirror.Pos(from.line, from.pos),
-                    CodeMirror.Pos(to.line, to.pos)).forEach(function(m) {
+                    CodeMirror.Pos(from.line, from.ch),
+                    CodeMirror.Pos(to.line, to.ch)).forEach(function(m) {
                         m.clear();
                         m.coderes.lineWidget.clear();
                     });},
 
             createEvalResult : function (evalres) {
+                console.log(evalres);
                 var cm = this.editor;
                 this.clearEval(evalres.start, evalres.end);
-                var coderes = {markedText : cm.markText(CodeMirror.Pos(evalres.start.line, evalres.start.pos),
+                var coderes = {markedText : cm.markText(CodeMirror.Pos(evalres.start.line, evalres.start.ch),
                                             CodeMirror.Pos(evalres.end.line,
-                                                           evalres.end.pos),
+                                                           evalres.end.ch),
                                             
                                             {css: ("background-color: hsl(" + Math.floor(Math.random()*255) + ", 90%, 95%) "),
                                              clearWhenEmpty:true}),
-                   lineWidget : cm.addLineWidget(evalres.end.line, createResultElement(evalres.eval))};
+                   lineWidget : cm.addLineWidget(evalres.end.line, createResultElement(evalres))};
                 coderes.markedText.coderes = coderes;
                 this.allCoderes.push(coderes);},
 
@@ -163,14 +168,15 @@ createCodePad = function (element, exercice_id) {
                             }
                         }
 
+                        res.eval.forEach(function(result) {
+                            tthis.createEvalResult(result);
+                        }
+                        );
+
 
 
                     });
 
-
-                    $.post("/eval", {text:cm.getValue(), line : cursor.line, pos : cursor.ch}).done(function(data) {
-                        tthis.createEvalResult(jQuery.parseJSON(data));
-                    });
                 }});
                 return tthis;
             }

@@ -164,7 +164,7 @@
 
                                    true)]))
      :eval [(merge (fo-to-info  fo text)
-                   (fmap pprint-to-str (eval-wrap (read-string f))
-                         (partial not= :out)
+                   (fmap remove-trailling-n (fmap pprint-to-str (eval-wrap (read-string f))
+                         (partial not= :out))
                          ))]}
   )))
