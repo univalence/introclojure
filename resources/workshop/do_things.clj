@@ -4,7 +4,6 @@
               (require 'clojure.walk)
 
               (defmacro exercice [doc exs result]
-                ;;`(every? true? ~
                 (clojure.walk/postwalk #(if (= %1 '__) result %1) exs))
               ]}]]
 
@@ -268,7 +267,8 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
                                ]
   failed_protagonist_names [0] = "Gary Potter"
   failed_protagonist_names
-  # => [
+  ;# =>
+  [
         #"Gary Potter",
         #"Doreen the Explorer",
         #"The Incredible Bulk"]
@@ -1358,7 +1358,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
 
 
 
-  (exercice
+#_  (exercice
     "Ou plus succinctement"
     [(= "123 Test Lane, Testerville, TX"
        (let [{:keys [street-address __ __]} test-address]
@@ -1560,24 +1560,24 @@ Voici un exemple type:"
 
 (exercice
   "Une fonction peut engendrer une autre"
-  [(= 9 (((fn [] ___)) 4 5))] +)
+  [(= 9 (((fn [] __)) 4 5))] +)
 
 
 (exercice
   "Les fonctions peuvent aussi prendre d'autres fonctions comme entrée"
   [(= 20 ((fn [f] (f 4 5))
-           ___))] *)
+           __))] *)
 
 
 (exercice
   "Fonctions d'ordre supérieur prennent des arguments de fonction"
-  [(= 25 (___
+  [(= 25 (__
            (fn [n] (* n n))))] (fn [f] (f 5)))
 
 
 (exercice
   "Mais ils sont souvent mieux écrite en utilisant les noms de fonctions"
-  [(= 25 (___ square))] (fn [f] (f 5)))
+  [(= 25 (__ square))] (fn [f] (f 5)))
 
 
 
@@ -1629,7 +1629,7 @@ Voici un exemple type:"
 
   "Louange et «complément» peuvent vous aider à séparer le bon grain de l'ivraie"
   [(= [:wheat "wheat" 'wheat]
-     (let [not-nil? ___]
+     (let [not-nil? __]
        (filter not-nil? [nil :wheat nil "wheat" nil 'wheat nil])))] 4)
 
 
@@ -1637,7 +1637,7 @@ Voici un exemple type:"
 
   "Les fonctions partielles permettent la procrastination"
   [(= 20 (let [multiply-by-5 (partial * 5)]
-           (___ __)))] :a :b :c :d)
+           (__ __)))] :a :b :c :d)
 
 
 (exercice

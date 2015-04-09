@@ -31,7 +31,7 @@
   (binding [*plain* true]
     (render-html-doc2 (parse-content (z/of-string (slurp
 
-                                                    (io/input-stream (io/resource "workshop/do-things.clj")))))
+                                                    (io/input-stream (io/resource "workshop/do_things.clj")))))
       )))
 
  ; (z/of-file "./workshop/index.clj"))

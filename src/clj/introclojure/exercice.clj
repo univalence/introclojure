@@ -135,7 +135,7 @@
         {:result
            (binding [*ns* (create-ns (symbol "exercices"))]
              (use 'clojure.core)
-             (use 'workshop.index)
+             ;(use 'workshop.index)
              (use 'workshop.do-things)
              (eval ~f))}
         (catch Exception e# {:err e#})))]
@@ -149,7 +149,7 @@
 (defn reload-exercices []
   (try
   (load "/workshop/index")
-  (load "/workshop/do-things")
+  (load "/workshop/do_things")
     (catch Exception e nil)))
 
 
