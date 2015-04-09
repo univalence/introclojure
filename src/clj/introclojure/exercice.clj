@@ -62,14 +62,19 @@
            #(zipmap [:line :ch]
                     (idx-to-pos text %)) fo)))
 
+
+(defn remove-trailling-n [s]
+   (clojure.string/replace s #"\n+$" ""))
+
+
+
 (defn pprint-to-str [f]
   (if (var? f)
     (str f)
-    (let [s (java.io.StringWriter.)]
-      (binding [*out* s]
-        (clojure.pprint/pprint f))
-      (let [r (.toString s)]
-        (.substring r 0 (dec (.length r)))))))
+    (-> f
+        clojure.pprint/pprint
+        with-out-str
+        remove-trailling-n)))
 
 
 (defn eval-from-text [text line pos]
@@ -110,7 +115,31 @@
  :text "(def a 1)\n\n(+ a a)",
  :reset false,
  :all false,
- :selection {:anchor {:line 2, :ch 6}, :head {:line 2, :ch 6}}})
+
+                   :selection {:anchor {:line 2, :ch 6}, :head {:line 2, :ch 6}}})
+
+
+
+(defn fmap ([f m] (fmap f m (constantly true)))
+  ([f m fkey]
+  (into {} (for [[k v] m]
+             [k (if (fkey k) (f v) v)]))))
+
+
+(defmacro eval-wrap [f]
+  `(let [out-w# (new java.io.StringWriter)
+        r# (binding [*out* out-w#]
+      (try
+        {:result (eval ~f)}
+        (catch Exception e# {:err e#})))]
+    (assoc r# :out (str out-w#))))
+
+
+(eval-wrap (read-string "(println :a)"))
+
+(fmap pprint-to-str (eval-wrap (list read-string "(")) (complement #{:out}))
+
+(fmap inc {:a 1 :b 2} (complement #{:b}))
 
 
 (defn eval-exercice
@@ -124,13 +153,18 @@
         ffo  (find-form-offsets text)
         idx  (pos-to-idx text line ch)
         [s e :as fo]  (or (last (filter #(>= idx (first %)) ffo)) (first ffo))
-        f    (.substring text s e)
-        sexp (read-string f)]
+        f    (.substring text s e)]
 
     {:exercice (into {} (for [c cts]
-                 [(store [exo c]) (= (eval (clojure.walk/postwalk #(if (= %1 '__) sexp %1) c)) true)]))
-     :eval [(assoc (fo-to-info  fo text)
-              :result (pprint-to-str (eval (read-string f)))
-              :out ""
-              :err "")]}
+                 [(store [exo c]) (=
+
+
+                                   (:result (eval-wrap (clojure.walk/postwalk #(if (= %1 '__)
+                                                                                 (read-string f) %1) c)))
+
+                                   true)]))
+     :eval [(merge (fo-to-info  fo text)
+                   (fmap pprint-to-str (eval-wrap (read-string f))
+                         (partial not= :out)
+                         ))]}
   )))

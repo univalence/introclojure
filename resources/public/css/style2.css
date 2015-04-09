@@ -29,7 +29,8 @@ float:right;
 	border-top: 1px solid #888; 
 	border-bottom: 1px solid #888;
   	border-right: 1px solid #888;
-  	height: auto;}
+  	height: 100px;
+ }
 
 .EvalResult {border-left: 2px solid #000;}
 
