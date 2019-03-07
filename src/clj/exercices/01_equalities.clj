@@ -16,7 +16,7 @@
   [(= __ (= 2 2/1))] true)
 
 (exercice
-  "Vous pouvez généralement pas "flotter" vers les cieux d'entiers"
+  "Vous pouvez généralement pas \"flotter\" vers les cieux d'entiers"
   [(= __ (= 2 2.0))] false)
 
 (exercice

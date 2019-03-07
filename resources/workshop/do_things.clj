@@ -11,14 +11,23 @@
 [[:chapter {:tag "introdution" :title "Introduction"}]]
 
 
+"Yeah !"
+
+
 (exercice
   "Ceci est un REPL n'hésitez tester les exemples ici ! "
   [] [])
+;(exercice
+;  "Ceci est un REPL n'hésitez tester les exemples ici ! "
+;  [] [])
 
-"Faire des choses: un cours Clojure crash
+;"Faire des choses: un cours Clojure crash
 
-Il est temps de savoir comment effectivement faire des choses avec Clojure! Hot Damn!
-"
+;Il est temps de savoir comment effectivement faire des choses avec Clojure! Hot Damn!
+;"
+
+
+
 
 
 
@@ -146,7 +155,7 @@ Une dernière remarque: j'utilise aussi le terme **expression** pour désigner l
 (exercice
   "Et dans une telle situation, vous pouvez ne rien avoir"
   [(= __ (if (nil? 0)
-           [:a :b :c]))]nil)
+           [:a :b :c]))] nil)
 
 
 (exercice
@@ -784,7 +793,7 @@ Une utilisation non évidente est de vérifier si un élément existe dans une c
   (Hash-set 1 1 3 1 2)
   ;  => # {1 2 3}
 
-  (Triés-set: b: a: c)
+  ;(Triés-set: b: a: c)
   ;  => # {: A: b: c}
   )
 
@@ -1638,7 +1647,7 @@ Voici un exemple type:"
                    (map not-a-symbol? [:a 'b "c"])))] true false true)
 
 
-(exercice
+#_ (exercice
 
   "Louange et «complément» peuvent vous aider à séparer le bon grain de l'ivraie"
   [(= [:wheat "wheat" 'wheat]
@@ -1646,14 +1655,14 @@ Voici un exemple type:"
        (filter not-nil? [nil :wheat nil "wheat" nil 'wheat nil])))] 4)
 
 
-(exercice
+#_ (exercice
 
   "Les fonctions partielles permettent la procrastination"
   [(= 20 (let [multiply-by-5 (partial * 5)]
            (__ __)))] :a :b :c :d)
 
 
-(exercice
+#_ (exercice
 
   "N'oubliez pas: premières choses d'abord"
   [(= [__ __ __ __]
@@ -2082,33 +2091,82 @@ Pour mieux comprendre comment réduire œuvres, voici une façon qu'il puisse ê
 "Sympa !"
 
 
-[[:chapter {:tags "hobbit_violence" :title "Hobbit violence"}]]
 
-"Ma parole, ce est vraiment Clojure pour les braves et True!
+[[:chapter {:tag "extra" :title "extra"}]]
 
-Maintenant, nous allons créer une fonction qui permettra de déterminer quelle partie du hobbit se fait frapper:"
 
-(comment
+(exercice
+  "Nous contemplerons la vérité en testant la réalité, par l'intermédiaire de l'égalité"
+  [(= __ true)] true)
 
-  (defn hit
-    [asym-body-parts]
-    (let [sym-parts (better-symmetrize-body-parts asym-body-parts)
-          body-part-size-sum (reduce + 0 (map :size sym-parts))
-          target (inc (rand body-part-size-sum))]
-      (loop [[part & rest] sym-parts
-             accumulated-size (:size part)]
-        (if (> accumulated-size target)
-          part
-          (recur rest (+ accumulated-size (:size part)))))))
+(exercice
+  "Pour comprendre la réalité, nous devons comparer nos attentes contre la réalité"
+  [(= __ (+ 1 1))] 2)
 
-  (hit asym-hobbit-body-parts)
-  ; => {:name "right-upper-arm", :size 3}
+(exercice
+  "Vous pouvez tester l'égalité de beaucoup de choses"
+  [(= (+ 3 4) 7 (+ 2 __))] 5)
 
-  (hit asym-hobbit-body-parts)
-  ; => {:name "chest", :size 10}
+(exercice
+  "Certaines choses peuvent être différentes, mais être les mêmes"
+  [(= __ (= 2 2/1))] true)
 
-  (hit asym-hobbit-body-parts)
-  ; => {:name "left-eye", :size 1}
-  )
+(exercice
+  "Vous pouvez généralement pas \"flotter\" vers les cieux d'entiers"
+  [(= __ (= 2 2.0))] false)
 
-"Oh mon dieu, ce pauvre hobbit! Vous monstre!"
+(exercice
+  "Mais une égalité moins parfaite est également possible"
+  [(= __ (== 2.0 2))] true)
+
+(exercice
+  "Quelque chose n'est pas égal à rien"
+  [(= __ (not (= 1 nil)))] true)
+
+(exercice
+  "Chaine de caractère,  mot-clé, et des symbols: OH MON DIEU!"
+  [(= __ (= "foo" :foo 'foo))] false)
+
+(exercice
+  "Faire un mot-clé avec ou sans mot-clé"
+  [(= :foo (keyword __))] "foo")
+
+(exercice
+  "Le symbolisme est tout autour de nous"
+  [(= 'foo (symbol __))] "foo")
+
+(exercice
+  "Quand les choses ne peuvent pas être égaux, ils doivent être différents"
+  [(not= :fill-in-the-blank __)] 3)
+
+
+;;[[:chapter {:tags "hobbit_violence" :title "Hobbit violence"}]]
+
+; "Ma parole, ce est vraiment Clojure pour les braves et True!
+;
+;Maintenant, nous allons créer une fonction qui permettra de déterminer quelle partie du hobbit se fait frapper:"
+
+;(comment
+;
+;  (defn hit
+;    [asym-body-parts]
+;    (let [sym-parts (better-symmetrize-body-parts asym-body-parts)
+;          body-part-size-sum (reduce + 0 (map :size sym-parts))
+;          target (inc (rand body-part-size-sum))]
+;      (loop [[part & rest] sym-parts
+;             accumulated-size (:size part)]
+;        (if (> accumulated-size target)
+;          part
+;          (recur rest (+ accumulated-size (:size part)))))))
+;
+;  (hit asym-hobbit-body-parts)
+;  ; => {:name "right-upper-arm", :size 3}
+;
+;  (hit asym-hobbit-body-parts)
+;  ; => {:name "chest", :size 10}
+;
+;  (hit asym-hobbit-body-parts)
+;  ; => {:name "left-eye", :size 1}
+;  )
+;
+;"Oh mon dieu, ce pauvre hobbit! Vous monstre!"

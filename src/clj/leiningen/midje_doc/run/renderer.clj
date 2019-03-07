@@ -41,6 +41,16 @@
         (str fst-str rst-new)))))
 
 
+(import 'java.security.MessageDigest
+        'java.math.BigInteger)
+
+(defn chas [^String s ^Integer n]
+  (let [algorithm (MessageDigest/getInstance "MD5")
+        raw (.digest algorithm (.getBytes s))]
+    (int (mod (BigInteger. 1 raw) n))))
+
+(def who ["Jonathan" "Philippe" "Brahim" "François" "Bernarith" "Mohamed" "Harrison"])
+
 
 (defn render-exercice [elem]
 
@@ -50,7 +60,7 @@
 
    [:div {:class "exercice-box" :id eid}
 
-    [:h4 "Exercice : " title]
+    [:h4 "Exercice : " title  "  -  (" (who (chas title (count who))) ")"]
     [:div
 
       [:div {:class "constraints"}

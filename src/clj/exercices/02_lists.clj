@@ -1,4 +1,4 @@
-//2_lits
+;2_lits
 
 (exercice
   "Les listes peuvent être exprimées par fonction ou une forme cité"

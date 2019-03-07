@@ -12,11 +12,11 @@ float:right;
 }
 
 .constraints .unvalidated {
-	background-color: red;
+	background-color: #f0baba;
 }
 
 .constraints .validated {
-	background-color: green;
+	background-color: #baf0ba;
 }
 
 .spad {
