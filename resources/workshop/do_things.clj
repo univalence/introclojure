@@ -8,7 +8,7 @@
               ]}]]
 
 
-[[:chapter {:tag "introdution" :title "Introduction"}]]
+[[:chapter {:tag "introduction" :title "Introduction"}]]
 
 
 "Yeah !"
@@ -18,7 +18,7 @@
   "Ceci est un REPL n'hésitez pas à tester les exemples ici ! "
   [] [])
 ;(exercice
-;  "Ceci est un REPL n'hésitez tester les exemples ici ! "
+;  "Ceci est un REPL n'hésitez pas à tester les exemples ici ! "
 ;  [] [])
 
 ;"Faire des choses: un cours Clojure crash
@@ -34,17 +34,17 @@
 [[:chapter {:tag "syntaxe" :title "Syntaxe"}]]
 
 
-"La syntaxe de Clojure est simple. Comme tous les Lisps, il emploie une structure uniforme, une poignée d'opérateurs spéciaux, et un approvisionnement constant de parenthèses livrés par les mines de parenthèses cachés sous le Massachusetts Institute of Technology, où Lisp est né."
+"La syntaxe de Clojure est simple. Comme tous les Lisps, il emploie une structure uniforme, une poignée d'opérateurs spéciaux, et un approvisionnement constant de parenthèses livrées par les mines de parenthèses, cachées sous le Massachusetts Institute of Technology, où Lisp est né."
 
 [[:section {:tag "forms" :title "Forms"}]]
 
 
-"Tout le code Clojure est écrit dans une structure uniforme. Clojure comprend:
+"Tout code Clojure est écrit dans une structure uniforme. Clojure comprend :
 
 * Des représentations littérales de structures de données comme les nombres, strings, maps, et vecteurs
 * Des opérations
 
-Nous utilisons le terme **form** pour se référer au code structurellement valide. Ces représentations littérales sont toutes des form valides:
+Nous utilisons le terme **form** pour se référer au code structurellement valide. Ces représentations littérales sont toutes des forms valides:
 
 "
 (comment
@@ -73,9 +73,9 @@ Les opérations sont la façon dont vous *faites les choses*. Toutes les opérat
 
 
 "En résumé, Clojure est constitué de **form**. Les **forms** ont une structure uniforme. Ils se composent de littéraux et d'opérations.
-Les opérations sont des form entourés de parenthèses.
+Les opérations sont des forms entourés de parenthèses.
 
-Pour faire bonne mesure, voici quelque chose qui n'est pas une form parce qu'il n'a pas de parenthèse fermante:"
+Pour faire bonne mesure, voici quelque chose qui n'est pas un form parce qu'il n'a pas de parenthèse fermante:"
 
 
 [[{:lang "Clojure"}]]
@@ -83,7 +83,7 @@ Pour faire bonne mesure, voici quelque chose qui n'est pas une form parce qu'il 
 (+
 "]]
 
-"L'uniformité structurelle de Clojure est probablement différente de ce que vous êtes habitué.
+"L'uniformité structurelle de Clojure est probablement différente de ce à quoi vous êtes habitué.
 Dans d'autres langages, différentes opérations peuvent avoir différentes structures en fonction de l'opérateur et des opérandes.
 Par exemple, JavaScript emploie un assortiment de notation infix, d'opérateurs points, et des parenthèses:"
 
@@ -96,17 +96,17 @@ Par exemple, JavaScript emploie un assortiment de notation infix, d'opérateurs 
 "La structure de Clojure est très simple et cohérente en comparaison.
  Peu importe l'opérateur utilisé ou le type de données que vous exploitez, la structure est la même.
 
-Une dernière remarque: j'utiliserai aussi le terme **expression** pour désigner les forms Clojure. Cependant, ne soyez pas trop rigide sur la terminologie."
+Une dernière remarque: nous utiliserons aussi le terme **expression** pour désigner les forms Clojure. Cependant, ne soyez pas trop rigide sur la terminologie."
 
 
 [[:section {:tag "flow_control" :title "Flow Control"}]]
 
-"Voici quelques opérateurs basique de contrôle. Vous en rencontrerez plus tout au long du tutoriel."
+"Voici quelques opérateurs basique de contrôle. Vous en rencontrerez plus tout au long du workshop."
 
 
 [[:subsection {:tag "if" :title "if"}]]
 
-"La structure générale *if* est:"
+"La structure générale *if* est :"
 
 (comment
   (if boolean-form
@@ -114,7 +114,7 @@ Une dernière remarque: j'utiliserai aussi le terme **expression** pour désigne
     optional-else-form)
   )
 
-"Voici un exemple:"
+"Voici un exemple :"
 
 (comment
   (if true
@@ -124,7 +124,7 @@ Une dernière remarque: j'utiliserai aussi le terme **expression** pour désigne
   )
 
 
-"Notez que chaque branche d'un *if* ne peut avoir qu'une form. Ceci est différent de la plupart des langues. Par exemple, en Ruby vous pouvez écrire:"
+"Notez que chaque branche d'un *if* ne peut avoir qu'un form. Ceci est différent de la plupart des langages, par exemple, en Ruby vous pouvez écrire :"
 
 (comment
 
@@ -148,7 +148,7 @@ Une dernière remarque: j'utiliserai aussi le terme **expression** pour désigne
 
 
 (exercice
-  "Certaines d'entre elles ne vous laisse pas d'alternative"
+  "Certaines d'entre elles ne vous laissent pas d'alternative"
   [(= __ (if (> 4 3)
            []))] [])
 
@@ -160,7 +160,7 @@ Une dernière remarque: j'utiliserai aussi le terme **expression** pour désigne
 
 
 (exercice
-  "Dans d'autres cas votre alternative peut être intéressante"
+  "Dans d'autres cas, votre alternative peut être intéressante"
   [(= :glory (if (not (empty? ()))
                :doom
                __))] :glory)
@@ -185,7 +185,7 @@ Une dernière remarque: j'utiliserai aussi le terme **expression** pour désigne
 
 
 (exercice
-  "En cas d'urgence, sonnez les alarmes "
+  "En cas d'urgence, sonnez les alarmes"
   [ (= :sirens
       (explain-defcon-level __))]:cocked-pistol)
 
@@ -227,14 +227,14 @@ Dans ce cas, *Success!* est imprimé dans le REPL et \"abra cadabra\" est retour
 
 "Utilisez *when* lorsque vous voulez faire plusieurs choses quand une certaine condition est vraie et que vous voulez toujours retourner nil lorsque la condition est fausse.
 
-Cela couvre les opérateurs de contrôle essentiels!"
+Cela couvre les opérateurs de contrôle essentiels !"
 
 
 
 [[:section {:tag "def" :title "Nommer les choses avec def"}]]
 
 "
-Une dernière chose avant de passer aux structures de données : utilisez *def* pour *lier* un *nom* à une *valeur* dans Clojure:
+Une dernière chose avant de passer aux structures de données : utilisez *def* pour *lier* un *nom* à une *valeur* dans Clojure :
 "
 
 (comment
@@ -244,7 +244,7 @@ Une dernière chose avant de passer aux structures de données : utilisez *def* 
      "The Incredible Bulk"])
   )
 "
-Dans ce cas, vous liez le nom *failed-protagonist-names* à un vecteur contenant trois strings. Remarquez que j'utilise le terme «lier», alors que dans d'autres langages vous diriez que vous *attribuez* une valeur à une *variable*. Par exemple, en Ruby, vous pouvez effectuer plusieurs affectations à une variable afin de «construire» sa valeur:
+Dans ce cas, vous liez le nom *failed-protagonist-names* à un vecteur contenant trois strings. Remarquez que j'utilise le terme «lier», alors que dans d'autres langages vous diriez que vous *attribuez* une valeur à une *variable*. Par exemple, en Ruby, vous pouvez effectuer plusieurs affectations à une variable afin de «construire» sa valeur :
 "
 (comment
 
@@ -255,7 +255,7 @@ Dans ce cas, vous liez le nom *failed-protagonist-names* à un vecteur contenant
   end
   )
 
-"L'équivalent en Clojure serait:"
+"L'équivalent en Clojure serait :"
 
 (comment
   (def severity :mild)
@@ -266,12 +266,12 @@ Dans ce cas, vous liez le nom *failed-protagonist-names* à un vecteur contenant
   )
 
 
-"Cependant, c'est vraiment une mauvaise pratique Clojure. Pour l'instant, vous devez traiter def comme si c'est une définition de constantes. Mais n'ayez pas peur! Au cours des prochains chapitres, vous apprendrez comment travailler avec cette limitation apparente en codant dans le style fonctionnel."
+"Cependant, c'est vraiment une mauvaise pratique en Clojure. Pour l'instant, vous devez traiter def comme si c'était une définition de constantes. Mais n'ayez pas peur! Au cours des prochains chapitres, vous apprendrez comment travailler avec cette limitation apparente en codant dans le style fonctionnel."
 
 [[:chapter {:tag "data_structure" :title "Structures de données"}]]
 
 
-"Clojure est livré avec une poignée de structures de données que vous décrouvririez seul car elles sont utilisées la majorité du temps. Si vous venez d'un milieu orienté objet, vous serez surpris de voir combien de choses vous pouvez faire avec les types \" de base \" présentés ici.
+"Clojure est livré avec une poignée de structures de données que vous découvririez seul car elles sont utilisées la majorité du temps. Si vous venez d'un milieu orienté objet, vous serez surpris de voir combien de choses vous pouvez faire avec les types \" de base \" présentés ici.
 
 Toutes les structures de données Clojure sont immuables, ce qui signifie que vous ne pouvez pas les modifier. Il n'y a pas d'équivalent Clojure pour le code Ruby suivant :"
 (comment
@@ -291,12 +291,12 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
         #"The Incredible Bulk"]
         )
 
-"Plus loin, vous en apprendrez plus pourquoi Clojure a été implémenté de cette façon. Pour l'instant, il est plus amusant d'apprendre à faire des choses sans ce préoccuper de cela. Commençons donc sans plus tarder :"
+"Plus loin, vous en apprendrez plus sur pourquoi Clojure a été implémenté de cette façon. Pour l'instant, il est plus amusant d'apprendre à faire des choses sans ce préoccuper de cela. Commençons donc sans plus tarder :"
 
 
-[[:section {:tags "nil_true_false_truthiness_equality" :title "nil, true, false,  Equality"}]]
+[[:section {:tags "nil_true_false_truthiness_equality" :title "nil, true, false, Equality"}]]
 
-"Clojure a les valeurs true et false. nil est utilisé pour indiquer \"aucune valeur\" dans Clojure. Vous pouvez vérifier si une valeur est nil avec la fonction nil? :"
+"Clojure possède les valeurs true et false. nil est utilisé pour indiquer \"aucune valeur\" dans Clojure. Vous pouvez vérifier si une valeur est nil avec la fonction nil? :"
 
 (comment
   (nil? 1)
@@ -306,7 +306,7 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   ; => true
   )
 
-"nil et false sont utilisés pour représenter la logique fausse, alors que toutes les autres valeurs sont logiquement vraies. = est l'opérateur d'égalité:"
+"nil et false sont utilisés pour représenter la logique fausse, alors que toutes les autres valeurs sont logiquement vraies. = est l'opérateur d'égalité :"
 
 (comment
   (= 1 1)
@@ -320,15 +320,15 @@ Toutes les structures de données Clojure sont immuables, ce qui signifie que vo
   )
 
 
-"Certains langages vous obligent à utiliser différents opérateurs lorsque vous comparez les valeurs de différents types. Par exemple, vous seriez forcé à utiliser un opérateur spécial \"égalité de String\" pour les chaînes de caractère.
+"Certains langages vous obligent à utiliser différents opérateurs lorsque vous comparez les valeurs de différents types. Par exemple, vous seriez forcé d'utiliser un opérateur spécial \"égalité de String\" pour les chaînes de caractère.
 Vous n'aurez pas besoin de quelque chose de bizarre ou pénible comme ça pour tester l'égalité grâce aux structures de données intégrées de Clojure."
 
 [[:section {:tags "nombres" :title "Nombres"}]]
 
-"Clojure possède un support assez sophistiqué des nombres. Je ne vais pas m'attarder sur les détails techniques ennuyeux (comme la coercition et de la contagion).
+"Clojure possède un support assez sophistiqué pour les nombres. Nous n'allons pas nous attarder sur les détails techniques ennuyeux (comme la coercition et de la contagion).
  Si vous êtes intéressé par ces détails ennuyeux, consultez http://clojure.org/data_structures#Data. Autant dire que Clojure va allègrement gérer à peu près tout ce que vous lui mettez."
 
-"Pendant ce temps, nous allons travailler avec des nombres entiers et flottants. Nous allons aussi travailler avec des ratios que Clojure peut représenter directement. Voici respectivement un nombre entier, un flottant, et un ratio:"
+"Pendant ce temps, nous allons travailler avec des nombres entiers et flottants. Nous allons aussi travailler avec des ratios que Clojure peut représenter directement. Voici respectivement un nombre entier, un flottant, et un ratio :"
 
 (comment
 
@@ -348,7 +348,7 @@ Vous n'aurez pas besoin de quelque chose de bizarre ou pénible comme ça pour t
   )
 
 
-"Notez que Clojure ne permet pas les guillemets pour délimiter les chaînes. 'Lord Voldemort', par exemple, n'est pas une chaîne valide. Notez également que Clojure n'a pas d'interpolation de chaîne. Il ne permet pas la concaténation via la fonction str :"
+"Notez que Clojure ne permet pas les guillemets pour délimiter les chaînes. 'Lord Voldemort', par exemple, n'est pas une chaîne valide. Notez également que Clojure n'a pas d'interpolation de chaînes. Clojure ne permet pas la concaténation via la fonction str :"
 
 [[:section {:tags "map" :title "Maps"}]]
 
@@ -397,7 +397,7 @@ Vous pouvez rechercher des valeurs dans les Maps avec la fonction *get* :"
   )
 
 
-"La fonction get-in vous permet de rechercher des valeurs dans les maps imbriquées:"
+"La fonction get-in vous permet de rechercher des valeurs dans les maps imbriquées :"
 (comment
   (get-in {:a 0 :b {:c "ho hum"}} [:b :c])
   ; => "ho hum"
@@ -406,7 +406,7 @@ Vous pouvez rechercher des valeurs dans les Maps avec la fonction *get* :"
 
 "[:b :c] est un vecteur, que vous lisez dans une minute.
 
-Une autre façon de rechercher une valeur dans une map est de traiter la map comme une fonction, avec la clé comme argument:"
+Une autre façon de rechercher une valeur dans une map est de traiter la map comme une fonction, avec la clé comme argument :"
 
 
 (comment
@@ -414,7 +414,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
   ; => "The Human Coffee Pot"
   )
 
-"Les vrais Clojurists ne feront presque jamais cela. Cependant, les vrais Clojurists utilisent des mots clés pour rechercher les valeurs dans les maps :
+"Les Clojuristes ne feront presque jamais cela. Cependant, les Clojuristes utilisent des mots-clés pour rechercher les valeurs dans les maps :
 "
 
 
@@ -479,7 +479,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
 
 [[:section {:tags "keywords" :title "Mots-clés"}]]
 
-"La notion de mots-clés dans Clojure est plus compréhensible lorsqu'on les utilise. Ils sont principalement utilisés comme clés dans les maps, comme vous l'avez vu ci-dessus. Exemples de mots clés:"
+"La notion de mots-clés dans Clojure est plus compréhensible lorsqu'on les utilise. Ils sont principalement utilisés comme clés dans les maps, comme vous l'avez vu ci-dessus. Exemples de mots-clés :"
 
 
 (comment
@@ -489,7 +489,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
   :_?
   )
 
-"Les mots-clés peuvent être utilisés comme des fonctions trouvant la valeur correspondante dans une structure de données. Par exemple:"
+"Les mots-clés peuvent être utilisés comme des fonctions trouvant la valeur correspondante dans une structure de données. Par exemple :"
 
 
 (comment
