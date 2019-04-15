@@ -507,9 +507,7 @@ Une autre façon de rechercher une valeur dans une map est de traiter la map com
   ; => "FAERIES"
   )
 
-"Je pense que c'est super cool et les *reals* Clojurists le font tout le temps. Vous devriez le faire aussi!
-
-Outre l'utilisation de la map littéraux, vous pouvez utiliser le hash-map fonction pour créer une map:"
+"Outre l'utilisation des littéraux map, vous pouvez utiliser la fonction hash-map pour créer une map:"
 
 (comment
   (hash-map :a 1 :b 2)
@@ -521,7 +519,7 @@ Outre l'utilisation de la map littéraux, vous pouvez utiliser le hash-map fonct
 [[:section {:tags "vectors" :title "Vecteurs"}]]
 
 
-"Un vecteur est similaire à un tableau, c'est une collection dont le premier élément à pour index 0 :"
+"Un vecteur est similaire à un tableau, c'est une collection dont le premier élément a pour index 0 :"
 
 (comment
   ;; Here's a vector literal
@@ -547,7 +545,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   ; => ["creepy" "full" "moon"]
   )
 
-"Les éléments sont ajoutés à la fin d'un vecteur:"
+"Les éléments sont ajoutés à la fin d'un vecteur :"
 
 (comment
   (conj [1 2 3] 4)
@@ -556,7 +554,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 
 
 (exercice
-  "Vous pouvez utiliser des vecteurs dans clojure comme des structures de tableaux"
+  "Vous pouvez utiliser des vecteurs dans Clojure comme des structures de tableaux"
   [(= __ (count [42]))]1)
 
 (exercice
@@ -630,7 +628,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 ; => (1 2 3 4)
 )
 
-"Les éléments sont ajoutés au début de la liste:"
+"Les éléments sont ajoutés au début de la liste :"
 
 (comment
 
@@ -703,7 +701,7 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 
 (exercice
 
-  "Le reste de rien n'est pas si stricte"
+  "Le reste de rien n'est pas si strict"
   [(= __ (try
           (rest '())
           (catch IllegalStateException e
@@ -716,13 +714,13 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 
 (exercice
 
-  "Mais attention, si il n'y a pas suffisamment d'éléments pour former la N séquences"
+  "Mais attention, s'il n'y a pas suffisamment d'éléments pour former la N séquences"
   [(= '(__) (partition 3 [:a :b :c :d :e]))] [:a :b :c])
 
 
 (exercice
 
-  "Vous pouvez utiliser partition-all pour obtenir également des partitions avec moins de n éléments  "
+  "Vous pouvez utiliser partition-all pour obtenir également des partitions avec moins de n éléments"
   [(= __ (partition-all 3 (range 5)))] '((0 1 2) (3 4)))
 
 
@@ -746,12 +744,12 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
 
 [[:section {:tags "sets" :title "Sets"}]]
 
-"Les sets sont des collections de valeurs uniques:"
+"Les sets sont des collections de valeurs uniques :"
 
 (comment
 
   ;; Literal notation
-    #{"hannah montanna" "miley cyrus" 20 45}
+    #{"hannah montana" "miley cyrus" 20 45}
 
   ;; If you try to add :b to a set which already contains :b,
   ;; the set still only has one :b
@@ -765,13 +763,13 @@ Vous pouvez créer des vecteurs avec la fonction vector :"
   (:a #{:a :b})
   ; => :a
 
-  (get #{:a :b} "hannah montanna")
+  (get #{:a :b} "hannah montana")
   ; => nil
 
   )
 
-"Vous pouvez créer des sets à partir de vecteurs et listes existants en utilisant la fonction set .
-Une utilisation non évidente est de vérifier si un élément existe dans une collection:"
+"Vous pouvez créer des sets à partir de vecteurs et listes existants en utilisant la fonction set.
+Une utilisation non évidente est de vérifier si un élément existe dans une collection :"
 
 
 (comment
@@ -787,7 +785,7 @@ Une utilisation non évidente est de vérifier si un élément existe dans une c
   ; => nil
 
   )
-"Tout comme vous pouvez créer des maps, vous pouvez créer des sets de hash et des sets triés:"
+"Tout comme vous pouvez créer des maps, vous pouvez créer des sets de hash et des sets triés :"
 
 (comment
   (Hash-set 1 1 3 1 2)
@@ -809,11 +807,11 @@ Une utilisation non évidente est de vérifier si un élément existe dans une c
   [(= __ (count #{1 2 3}))]3)
 
 (exercice
-  "Rappelez-vous qu'un set est un set * mathématique *"
+  "Rappelez-vous qu'un set est un ensemble * mathématique *"
   [(= __ (set '(1 1 2 2 3 3 4 4 5 5)))]#{1 2 3 4 5})
 
 (exercice
-  "Vous pouvez demander à clojure l'union de deux ensembles"
+  "Vous pouvez demander à Clojure l'union de deux ensembles"
   [(= __ (clojure.set/union #{1 2 3 4} #{2 3 5}))] #{1 2 3 4 5})
 
 (exercice
@@ -827,7 +825,7 @@ Une utilisation non évidente est de vérifier si un élément existe dans une c
 
 [[:section {:tags "symboles_naming" :title "Symboles et Naming"}]]
 
-"Les symboles sont des identifiants qui sont normalement utilisés pour se référer à quelque chose. Par exemple:"
+"Les symboles sont des identifiants qui sont normalement utilisés pour se référer à quelque chose. Par exemple :"
 
 (comment
   (def failed-movie-titles ["Gone With the Moving Air" "Swellfellas"])
@@ -835,11 +833,11 @@ Une utilisation non évidente est de vérifier si un élément existe dans une c
   )
 
 
-"Dans ce cas, def associe la valeur [\"Gone With the Moving Air\" \"Swellfellas\"] avec le symbole failed-movie-titles .
+"Dans ce cas, def associe la valeur [\"Gone With the Moving Air\" \"Swellfellas\"] avec le symbole failed-movie-titles.
 
-Vous pensez alors peut-être: «So what? Tout autre langage de programmation me permet d'associer un nom à une valeur. Big Whoop!\"
+Vous pensez alors peut-être : "So what? Tout autre langage de programmation me permet d'associer un nom à une valeur."\"
 Lisp, toutefois, vous permet de manipuler des symboles comme des données, quelque chose que nous allons beaucoup rencontrer quand nous commencerons à travailler avec des macros.
-Les fonctions peuvent retourner des symboles et les prendre comme arguments:
+Les fonctions peuvent retourner des symboles et les prendre comme arguments :
 
 "
 
@@ -883,7 +881,7 @@ Normalement en donnant à Clojure un symbole, il renvoit l'objet auquel le symbo
   (first ['failed-protagonist-names 'failed-antagonist-names])
   ; => failed-protagonist-names
   )
-"Vous pouvez également *quoter* des collections comme les listes, les maps, et les vecteurs. Tous les symboles de la collection seront non évalués:"
+"Vous pouvez également *quoter* des collections comme les listes, les maps, et les vecteurs. Tous les symboles de la collection ne seront pas évalués :"
 
 (comment
 
@@ -904,7 +902,7 @@ Normalement en donnant à Clojure un symbole, il renvoit l'objet auquel le symbo
 Cela réside dans le fait que Clojure met l'accent sur la simplicité et vous encourage à rechercher en premier les structures de données \"de base\" intégrées.
 
 Si vous venez d'un milieu orienté objet, vous pourriez penser que cette approche est bizarre et vieille.
-Voici un épigramme adoré par les Clojurists qui fait allusion à la philosophie Clojure:"
+Voici un épigramme adoré par les Clojuristes qui fait allusion à la philosophie Clojure :"
 
 (comment
 
@@ -918,7 +916,7 @@ Voici un épigramme adoré par les Clojurists qui fait allusion à la philosophi
 
 [[:chapter {:tag "fonctions" :title "Fonctions"}]]
 
-"Une des raisons qui fait que les gens son fou de Lisps, c'est qu'ils vous permettent de construire des programmes qui se comportent de façon complexe, mais le premier bloc de construction - la fonction - est si simple. Cette section vous initier à la beauté et l'élégance de fonctions Lisp en expliquant:
+"Une des raisons qui fait que les gens sont fou de Lisp, c'est que Lisp vous permet de construire des programmes qui se comportent de façon complexe, mais le premier bloc de construction - la fonction - est simple. Cette section vous initie à la beauté et l'élégance des fonctions Lisp en expliquant les points suivants :
 
 *Appel de fonctions
 *Comment fonctions diffèrent de macros et les formulaires spéciaux
@@ -928,7 +926,7 @@ Voici un épigramme adoré par les Clojurists qui fait allusion à la philosophi
 
 [[:section {:tags "appel_de_fonctions" :title "Appel de fonctions"}]]
 
-"A présent, vous avez vu de nombreux exemples d'appels de fonction:"
+"A présent, vous avez vu de nombreux exemples d'appels de fonction :"
 
 (comment
 
@@ -946,7 +944,7 @@ Voici un épigramme adoré par les Clojurists qui fait allusion à la philosophi
   (or + -)
   )
 
-"Vous pouvez utiliser cette expression comme un opérateur dans une autre expression:"
+"Vous pouvez utiliser cette expression comme un opérateur dans une autre expression :"
 
 (comment
 
@@ -968,7 +966,7 @@ Voici un épigramme adoré par les Clojurists qui fait allusion à la philosophi
 
   )
 
-"Cependant, ce ne sont pas les appels de fonction valides:"
+"Cependant, ce ne sont pas des appels de fonction valides :"
 (comment
   ;; Numbers aren't functions
   (1 2 3 4)
@@ -983,11 +981,11 @@ Voici un épigramme adoré par les Clojurists qui fait allusion à la philosophi
   ClassCastException java.lang.String cannot be cast to clojure.lang.IFn
   user/eval728 (NO_SOURCE_FILE:1)
   )
-"La flexibilité des fonctions ne se arrête pas avec l'expression des fonctions!
+"La flexibilité des fonctions ne s'arrête pas avec l'expression des fonctions !
 
 Syntaxiquement, les fonctions peuvent prendre des expressions comme arguments, y compris d'autres fonctions.
 
-Prenez la fonction map  (à ne pas confondre avec la structure de données de map). map crée une nouvelle liste en appliquant une fonction à chaque membre d'une collection:"
+Prenez la fonction map (à ne pas confondre avec la structure de données de map). map crée une nouvelle liste en appliquant une fonction à chaque membre d'une collection :"
 
 (comment
 
@@ -1002,13 +1000,13 @@ Prenez la fonction map  (à ne pas confondre avec la structure de données de ma
 
 "(Notez que map ne retourne pas un vecteur, même si nous avons fourni un vecteur comme argument. Vous apprendrez pourquoi plus tard.
 
-En effet, la capacité de Clojure pour recevoir fonctions comme arguments vous permet de construire des abstractions plus puissants.
+En effet, la capacité de Clojure à recevoir des fonctions comme arguments vous permet de construire des abstractions plus puissantes.
 
-Clojure (et tous Lisps) vous permet de créer des fonctions qui généralisent sur ​​les processus map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - une fonction - plus de toute collection.
+Clojure (et tous Lisp) vous permet de créer des fonctions qui généralisent sur ​​les processus map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - une fonction - plus de toute collection.
 
 La dernière chose que vous devez savoir sur les appels de fonction est que Clojure évalue tous les arguments de la fonction récursive avant de les transmettre à la fonction.
 
-Voici comment Clojure va évaluer un appel de fonction dont les arguments sont aussi des appels de fonctions:"
+Voici comment Clojure va évaluer un appel de fonction dont les arguments sont aussi des appels de fonctions :"
 
 
 (comment
