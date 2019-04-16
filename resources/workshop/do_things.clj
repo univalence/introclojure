@@ -1244,11 +1244,11 @@ Vous pouvez mélanger les paramètres rest avec des paramètres normaux, mais le
 
 
 
-"Comme vous pouvez le voir, les my-first associés le symbole first-thing avec le premier élément du vecteur qui a été adoptée en argument. Vous dites my-first à le faire en plaçant le symbole first-thing dans un vecteur.
+"Comme vous pouvez le voir, les my-first associent le symbole first-thing avec le premier élément du vecteur qui a été utilisé comme argument. Vous dites à my-first de le faire en plaçant le symbole first-thing dans un vecteur.
 
-Ce vecteur est comme une énorme pancarte tenue jusqu'à Clojure qui dit, \"Hey! Cette fonction va recevoir une liste ou un vecteur ou un ensemble comme un argument. Faire ma vie plus facile en démontant la structure de l'argument pour moi et l'association significative noms avec différentes parties de l'argument! \"
+Ce vecteur est comme une énorme pancarte montrée à Clojure qui dit, \"Hey ! Cette fonction va recevoir une liste ou un vecteur ou un ensemble comme argument. Rend ma vie plus facile en démontant la structure de l'argument pour moi et en associant les noms avec les différentes parties de l'argument ! \"
 
-Lorsque déstructuration un vecteur ou d'une liste, vous pouvez nommer autant d'éléments que vous voulez et aussi utiliser params repos:
+Lorsque vous déstructurez un vecteur ou une liste, vous pouvez nommer autant d'éléments que vous voulez et aussi utiliser les paramèetres rest :
 "
 
 (comment
@@ -1269,7 +1269,7 @@ Lorsque déstructuration un vecteur ou d'une liste, vous pouvez nommer autant d'
 
   )
 
-"Vous pouvez aussi déstructurer maps. De la même manière que vous dites Clojure à déstructurer un vecteur ou une liste en fournissant un vecteur comme un paramètre, vous destucture maps en fournissant une carte comme un paramètre:"
+"Vous pouvez aussi déstructurer les maps. De la même manière que vous dites Clojure de déstructurer un vecteur ou une liste en fournissant un vecteur comme un paramètre, vous déstructurez les maps en fournissant une map en paramètre :"
 
 (comment
 
@@ -1283,16 +1283,16 @@ Lorsque déstructuration un vecteur ou d'une liste, vous pouvez nommer autant d'
   ; Treasure lng: 81.33
   )
 
-"Regardons de plus à cette ligne:"
+"Regardons plus en détail la ligne suivante :"
 
 (comment
   [{lat :lat lng :lng}]
 
   )
 
-"Ce est comme dire à Clojure, \"Yo Clojure me faire une flava et associer le symbole! lat avec la valeur correspondant à la clé :lat . Faites la même chose avec lng et :lng , ok ?. \"
+"C'est comme dire à Clojure, \"Yo Clojure rend moi service et associe le nom lat avec la valeur correspondant à la clé :lat . Fais la même chose avec lng et :lng, ok ?. \"
 
-Nous voulons souvent de prendre simplement des mots-clés et de \"briser les sortir\" d'une carte, donc il ya une syntaxe plus courte pour que:"
+Nous voulons souvent sortir des keywords en dehors d'une map et une syntaxe plus courte pour faire cela existe. Le code suivant aura le même résultat que le code précédent :"
 
 (comment
 
@@ -1304,7 +1304,7 @@ Nous voulons souvent de prendre simplement des mots-clés et de \"briser les sor
 
   )
 
-"Vous pouvez conserver l'accès à l'argument de la carte originale en utilisant le :as mot-clé. Dans l'exemple ci-dessous, la carte originale est accessible avec treasure-location :"
+"Vous pouvez conserver l'accès à l'argument de la map originale en utilisant le mot-clé :as. Dans l'exemple ci-dessous, la map originale est accessible avec treasure-location :"
 
 
 (comment
@@ -1318,9 +1318,9 @@ Nous voulons souvent de prendre simplement des mots-clés et de \"briser les sor
     (steer-ship! treasure-location))
   )
 
-  "En général, vous pouvez penser que la déstructuration instruire Clojure comment associer des symboles à valeurs dans une liste, carte, jeu, ou un vecteur.
+  "En général, vous pouvez penser de la déstructuration que vous indiquez à Clojure comment associer des symboles à des valeurs dans une liste, map, ensemble, ou un vecteur.
 
-Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la fonction!"
+Maintenant, regardons de plus près la partie de la fonction qui fait quelque chose: le corps de la fonction !"
 
 
 
@@ -1384,7 +1384,7 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
 
   [[:subsection {:tags "corps_de_fonction" :title "Corps de fonction"}]]
 
-"Votre corps de la fonction peut contenir des forms. Clojure retourne automatiquement la dernière forme évalué:"
+"Votre corps de fonction peut contenir des forms. Clojure retourne automatiquement le dernier form évalué :"
 
 (comment
   (defn illustrative-function
@@ -1412,17 +1412,17 @@ Maintenant, pour la partie de la fonction qui fait quelque chose: le corps de la
 
 [[:subsection {:tags "toutes_les_fonctions_sont_crees_egaux" :title "Toutes les fonctions sont créés égaux"}]]
 
-"Une dernière remarque: dans Clojure, il n'y a pas privilégiés fonctions. + est seulement une fonction, - est juste une fonction, inc et map sont seulement fonctions. Ils ne sont pas mieux que vos fonctions! Donc, ne les laissez pas vous donner toute la lèvre.
+"Une dernière remarque : Clojure ne possède pas fonctions privilégiées. + est seulement une fonction, - est juste une fonction, inc et map sont seulement des fonctions. Elles ne sont pas mieux que les fonctions que vous définissez vous-même.
 
-Plus important encore, ce fait permet de démontrer la simplicité sous-jacente de Clojure. D'une certaine manière, Clojure est très bête. Lorsque vous effectuez un appel de fonction, Clojure dit simplement, \" map ? Bien sûr,! Je vais juste se appliquent quel que soit ce et de progresser. \" Il ne se soucie pas ce que la fonction est ou d'où il vient, il traite toutes les fonctions de la même. À la base, Clojure ne donne pas deux hamburger retourne propos addition, multiplication, ou la cartographie. Il se soucie peu près l'application de fonctions.
+Plus important encore, ce fait permet de démontrer la simplicité sous-jacente de Clojure. D'une certaine manière, Clojure est très bête. Lorsque vous effectuez un appel de fonction, Clojure dit simplement, \" map ? Bien sûr ! J'applique ce truc et je passe à autre chose. \" Clojure ne se soucie pas de la fonction ni de sa provenance, il traite toutes les fonctions de la même manière. À la base, Clojure ne fait pas de distinction entre addition, multiplication, mapping, il se soucie juste d'appliquer des fonctions.
 
-Comme vous programmez avec Clojure plus, vous verrez que cette simplicité est grande. Vous ne avez pas à vous inquiéter à propos de la syntaxe des règles ou spéciaux pour travailler avec des fonctions. Ils fonctionnent tous de la même chose!"
+Plus vous continuerez à programmer avec Clojure, plus vous verrez que la simplicité du langage est idéale. Vous n'aurez pas à vous préoccuper de règles ou syntaxes spéciales quand vous travaillez avec des fonctions diverses. Elles fonctionnent toute de la même manière !"
 
 [[:section {:tags "fonctions_anonymes" :title "Fonctions anonymes"}]]
 
-"Dans Clojure, vos fonctions ne ont pas à avoir des noms. En fait, vous vous retrouvez à l'aide des fonctions anonymes tout le temps. Comment mystérieuse!
+"Dans Clojure, vos fonctions n'ont pas à avoir de nom. Vous utiliserez en fait des fonctions anonymes tout le temps. Assez mystérieux !
 
-Il ya deux façons de créer des fonctions anonymes. La première consiste à utiliser le fn forme:
+Il y a deux façons de créer des fonctions anonymes. La première consiste à utiliser la forme fn:
 "
 
 (comment
@@ -1442,7 +1442,9 @@ Il ya deux façons de créer des fonctions anonymes. La première consiste à ut
   )
 
 
-"Vous pouvez traiter fn presque identique à la façon dont vous traitez defn . Les listes de paramètres et les corps des fonctions fonctionnent exactement de la même chose. Vous pouvez utiliser l'argument déstructuration, repos-params, et ainsi de suite.
+"
+
+Vous pouvez traiter fn presque identiqueme à la façon dont vous traitez defn . Les listes de paramètres et les corps des fonctions fonctionnent exactement de la même chose. Vous pouvez utiliser l'argument déstructuration, repos-params, et ainsi de suite.
 Vous pouvez même associer votre fonction anonyme avec un nom, qui ne devrait pas venir comme une surprise:
 "
 
