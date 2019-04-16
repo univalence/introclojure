@@ -186,3 +186,5 @@ createCodePad = function (element, exercice_id) {
 
     }.initEditor();
 };
+
+

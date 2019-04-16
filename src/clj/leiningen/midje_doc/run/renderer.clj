@@ -41,15 +41,6 @@
         (str fst-str rst-new)))))
 
 
-(import 'java.security.MessageDigest
-        'java.math.BigInteger)
-
-(defn chas [^String s ^Integer n]
-  (let [algorithm (MessageDigest/getInstance "MD5")
-        raw (.digest algorithm (.getBytes s))]
-    (int (mod (BigInteger. 1 raw) n))))
-
-(def who ["Jonathan" "Philippe" "Brahim" "François" "Bernarith" "Mohamed" "Harrison"])
 
 
 (defn render-exercice [elem]
@@ -60,7 +51,7 @@
 
    [:div {:class "exercice-box" :id eid}
 
-    [:h4 "Exercice : " title  "  -  (" (who (chas title (count who))) ")"]
+    [:h4 "Exercice : " title ]
     [:div
 
       [:div {:class "constraints"}
@@ -259,12 +250,18 @@
              [:meta {:charset "utf-8"}]
              [:meta {:name "viewport" :content "width=device-width, initial-scale=1, user-scalable=no"}]
 
+             ; <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
+
+             [:link {:rel "stylesheet" :href "https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css"}]
              [:style
-              (str
-               (slurp-res "template/stylesheets/styles.css")
-               "\n\n"
-               (slurp-res "template/stylesheets/pygment_trac.css")
-               "\n\n")]
+              (slurp-res "public/codemirror-5.1/lib/codemirror.css")
+              "\n\n"
+              (slurp-res "template/stylesheets/styles.css")
+              "\n\n"
+              (slurp-res "template/stylesheets/pygment_trac.css")
+              "\n\n"
+              "body {max-width: 900px;}"
+              ]
 
              (for [s ["/jquery/jquery-1.11.2.min.js"
 
