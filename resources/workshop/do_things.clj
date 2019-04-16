@@ -916,13 +916,13 @@ Voici un épigramme adoré par les Clojuristes qui fait allusion à la philosoph
 
 [[:chapter {:tag "fonctions" :title "Fonctions"}]]
 
-"Une des raisons qui fait que les gens sont fou de Lisp, c'est que Lisp vous permet de construire des programmes qui se comportent de façon complexe, mais le premier bloc de construction - la fonction - est simple. Cette section vous initie à la beauté et l'élégance des fonctions Lisp en expliquant les points suivants :
+"Une des raisons qui fait que les gens sont fous de Lisp, c'est qu'il vous permet de construire des programmes se comportant de façon complexe, mais dont le premier bloc de construction - la fonction - est simple. Cette section va vous initier à la beauté et l'élégance des fonctions Lisp en abordant les points suivants :
 
-*Appel de fonctions
-*Comment fonctions diffèrent de macros et les formulaires spéciaux
-*Définir des fonctions
-*Les fonctions anonymes
-*Fonctions retour"
+* Appel de fonctions
+* Comment fonctions diffèrent de macros et les formulaires spéciaux
+* Définir des fonctions
+* Les fonctions anonymes
+* Fonctions retour"
 
 [[:section {:tags "appel_de_fonctions" :title "Appel de fonctions"}]]
 
@@ -1035,7 +1035,7 @@ Il existe deux autres types d'expressions : appels de macro et **forms spéciaux
     (def error-message (str error-message "DOOOOOOOMED!")))
   )
 
-"Vous apprendrez tout ce qu'il ya à savoir sur les appels de macro et les forms spéciaux dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Pour l'instant, la principale caractéristique qui rend les forms spéciaux \"spécial\", ce est qu'ils n'évaluent pas toujours tous leurs opérandes, contrairement aux appels de fonction.
+"Vous apprendrez tout ce qu'il y a à savoir sur les appels de macro et les forms spéciaux dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Pour l'instant, la principale caractéristique qui rend les forms spéciaux \"spécial\", ce est qu'ils n'évaluent pas toujours tous leurs opérandes, contrairement aux appels de fonction.
 Prenez if, par exemple. Sa structure générale est :"
 
 (comment
@@ -1443,9 +1443,8 @@ Il y a deux façons de créer des fonctions anonymes. La première consiste à u
 
 
 "
-
-Vous pouvez traiter fn presque identiqueme à la façon dont vous traitez defn . Les listes de paramètres et les corps des fonctions fonctionnent exactement de la même chose. Vous pouvez utiliser l'argument déstructuration, repos-params, et ainsi de suite.
-Vous pouvez même associer votre fonction anonyme avec un nom, qui ne devrait pas venir comme une surprise:
+Vous pouvez traiter fn de manière presque identique à defn. Les paramètres et les corps des fonctions fonctionnent exactement de la même manière. Vous pouvez utiliser la déstructuration des arguments, les paramètres rest, et ainsi de suite.
+Vous pouvez même associer votre fonction anonyme avec un nom ce qui n'est pas surprenant (si ça l'est... surprise !) :
 "
 
 (comment
@@ -1456,9 +1455,9 @@ Vous pouvez même associer votre fonction anonyme avec un nom, qui ne devrait pa
   )
 
 
-"(Si ce ne est une surprise, alors ... surprise!)
+"
 
-Il ya une autre façon, plus compacte pour créer des fonctions anonymes:"
+Il y a une autre façon, plus compacte, pour créer des fonctions anonymes :"
 
 (comment
 
@@ -1477,9 +1476,9 @@ Il ya une autre façon, plus compacte pour créer des fonctions anonymes:"
   )
 
 
-"Vous pouvez voir que ce est nettement plus compact, mais il est probablement aussi confus. Brisons le bas.
+"Vous pouvez voir que c'est nettement plus compact, mais aussi pas très naturel. Voyons cela un peu plus en détail.
 
-Ce type de fonction anonyme ressemble beaucoup à un appel de fonction, sauf qu'il est précédé d'un dièse, # :
+Ce type de fonction anonyme ressemble beaucoup à un appel de fonction sauf qu'il est précédé d'un dièse, # :
 
 "
 
@@ -1492,9 +1491,9 @@ Ce type de fonction anonyme ressemble beaucoup à un appel de fonction, sauf qu'
   #(* % 3)
   )
 
-"Cette similitude vous permet de voir plus rapidement ce qui se passera lorsque cette fonction anonyme soit appliquée. \"Oh,\" vous pouvez dire à vous-même, \"cela va multiplier par trois son argument\".
+"Cette ressemblance vous permet de voir plus rapidement ce qui se passera lorsque cette fonction anonyme est appliquée. \"Oh,\" vous diriez-vous, \"cela va multiplier par trois son argument\".
 
-Comme vous l'aurez deviné maintenant, le signe pour cent, % , indique l'argument passé à la fonction. Si votre fonction anonyme prend plusieurs arguments, vous pouvez les distinguer comme ceci: 1% , 2% , 3% , etc. % est équivalente à 1% :"
+Comme vous l'aurez deviné maintenant, le signe pourcent, % , indique l'argument passé à la fonction. Si votre fonction anonyme prend plusieurs arguments, vous pouvez les distinguer comme ceci: 1% , 2% , 3% , etc. % est équivalent à 1% :"
 
 
 (comment
@@ -1502,7 +1501,7 @@ Comme vous l'aurez deviné maintenant, le signe pour cent, % , indique l'argumen
   ; => "corn bread and butter beans"
   )
 
-"Vous pouvez également passer un param de repos:"
+"Vous pouvez également passer un paramètre rest :"
 
 (comment
 
@@ -1510,12 +1509,12 @@ Comme vous l'aurez deviné maintenant, le signe pour cent, % , indique l'argumen
   ; => (1 "blarg" :yip)
   )
 
-"La principale différence entre cette forme et fn est que cette forme peut facilement devenir illisible et est mieux utilisé pour les fonctions courts."
+"La principale différence entre cette forme et fn est que cette forme peut facilement devenir illisible et est mieux utilisée pour les petites fonctions."
 
 
 [[:section {:tags "fonctions_renvoyant" :title "Fonctions renvoyant"}]]
 
-"Les fonctions peuvent renvoyer d'autres fonctions. Les fonctions sont retournés fermetures, ce qui signifie qu'ils peuvent accéder à toutes les variables qui étaient dans la portée lorsque la fonction a été créée.
+"Les fonctions peuvent renvoyer d'autres fonctions. Les fonctions renvoyant sont des fermetures, ce qui signifie qu'elles peuvent accéder à toutes les variables qui étaient dans son scope lorsque la fonction a été créée.
 
 Voici un exemple type:"
 
@@ -1552,19 +1551,19 @@ Voici un exemple type:"
 
 
 (exercice
-  "Les fonctions sont généralement définis avant qu'ils ne soient utilisés"
+  "Les fonctions sont généralement définies avant qu'elles ne soient utilisées"
   [
     (defn multiply-by-ten [n] (* 10 n))
    (= __ (multiply-by-ten 2))] 20)
 
 
 (exercice
-  "Mais ils peuvent également être définies en ligne"
+  "Mais elles peuvent également être définies en ligne"
   [(= __ ((fn [n] (* 5 n)) 2))] 10)
 
 
 (exercice
-  "Ou en utilisant une syntaxe encore plus court"
+  "Ou en utilisant une syntaxe encore plus courte"
   [(= __ (#(* 15 %) 4))] 60)
 
 
@@ -1590,32 +1589,31 @@ Voici un exemple type:"
 
 
 (exercice
-  "Fonctions d'ordre supérieur prennent des arguments de fonction"
+  "Les fonctions d'ordre supérieur prennent des arguments en fonction"
   [(= 25 (__
            (fn [n] (* n n))))] (fn [f] (f 5)))
 
 
 (exercice
-  "Mais ils sont souvent mieux écrite en utilisant les noms de fonctions"
+  "Mais ils sont souvent mieux écrit en utilisant les noms de fonctions"
   [(= 25 (__ square))] (fn [f] (f 5)))
 
 
 
 
 (exercice
-  "Vous pouvez créer votre mapping"
+  "Vous pouvez créer votre map"
   [(= [1 4 9 16 25] (map (fn [x] __) [1 2 3 4 5]))] (* x x))
 
 
 (exercice
-
   "Ou utiliser les noms de fonctions existantes"
   [(= __ (map nil? [:a :b nil :c :d]))] [false false true false false])
 
 
 (exercice
 
-  "Un filtre peut être forte"
+  "Un filtre peut être fort"
   [(= __ (filter (fn [x] false) '(:anything :goes :here)))] ())
 
 
@@ -1655,7 +1653,7 @@ Voici un exemple type:"
 
 #_ (exercice
 
-  "Les fonctions partielles permettent la procrastination"
+  "Les fonctions partielles permettent de procrastinater"
   [(= 20 (let [multiply-by-5 (partial * 5)]
            (__ __)))] :a :b :c :d)
 
@@ -1670,7 +1668,7 @@ Voici un exemple type:"
 
 (exercice
 
-  "Les fonctions peuvent unir leurs forces en une fonction 'composé'"
+  "Les fonctions peuvent unir leurs forces en une fonction 'composée'"
   [(= 25 (let [inc-and-square (comp square inc)]
            (inc-and-square __)))] 4)
 
@@ -1686,19 +1684,19 @@ Voici un exemple type:"
 
 [[:chapter {:tags "mise_en_commun" :title "Mise en commun"}]]
 
-"D'ACCORD! Disons tirer tout cela ensemble et utiliser nos connaissances pour un but noble: la fessée autour hobbits!
+"OK ! Il est temps d'utiliser nos nouvelles connaissances pour un but noble : la fessée d'hobbits!
 
-Afin de frapper un hobbit, nous allons d'abord modéliser ses parties du corps. Chaque partie du corps comprendra sa taille par rapport à nous aider à déterminer quelle est la probabilité que cette partie sera frappé.
+Afin de frapper un hobbit, nous allons d'abord modéliser ses parties du corps. Chaque partie du corps comprendra sa taille relative pour nous indiquer la probabilité que cette partie soit touchée.
 
-Afin d'éviter les répétitions, ce modèle de hobbit ne inclure des entrées pour \"pied gauche\", \"oreille gauche\", etc. Par conséquent, nous aurons besoin d'une fonction pour symétriser complètement le modèle.
+Afin d'éviter les répétitions, ce modèle de hobbit n'inclurera que des entrées comme \"pied gauche\", \"oreille gauche\", etc. Par conséquent, nous aurons besoin d'une fonction pour rendre le modèle symmétrique.
 
-Enfin, nous allons créer une fonction qui parcourt nos parties du corps et choisit au hasard l'un hit.
+Enfin, nous allons créer une fonction qui parcourera les parties du corps et choisira au hasard une partie.
 
 Fun!"
 
 [[:section {:tags "the_shire_s_next_top_model" :title "The Shire's Next Top Model"}]]
 
-"Pour notre modèle de hobbit, nous évitons des caractéristiques telles que «jovialité» et «malice» et se concentrer uniquement sur la petite corps du hobbit. Voici notre modèle de hobbit:"
+"Pour notre modèle de hobbit, nous éviterons des caractéristiques comme «jovialité» et «malice» et nous concentrerons uniquement sur le petit corps du hobbit. Voici notre modèle de hobbit:"
 
 (comment
   (  def  asym-hobbit-body-parts  [{  :name  "head"  :size  3  }
@@ -1723,9 +1721,9 @@ Fun!"
 
   )
 
-"Ce est un vecteur de cartes. Chaque carte a le nom de la partie du corps et la taille relative de la partie du corps. Ecoutez, je sais que seuls personnages de dessins animés ont des yeux 1/3 de la taille de leur tête, mais juste aller avec elle, OK?
+"C'est un vecteur de maps. Chaque map a le nom de la partie du corps et la taille relative de la partie du corps. Ecoutez, je sais que seuls les personnages d'anime ont des yeux faisant 1/3 de leur tête, mais admettons OK?
 
-Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-dessous est le code le plus complexe que nous avons examiné jusqu'ici. Il introduit quelques idées que nous ne avons pas encore couverts. Ne vous inquiétez pas cependant, parce que nous allons examiner en détail:
+Manifestement le côté droit du hobbit est absent. Corrigeons cela. Le code ci-dessous est le code le plus complexe que nous avons examiné jusqu'ici. Il introduit quelques idées que nous ne avons pas encore couverts. Ne vous inquiétez pas cependant, parce que nous allons examiner cela en détail:
 
 "
 
@@ -1787,10 +1785,10 @@ Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-desso
    {:name "right-foot", :size 2}]
   )
 
-"Let's break this down!"
+"Analysons ce code !"
 [[:section {:tags "let" :title "let"}]]
 
-"Dans notre symétriseur ci-dessus, nous avons vu ce qui suit:"
+"Dans notre fonction de symétrie ci-dessus, nous avons ce qui suit:"
 
 (comment
 
@@ -1800,7 +1798,7 @@ Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-desso
   )
 
 
-"Tout cela ne est lier les noms sur la gauche pour les valeurs sur la droite. Vous pouvez penser à \"let\" le plus court pour \"Let it be\", qui est aussi une belle chanson des Beatles (au cas où vous ne saviez pas (dans ce cas, wtf?)). Par exemple, \"Laissez -finale parties de corps soient (conj-finales parties de corps partie) . \""
+"Tout cela permait de lier les noms sur la gauche avec les valeurs sur la droite. Vous pouvez voir \"let\" comme un raccourci pour \"Let it be\", qui est aussi une belle chanson des Beatles (au cas où vous ne le saviez pas (dans ce cas, wtf?)). Par exemple, \"Laissez -finale parties de corps soient (conj-finales parties de corps partie) . \""
 
 "Voici quelques exemples simples:"
 
@@ -1819,7 +1817,7 @@ Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-desso
   )
 
 
-"*let*  introduit également une nouvelle portée:"
+"*let*  introduit également un nouveau scope :"
 
 (comment
   (def x 0)
@@ -1827,7 +1825,7 @@ Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-desso
   ; => 1
   )
 
-"Cependant, vous pouvez référencer les liaisons existantes dans votre let contraignant:"
+"Cependant, vous pouvez référencer des liaisons (binding) existantes dans votre let lié:"
 
 (comment
   (def x 0)
@@ -1835,7 +1833,7 @@ Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-desso
   ; => 1
   )
 
-"Vous pouvez également utiliser repos-params de let , tout comme vous pouvez en fonctions:"
+"Vous pouvez également utiliser des paramètres rest dans let comme avec les fonctions :"
 
 (comment
 
@@ -1844,15 +1842,15 @@ Manifestement absent est le côté droit du hobbit. Fixons cela.Le code ci-desso
   ; => ["Pongo" ("Perdita" "Puppy 1" "Puppy 2")]
   )
 
-"Notez que la valeur d'un *let* forme est la dernière forme dans son corps qui obtient évaluée.
+"Notez que la valeur d'une form *let* est la dernière form dans son corps qui est évaluée.
 
-*let* forms suivent les règles de déstructuration qui nous introduit dans «Appel d'une fonction\" ci-dessus.
+*let* suit les règles de déstructuration qui nous introduit dans «Appel d'une fonction\" ci-dessus.
 
-Une façon de penser *let* forms, ce est qu'ils fournissent des paramètres et leurs arguments secondaires à côte. *let* forms ont deux utilisations principales:
+Une façon de voir les forms *let*, c'est qu'ils fournissent des paramètres et leurs arguments secondaires à côte. Les forms *let* ont deux utilisations principales:
 
-* Ils fournissent la clarté en vous permettant de nommer les choses
-* Ils vous permettent d'évaluer une expression qu'une seule fois et ré-utiliser le résultat. Ceci est particulièrement important lorsque vous avez besoin de réutiliser le résultat d'un appel de fonction coûteux, comme un appel d'API de réseau. Il est également important lorsque l'expression a des effets secondaires.
-Ayons un autre regard sur  *let* forme dans notre fonction de symétrisation afin que nous puissions comprendre exactement ce qui se passe:"
+* Ils fournissent de la clarté en vous permettant de nommer les choses
+* Ils vous permettent d'évaluer une expression qu'une seule fois et de ré-utiliser le résultat. Ceci est particulièrement important lorsque vous avez besoin de réutiliser le résultat d'un appel d'une fonction coûteux, comme un appel d'API de réseau. Il est également important lorsque l'expression a des effets secondaires.
+Changeons de regard sur la form *let* dans notre fonction de symétrie afin que nous puissions comprendre exactement ce qui se passe:"
 
 
 (comment
@@ -1866,7 +1864,7 @@ Ayons un autre regard sur  *let* forme dans notre fonction de symétrisation afi
       (recur remaining final-body-parts)))
   )
 
-"Notez que *part* , *remaining*, et *final-body-parts* de corps sont utilisé plusieurs fois dans le corps du *let* . Si, au lieu d'utiliser les noms *part* , *remaining*, et *final-body-parts* , nous avons utilisé les expressions originales, ce serait un gâchis! Par exemple:"
+"Notez que *part*, *remaining*, et *final-body-parts* du corps sont utilisés plusieurs fois dans le corps de *let*. Si, au lieu d'utiliser les noms *part* , *remaining*, et *final-body-parts* , nous avions utilisé les expressions originales, ce serait du gâchis ! Par exemple :"
 
 
 (comment
@@ -1879,7 +1877,7 @@ Ayons un autre regard sur  *let* forme dans notre fonction de symétrisation afi
       (conj (conj final-body-parts (first remaining-asym-parts)))))
   )
 
-"Alors, let est un moyen pratique d'introduire des noms pour les valeurs."
+"Ainsi, let est un moyen pratique d'introduire des noms pour les valeurs."
 
 [[:section {:tags "boucle" :title " boucle"}]]
 
@@ -1901,11 +1899,11 @@ Ayons un autre regard sur  *let* forme dans notre fonction de symétrisation afi
   Goodbye!
   )
 
-"La première ligne, *loop [itération 0]* commence la boucle et présente une liaison avec une valeur initiale. Ce est presque comme appeler une fonction anonyme avec une valeur par défaut. Au premier passage dans la boucle, *iteration* a une valeur de 0.
+"La première ligne, *loop [itération 0]* commence la boucle et présente une liaison avec une valeur initiale. C'est comme appeler une fonction anonyme avec une valeur par défaut. Au premier passage dans la boucle, *iteration* a une valeur de 0.
 
 Ensuite, il imprime un petit message super intéressant.
 
-Ensuite, il vérifie la valeur de *iteration* - si elle est supérieure à 3, alors il est temps de dire au revoir. Sinon, nous bouclons via *recur* . Ce est comme appeler la fonction anonyme créée par *loop* , mais cette fois nous passons un argument, (itération inc) .
+Ensuite, il vérifie la valeur de *iteration* - si elle est supérieure à 3, alors il est temps de dire au revoir. Sinon, nous bouclons via *recur* . C'est comme appeler la fonction anonyme créée par *loop*, mais cette fois nous passons un argument (itération inc).
 
 Vous pourriez en fait accomplir la même chose tout en utilisant les fonctions:"
 
@@ -1929,18 +1927,18 @@ Vous pourriez en fait accomplir la même chose tout en utilisant les fonctions:"
   Goodbye!
   )
 
-"Comme vous pouvez le voir, ce est un peu plus verbeux. En outre, la boucle a de bien meilleures performances."
+"Comme vous pouvez le voir, c'est un peu plus verbeux. En outre, la boucle a de bien meilleures performances."
 
 
 [[:section {:tags "expressions_regulieres" :title "Expressions régulières"}]]
 
-"Les expressions régulières sont des outils pour effectuer le filtrage sur le texte. Je ne entrerai pas dans la façon dont ils travaillent, mais voici leur notation littérale:"
+"Les expressions régulières sont des outils pour effectuer un filtrage dans un texte. Nous ne verrons pas comment ils fonctionnent, mais voici leur notation littérale:"
 (comment
   ;; pound, open quote, close quote
   #"regular-expression"
   )
 
-"Dans notre symétriseur, re-trouver renvoie true ou false selon que le nom de la partie commence par la chaîne \"gauche\":"
+"Dans notre fonction de symétrie, re-find renvoie true ou false selon ou non que le nom de la partie commence par la chaîne de caractère \"left\":"
 
 (comment
   (defn needs-matching-part?
@@ -1958,7 +1956,7 @@ Vous pourriez en fait accomplir la même chose tout en utilisant les fonctions:"
 
 [[:section {:tags "symetriseur" :title "Symétriseur"}]]
 
-"Maintenant, nous allons analyser le symétriseur pleinement. Remarque points de flottent dans l'océan, comme *~~~1~~~* :"
+"Maintenant, revenons sur la fonction entière de symétrie. Les remarques sont de la forme *~~~1~~~* :"
 
 (comment
   (def asym-hobbit-body-parts [{:name "head" :size 3}
@@ -2007,25 +2005,25 @@ Vous pourriez en fait accomplir la même chose tout en utilisant les fonctions:"
 
 
 "1. Cette fonction utilise une stratégie générale qui est commun dans la programmation fonctionnelle.
- Compte tenu d'une séquence (dans ce cas, un vecteur de parties du corps et de leurs tailles), divisé en continu la séquence dans une «tête» et une «queue».Traiter la tête, l'ajouter à un certain résultat, et ensuite utiliser la récursivité pour poursuivre le processus avec la queue.
+ Soit une séquence (dans ce cas, un vecteur des parties du corps et de leurs tailles), la fonction sépare continuellement la séquence en «head» et «tail». Ensuite, elle traite le head, l'ajoute au résultat, et utilise la récursion pour continuer le traitement du tail.
 
-2. Commencez boucle sur les parties du corps. La \"queue\" de la séquence sera lié à *remaining-asym-parts* . Initialement, il est lié à la séquence complète passée à la fonction, *asym-body-parts* . Créer une séquence de résultats, *final-body-parts* ; sa valeur initiale est un vecteur vide.
+2. On commence par boucler sur les parties du corps. Le \"tail\" de la séquence sera lié à *remaining-asym-parts* . Au début, il est lié à la séquence complète passée à la fonction, *asym-body-parts* . Nous créons également une séquence de résultats, *final-body-parts* ; sa valeur initiale est un vecteur vide.
 
 3. Si remaining-asym-parts est vide, cela signifie que nous avons traité la séquence entière et nous pouvons retourner le résultat, *final-body-parts*.
 
-4. Sinon, diviser la liste en tête, partie , et la queue, *remaining* . En outre, ajouter une *part* à *final-body-parts* de corps et re-lier le résultat du nom *final-body-parts* . Cela peut sembler bizarre, et il est intéressant de comprendre pourquoi cela fonctionne.
+4. Sinon, on divise la liste en head, part, et tail, *remaining* . En outre, ajouter une *part* à *final-body-parts* de corps et re-lier le résultat du nom *final-body-parts* . Cela peut sembler bizarre, et il est intéressant de comprendre pourquoi cela fonctionne.
 
-5. Notre séquence croissante de *final-body-parts* comprend déjà la partie du corps que nous sommes en train d'examiner, partie . Ici, nous décidons si nous devons ajouter la partie du corps correspondant à la liste.
+5. Notre séquence croissante de *final-body-parts* comprend déjà la partie du corps que nous sommes en train d'examiner, *part* . Ici, nous décidons si nous devons ajouter la partie du corps correspondant à la liste.
 
-6.Si oui, puis ajouter le résultat de *make-matching-part* à *final-body-parts* de corps et de se reproduire. Sinon, se reproduire.
+6. Si oui, nous ajoutons le résultat de *make-matching-part* à *final-body-parts* de corps et recur. Sinon, on recur.
 
 
-Si vous êtes nouveau à ce genre de programmation, cela pourrait prendre un certain temps de déchiffrer. Rester avec elle! Une fois que vous comprenez ce qui se passe, vous vous sentirez comme un million de dollars!
+Si vous êtes nouveau dans ce type de programmation, cela peut prendre un certain temps à déchiffrer. Persévérez ! Une fois que vous comprenez ce qui se passe, vous vous sentirez comme un million de dollars!
 "
 
-[[:section {:tags "symetriseur_reduice" :title "Symétriseur et reduice"}]]
+[[:section {:tags "symetriseur_reduice" :title "Symétriseur et reduce"}]]
 
-"Le modèle de «traiter chaque élément d'une séquence et de construire un résultat\" est si commun qu'il ya une fonction pour cela: réduire .
+"Le modèle de «traiter chaque élément d'une séquence et construire un résultat\" est si commun qu'il y a une fonction pour cela: reduce .
 
 Voici un exemple simple:"
 
@@ -2035,7 +2033,7 @@ Voici un exemple simple:"
   ; => 10
   )
 
-"C'est comme demander à Clojure de faire ca:"
+"C'est comme demander à Clojure de faire cela:"
 
 (comment
 
@@ -2045,18 +2043,18 @@ Voici un exemple simple:"
 
 "C'est a dire :"
 
-"1. Appliquer la fonction donnée pour les deux premiers éléments d'une séquence. Ce est là (+ 1 2) vient.
-2. Appliquer la fonction donnée pour le résultat et l'élément suivant de la séquence. Dans ce cas, le résultat de l'étape 1 est 3 , et l'élément suivant de la séquence est 3 aussi. Donc, vous vous retrouvez avec (3 + 3) .
+"1. Appliquer la fonction donnée pour les deux premiers éléments d'une séquence. (+ 1 2) vient de là.
+2. Appliquer la fonction donnée pour le résultat et l'élément suivant de la séquence. Dans ce cas, le résultat de l'étape 1 est 3 , et l'élément suivant de la séquence est 3 aussi. Donc, vous vous retrouvez avec (+ 3 3) .
 3. Répétez l'étape 2 pour chaque élément restant dans la séquence.
-Reduce prend également une valeur initiale en option. 15 est la valeur initiale ici:"
+Reduce prend également une valeur optionnelle initiale. 15 est la valeur initiale ici:"
 
 (comment
   (reduce + 15 [1 2 3 4])
   )
 
-"Si vous fournissez une valeur initiale, puis réduire commence en appliquant la fonction donnée à la valeur initiale et le premier élément de la séquence, plutôt que les deux premiers éléments de la séquence.
+"Si vous fournissez une valeur initiale, reduce commence par appliquer la fonction donnée à la valeur initiale et le premier élément de la séquence, plutôt que les deux premiers éléments de la séquence.
 
-Pour mieux comprendre comment réduire œuvres, voici une façon qu'il puisse être mis en œuvre:"
+Pour mieux comprendre comment reduce marche, voici une façon de l'implémenter :"
 
 (comment
   (defn my-reduce
@@ -2070,7 +2068,7 @@ Pour mieux comprendre comment réduire œuvres, voici une façon qu'il puisse ê
       (my-reduce f head tail)))
   )
 
-"Nous pourrions ré-implémenter Symétriser comme suit:"
+"Nous pourrions ré-implémenter la fonction de symétrie comme cela :"
 
 (comment
 
