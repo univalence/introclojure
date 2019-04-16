@@ -1002,9 +1002,9 @@ Prenez la fonction map (à ne pas confondre avec la structure de données de map
 
 En effet, la capacité de Clojure à recevoir des fonctions comme arguments vous permet de construire des abstractions plus puissantes.
 
-Clojure (et tous Lisp) vous permet de créer des fonctions qui généralisent sur ​​les processus map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - une fonction - plus de toute collection.
+Clojure (et tout langage Lisp) vous permet de créer des fonctions qui généralisent sur ​​les processus. Map vous permet de généraliser le processus de transformation d'une collection en appliquant une fonction - toute fonction - sur toute collection.
 
-La dernière chose que vous devez savoir sur les appels de fonction est que Clojure évalue tous les arguments de la fonction récursive avant de les transmettre à la fonction.
+La dernière chose que vous devez savoir sur les appels de fonction est que Clojure évalue tous les arguments d'une fonction récursive avant de les transmettre à la fonction.
 
 Voici comment Clojure va évaluer un appel de fonction dont les arguments sont aussi des appels de fonctions :"
 
@@ -1025,7 +1025,7 @@ Voici comment Clojure va évaluer un appel de fonction dont les arguments sont a
 
 
 "Dans la dernière section, vous avez appris que les appels de fonction sont des expressions qui ont une expression de fonction en tant qu'opérateur.
-Il existe deux autres types d'expressions: appels de macro et **forms spéciales**. Vous avez déjà vu un couple forms spéciales:"
+Il existe deux autres types d'expressions : appels de macro et **forms spéciaux**. Vous avez déjà vu un couple forms spéciaux :"
 
 (comment
 
@@ -1035,8 +1035,8 @@ Il existe deux autres types d'expressions: appels de macro et **forms spéciales
     (def error-message (str error-message "DOOOOOOOMED!")))
   )
 
-"Vous apprendrez tout ce qu'il ya à savoir sur les appels de macro et les forms spéciales dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Pour l'instant, cependant, la principale caractéristique qui rend forms spéciales \"spécial\", ce est qu'ils ne évaluent pas toujours tous leurs opérandes, contrairement appels de fonction.
-Prenez if , par exemple. Sa structure générale est:"
+"Vous apprendrez tout ce qu'il ya à savoir sur les appels de macro et les forms spéciaux dans le chapitre \"Clojure Alchemy: lecture, l'évaluation et les macros». Pour l'instant, la principale caractéristique qui rend les forms spéciaux \"spécial\", ce est qu'ils n'évaluent pas toujours tous leurs opérandes, contrairement aux appels de fonction.
+Prenez if, par exemple. Sa structure générale est :"
 
 (comment
   (if boolean-form
@@ -1045,8 +1045,7 @@ Prenez if , par exemple. Sa structure générale est:"
   )
 
 
-"Maintenant, imaginez que vous aviez un if déclaration de ce genre:"
-
+"Maintenant, imaginez que vous aviez une déclaration if de ce genre :"
 
 (comment
   (if good-mood
@@ -1055,25 +1054,25 @@ Prenez if , par exemple. Sa structure générale est:"
   )
 
 "
-Une  caractéristique qui différencie les forms spéciales, ce est que vous ne pouvez pas les utiliser comme arguments de fonctions.
+Une caractéristique qui différencie les forms spéciaux, est que vous ne pouvez pas les utiliser comme arguments de fonctions.
 
-En général, les forms particulières à mettre en œuvre la fonctionnalité Clojure de base qui ne peut pas être mis en œuvre avec des fonctions. Il y a seulement une poignée de forms spéciales Clojure, et il est assez étonnant que cette langue riche est mis en œuvre avec un tel petit ensemble de blocs de construction.
+En général, les forms spéciaux implémentent des fonctionnalités Clojure de base qui ne peuvent pas être implémentées avec des fonctions. Il y a seulement une poignée de forms spéciaux Clojure, et il est assez étonnant que cette langue riche est implémentée avec un ensemble aussi petit de blocs.
 
-Macros sont semblables à des forms particulières en ce qu'elles évaluent leurs opérandes différemment des appels de fonction et ils ont aussi ne peuvent pas être passés comme arguments à des fonctions. Mais ce détour a pris assez longtemps; il est temps d'apprendre à définir des fonctions!"
+Les macros sont semblables à des forms particuliers en ce qu'elles évaluent leurs opérandes différemment des appels de fonction et ils ont aussi ne peuvent pas être passés comme arguments à des fonctions. Il est maintenant temps d'apprendre à définir des fonctions!"
 
 
 [[:section {:tags "definition_de_fonctions" :title "Définition de fonctions"}]]
 
-"Les définitions de fonctions sont constituées de cinq parties principales:
+"Les définitions de fonctions sont constituées de cinq parties principales :
 
 *defn
 *Un nom
 *(Facultatif) un docstring
-*Les Paramètres
+*Les paramètres
 *Le corps de la fonction
 "
 
-"Voici un exemple d'une définition de fonction et  appelant la fonction:"
+"Voici un exemple d'une définition de fonction et un appel de la fonction :"
 
 (comment
 
@@ -1088,17 +1087,17 @@ Macros sont semblables à des forms particulières en ce qu'elles évaluent leur
 
   )
 
-"Débutons plus profondément dans le docstring, paramètres, et le corps de la fonction."
+"Immersons-nous plus profondément dans la docstring, les paramètres et le corps de la fonction."
 [[:subsection {:tags "definition_de_fonctions" :title "Définition de fonctions"}]]
 
 
-"Le docstring est vraiment cool. Vous pouvez afficher lz docstring pour une fonction dans le REPL avec (doc fn-name) , par exemple (doc map) .
-Le docstring est également utilisé si vous utilisez un outil pour générer la documentation de votre code.
-Dans l'exemple ci-dessus, \"Return a cheer that might be a bit too enthusiasti\" est le docstring."
+"La docstring est vraiment cool. Vous pouvez afficher la docstring pour une fonction dans le REPL avec (doc fn-name) , par exemple (doc map) .
+La docstring est également utile si vous utilisez un outil pour générer la documentation de votre code.
+Dans l'exemple ci-dessus, \"Return a cheer that might be a bit too enthusiastic\" est la docstring."
 
 [[:subsection {:tags "Les_parametres" :title "Les Paramètres"}]]
 
-"Les fonctions Clojure peuvent être définies avec zéro ou plusieurs paramètres:"
+"Les fonctions Clojure peuvent être définies avec zéro ou plusieurs paramètres :"
 
 (comment
   (defn no-params
@@ -1115,7 +1114,7 @@ Dans l'exemple ci-dessus, \"Return a cheer that might be a bit too enthusiasti\"
       "together to spite you! " x y))
   )
 
-"Les fonctions peuvent également être surchargés par arité. Cela signifie qu'un corps de fonction fonctionne différent  selon le nombre d'arguments passés à une fonction.
+"Les fonctions peuvent également être surchargées par arité. Cela signifie qu'un corps de fonction fonctionne différement selon le nombre d'arguments passés à une fonction.
 
 Voici la forme générale d'une définition de fonction de plusieurs arité"
 
@@ -1133,7 +1132,7 @@ Voici la forme générale d'une définition de fonction de plusieurs arité"
       (do-things first-arg)))
   )
 
-"Surcharge par arité est un moyen de fournir des valeurs par défaut pour les arguments. Dans ce cas, \"karate\" est l'argument par défaut pour le chop-type param:"
+"Surcharge par arité est un moyen de fournir des valeurs par défaut pour les arguments. Dans ce cas, \"karate\" est l'argument par défaut pour le paramètre chop-type :"
 
 (comment
 
@@ -1146,14 +1145,14 @@ Voici la forme générale d'une définition de fonction de plusieurs arité"
   )
 
 
-"Si vous appelez x-chop avec deux arguments, la fonction fonctionne comme il le ferait si elle ne était pas une fonction multi-arité:"
+"Si vous appelez x-chop avec deux arguments, la fonction fonctionne comme elle le ferait si elle n'était pas une fonction avec une arité multiple :"
 
 (comment
   (x-chop "Kanye West" "slap")
   ; => "I slap chop Kanye West! Take that!"
   )
 
-"Si vous appelez x-chop avec un seul argument, cependant, puis x-chop sera effectivement se appeler avec le second argument \"karate\" fourni:"
+"Si vous appelez x-chop avec un seul argument, x-chop sera appellée avec le second argument \"karate\" fourni :"
 
 (comment
 
@@ -1162,10 +1161,9 @@ Voici la forme générale d'une définition de fonction de plusieurs arité"
 
   )
 
+"Il peut sembler inhabituel de définir une fonction comme çela. Si vous pensez cela, super ! Vous avez appris une nouvelle façon de faire les choses !
 
-"Il peut sembler inhabituel de définir une fonction en termes de lui-même de ce genre. Si oui, super! Vous apprenez une nouvelle façon de faire les choses!
-
-Vous pouvez également faire de chaque arité faire quelque chose de complètement indépendant:"
+Vous pouvez également faire de chaque arité faire quelque chose de complètement indépendant :"
 
 (comment
 
@@ -1180,7 +1178,7 @@ Vous pouvez également faire de chaque arité faire quelque chose de complèteme
 
   )
 
-"Mais le plus probable, vous ne voulez pas le faire.Clojure vous permet également de définir des fonctions arité variable en incluant un \"reste-param\", comme dans \"mettre le reste de ces arguments dans une liste avec le nom suivant\":"
+"Mais le plus probable, c'est que vous ne voulez pas le faire. Clojure vous permet également de définir des fonctions d'arité variable en incluant un \"reste-param\", comme dans \"mettre le reste de ces arguments dans une liste avec le nom suivant\" :"
 
 (comment
   (defn codger-communication
@@ -1200,9 +1198,9 @@ Vous pouvez également faire de chaque arité faire quelque chose de complèteme
   )
 
 
-"Comme vous pouvez le voir, lorsque vous fournissez des arguments aux fonctions arité variable, les arguments sont traités comme une liste.
+"Comme vous pouvez le voir, lorsque vous fournissez des arguments aux fonctions d'arité variable, les arguments sont traités comme une liste.
 
-Vous pouvez mélanger repos-params avec params normales, mais le reste-param doit venir en dernier:"
+Vous pouvez mélanger les paramètres rest avec des paramètres normaux, mais le paramètre rest doit venir en dernier :"
 
 (comment
   (defn favorite-things
@@ -1214,10 +1212,10 @@ Vous pouvez mélanger repos-params avec params normales, mais le reste-param doi
   ; => "Hi, Doreen, here are my favorite things: gum, shoes, kara-te"
   )
 
-"Enfin, Clojure a une façon plus sophistiquée de la définition des paramètres appelé \"déstructuration\", qui mérite son propre paragraphe:"
+"Enfin, Clojure a une façon plus sophistiquée pour définir des paramètres, appelé \"déstructuration\", qui mérite son propre paragraphe :"
 [[:subsection {:tags "Destructuration" :title "Déstructuration"}]]
 
-"L'idée de base derrière déstructuration est qu'il vous permet de lier de façon concise *symboles* à des *valeurs* au sein d'une *collection*. Regardons un exemple de base:"
+"L'idée de base derrière déstructuration est qu'il vous permet de lier de façon concise *symboles* à des *valeurs* au sein d'une *collection*. Regardons un exemple de base :"
 
 
 (comment
@@ -1233,7 +1231,7 @@ Vous pouvez mélanger repos-params avec params normales, mais le reste-param doi
 
   )
 
-"Voici comment vous voulez faire la même chose sans déstructuration:"
+"Voici comment vous pouvez faire la même chose sans déstructuration :"
 
 (comment
 
