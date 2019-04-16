@@ -7,8 +7,8 @@
 }
 
 .constraints {
-width:38%;
-float:right;
+    width:38%;
+    float:right;
 }
 
 .constraints .unvalidated {
@@ -28,7 +28,7 @@ float:right;
 	border-top: 1px solid #888; 
 	border-bottom: 1px solid #888;
   	border-right: 1px solid #888;
-  	height: 100px;
+  	height: 200px;
  }
 
 .EvalResult {border-left: 2px solid #000;}

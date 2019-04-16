@@ -3,7 +3,8 @@
             [introclojure.exercice]
             [markdown.core :refer [md-to-html-string]]
             [me.raynes.conch :refer [programs]]
-            :reload))
+            :reload
+            [clojure.walk :as walk]))
 
 (programs pygmentize)
 
@@ -11,7 +12,7 @@
 
 (defn basic-html-escape
   [data]
-  (clojure.string/escape data { \< "&lt;" \> "&gt;" \& "&amp;" \" "&quot;" }))
+  (clojure.string/escape data {\< "&lt;" \> "&gt;" \& "&amp;" \" "&quot;"}))
 
 (defn basic-html-unescape
   [data]
@@ -25,20 +26,20 @@
 (defn adjust-facts-code [s spaces]
   (let [i-arrow (.lastIndexOf s "=>")]
     (if (<= 0 i-arrow)
-        (let [i-nl  (.lastIndexOf s "\n" i-arrow)
-              rhs (-> (.substring s i-nl)
-                      (.replaceAll (str "\n" spaces) "\n"))
-              lhs (.substring s 0 i-nl)]
-          (str lhs rhs))
-        s)))
+      (let [i-nl (.lastIndexOf s "\n" i-arrow)
+            rhs (-> (.substring s i-nl)
+                    (.replaceAll (str "\n" spaces) "\n"))
+            lhs (.substring s 0 i-nl)]
+        (str lhs rhs))
+      s)))
 
 (defn adjust-indented-code [s spaces]
   (let [fst-idx (.indexOf s "\n")]
     (if (< fst-idx 0) s
-      (let [rst-ori (.substring s fst-idx)
-          rst-new (.replaceAll rst-ori (str "\n" spaces) "\n")
-          fst-str (.substring s 0 fst-idx)]
-        (str fst-str rst-new)))))
+                      (let [rst-ori (.substring s fst-idx)
+                            rst-new (.replaceAll rst-ori (str "\n" spaces) "\n")
+                            fst-str (.substring s 0 fst-idx)]
+                        (str fst-str rst-new)))))
 
 
 
@@ -49,32 +50,42 @@
 
         eid (introclojure.exercice/store-and-get-id elem)]
 
-   [:div {:class "exercice-box" :id eid}
+    [:div {:class "exercice-box" :id eid}
 
-    [:h4 "Exercice : " title ]
-    [:div
+     [:h4 "Exercice : " title]
+     [:div
 
-      [:div {:class "constraints"}
-       "Résoudre avec les contraintes suivantes"
-       (for [e exs]
+      (when (not-empty exs)
+        [:div {:class "constraints"}
+         (for [e exs]
 
-         (let [cid (introclojure.exercice/store-and-get-id [elem e])]
+           (let [cid (introclojure.exercice/store-and-get-id [elem e])]
+             (do
+               ;           (println e)
+               [:div {:id cid :class "constraint"}
 
-       [:div {:id cid :class "constraint"}(-> e str basic-html-escape)]
-       ))
+                (if (= (take 2 e) '(= __))
+                  (str "Quelle est la valeur de cette expression ? <br />" (-> e (nth 2) str basic-html-escape))
 
-      ]
+
+                  (str "Proposez une <i>__réponse__</i> tel que l'expression suivante soit vraie. <br />" (->> e
+                                                                        (walk/prewalk-replace '{__ __réponse__})
+                                                                        str
+                                                                        basic-html-escape)))])
+             ))
+
+         ])
 
 
       [:div {:class "spad"}
        [:script {:type "text/javascript"}
-       "myOnload(function() {createCodePad($(\"#" eid  " .spad\")[0], \"" eid "\");});"
-       ]
+        "myOnload(function() {createCodePad($(\"#" eid " .spad\")[0], \"" eid "\");});"
+        ]
 
+       ]
       ]
      ]
-     ]
-  ))
+    ))
 
 
 (defn render-element [elem]
@@ -112,8 +123,8 @@
     [:div
      (if *plain*
        [:pre (-> elem :content basic-html-escape)]
-       (pygmentize  "-f" "html" "-l" (or (:lang elem) "clojure")
-                    {:in (:content elem)}))]
+       (pygmentize "-f" "html" "-l" (or (:lang elem) "clojure")
+                   {:in (:content elem)}))]
     :code
 
     [:div
@@ -126,9 +137,9 @@
                  (basic-html-escape)
                  (adjust-indented-code (apply str (repeat (or (:fact-level elem) 0) "  "))))]
        (let [output
-             (pygmentize  "-f" "html" "-l" (or (:lang elem) "clojure")
-                          {:in (adjust-indented-code (:content elem)
-                                                     (apply str (repeat (or (:fact-level elem) 0) "  ")))})]
+             (pygmentize "-f" "html" "-l" (or (:lang elem) "clojure")
+                         {:in (adjust-indented-code (:content elem)
+                                                    (apply str (repeat (or (:fact-level elem) 0) "  ")))})]
          ;;(do (println output))
          output))]
 
@@ -153,7 +164,7 @@
               [:i [:a {:href (str "#" (:tag elem))} (str (:num elem) " &nbsp; " (:title elem))]]]
 
     :subsection [:h5 "&nbsp;&nbsp;&nbsp;&nbsp;"
-                [:i [:a {:href (str "#" (:tag elem))} (str (:num elem) " &nbsp; " (:title elem))]]]))
+                 [:i [:a {:href (str "#" (:tag elem))} (str (:num elem) " &nbsp; " (:title elem))]]]))
 
 (defn render-toc [elems]
   (let [telems (filter #(#{:chapter :section :subsection} (:type %)) elems)]
@@ -162,7 +173,7 @@
 
 (defn render-elements [elems]
   (html/html
-   (map render-element elems)))
+    (map render-element elems)))
 
 (defn slurp-res [path]
   (slurp (or (try (clojure.java.io/resource path)
@@ -179,26 +190,26 @@
     (if-let [author (:author document)]
       [:h5 "Author: " author
        (if-let [email (:email document)]
-         [:b "&nbsp;&nbsp;" [:a {:href (str "mailto:" email)} "(" email ")"] ])])
+         [:b "&nbsp;&nbsp;" [:a {:href (str "mailto:" email)} "(" email ")"]])])
     (if-let [version (:version document)]
       [:h5 "Library: v" version])
     (if-let [rev (:revision document)]
       [:h5 "Revision: v" rev])
     [:h5 "Date: " (.format
-                   (java.text.SimpleDateFormat. "dd MMMM yyyy")
-                   (java.util.Date.))]
+                    (java.text.SimpleDateFormat. "dd MMMM yyyy")
+                    (java.util.Date.))]
     (if-let [url (:url document)]
       [:h5 "Website: " [:a {:href url} url]])
     (if (not (false? (:advertise document)))
       [:h5 "Generated By: " [:a {:href "http://www.github.com/zcaudate/lein-midje-doc"}
-                                 "MidjeDoc"]])]
+                             "MidjeDoc"]])]
    [:br]
    [:hr]])
 
 (defn render-tracking [document]
   (if (:tracking document)
     [:script
-      (str "var _gaq = _gaq || [];
+     (str "var _gaq = _gaq || [];
         _gaq.push(['_setAccount', '" (:tracking document) "']);
         _gaq.push(['_trackPageview']);
 
@@ -212,77 +223,77 @@
   (let [heading (render-heading document)]
     (spit output
           (html/html
-           [:html
-            [:head
-             [:meta {:http-equiv "X-UA-Compatible" :content "chrome=1"}]
-             [:meta {:charset "utf-8"}]
-             [:meta {:name "viewport" :content "width=device-width, initial-scale=1, user-scalable=no"}]
-             [:title (or (:window document) (:title document))]
-             [:style
-              (str
-               (slurp-res "template/stylesheets/styles.css")
-               "\n\n"
-               (slurp-res "template/stylesheets/pygment_trac.css")
-               "\n\n")]
+            [:html
+             [:head
+              [:meta {:http-equiv "X-UA-Compatible" :content "chrome=1"}]
+              [:meta {:charset "utf-8"}]
+              [:meta {:name "viewport" :content "width=device-width, initial-scale=1, user-scalable=no"}]
+              [:title (or (:window document) (:title document))]
+              [:style
+               (str
+                 (slurp-res "template/stylesheets/styles.css")
+                 "\n\n"
+                 (slurp-res "template/stylesheets/pygment_trac.css")
+                 "\n\n")]
 
               ]
-            [:body
-             [:header
-              heading
-              (render-toc elems)
-              [:br]]
-             [:section
-              heading
-              (map render-element elems)]]
-            [:script {:type "text/javascript"}
-             (slurp-res "template/javascripts/scale.fix.js")]
-            (render-tracking document)]))))
+             [:body
+              [:header
+               heading
+               (render-toc elems)
+               [:br]]
+              [:section
+               heading
+               (map render-element elems)]]
+             [:script {:type "text/javascript"}
+              (slurp-res "template/javascripts/scale.fix.js")]
+             (render-tracking document)]))))
 
 
 
 
 
- (defn render-html-doc2 [elems]
-          (html/html
-           [:html
-            [:head
-             [:meta {:http-equiv "X-UA-Compatible" :content "chrome=1"}]
-             [:meta {:charset "utf-8"}]
-             [:meta {:name "viewport" :content "width=device-width, initial-scale=1, user-scalable=no"}]
+(defn render-html-doc2 [elems]
+  (html/html
+    [:html
+     [:head
+      [:meta {:http-equiv "X-UA-Compatible" :content "chrome=1"}]
+      [:meta {:charset "utf-8"}]
+      [:meta {:name "viewport" :content "width=device-width, initial-scale=1, user-scalable=no"}]
 
-             ; <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
+      ; <link rel='stylesheet' href='https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/dark.css'>
 
-             [:link {:rel "stylesheet" :href "https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css"}]
-             [:style
-              (slurp-res "public/codemirror-5.1/lib/codemirror.css")
-              "\n\n"
-              (slurp-res "template/stylesheets/styles.css")
-              "\n\n"
-              (slurp-res "template/stylesheets/pygment_trac.css")
-              "\n\n"
-              "body {max-width: 900px;}"
-              ]
+      [:link {:rel "stylesheet" :href "https://cdn.jsdelivr.net/gh/kognise/water.css@latest/dist/light.css"}]
+      [:style
+       (slurp-res "public/codemirror-5.1/lib/codemirror.css")
+       "\n\n"
+       (slurp-res "template/stylesheets/styles.css")
+       "\n\n"
+       (slurp-res "template/stylesheets/pygment_trac.css")
+       "\n\n"
+       "body {max-width: 900px;}"
+       ]
 
-             (for [s ["/jquery/jquery-1.11.2.min.js"
+      (for [s ["/jquery/jquery-1.11.2.min.js"
 
-                      "/codemirror-5.1/lib/codemirror.js",
-                       "/codemirror-5.1/addon/edit/closebrackets.js",
-                       "/codemirror-5.1/mode/clojure/clojure.js",
-                       "/codemirror-5.1/addon/display/placeholder.js",
-                       "/codemirror-5.1/addon/runmode/runmode.js"
-                      "/edit.js"
-                      ]]
-               [:script {:type "text/javascript" :src s}]
-              )
-             [:link {:href "/css/style2.css" :rel "stylesheet" :type "text/css"}]
+               "/codemirror-5.1/lib/codemirror.js",
+               "/codemirror-5.1/addon/edit/closebrackets.js",
+               "/codemirror-5.1/mode/clojure/clojure.js",
+               "/codemirror-5.1/addon/display/placeholder.js",
+               "/codemirror-5.1/addon/runmode/runmode.js"
+               "/edit.js"
+               ]]
+        [:script {:type "text/javascript" :src s}]
+        )
+      [:link {:href "/css/style2.css" :rel "stylesheet" :type "text/css"}]
 
-              ]
-            [:body
-             [:header
-              (render-toc elems)
-              [:br]]
-             [:section
-              (map render-element elems)]]
-            [:script {:type "text/javascript"}
-             (slurp-res "template/javascripts/scale.fix.js")]]))
+      ]
+     [:body
+      [:header
+       (render-toc elems)
+       [:br]]
+      [:section
+       (map render-element elems)]]
+     [:script {:type "text/javascript"}
+      (slurp-res "template/javascripts/scale.fix.js")]]))
 
