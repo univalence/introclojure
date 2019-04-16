@@ -36,6 +36,7 @@
 
 "La syntaxe de Clojure est simple. Comme tous les Lisps, il emploie une structure uniforme, une poignée d'opérateurs spéciaux, et un approvisionnement constant de parenthèses livrées par les mines de parenthèses, cachées sous le Massachusetts Institute of Technology, où Lisp est né."
 
+
 [[:section {:tag "forms" :title "Forms"}]]
 
 

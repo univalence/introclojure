@@ -1,6 +1,6 @@
 (exercice
   "Vous avez peut-être fait plus avec Java que vous pensez"
-  [(= __ (class "warfare"))]java.lang.String)
+  [(= __ (class "warfare"))] java.lang.String)
 
 
   (exercice
