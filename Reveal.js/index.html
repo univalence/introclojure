@@ -36,7 +36,9 @@
 						.profile img {width:10%; vertical-align:middle}
 
 
-						pre.zoom {font-size:1.2em; width:75%}
+						pre.zoom {font-size:1.15em; width:90%}
+
+
 
 					</style>
 	</head>
@@ -73,7 +75,7 @@
 
 					<div class="profile">
 						<img src="images/philippe_hong.jpg"   />
-						<span>Philippe Hong, Data Engineer</span>
+						<span>Philippe Hong, Data Engineer chez Univalence</span>
 					</div>
 
 					</p>
@@ -83,7 +85,10 @@
 				
 				<section>
 
+
 					<h2>Le plan !</h2>
+
+					<img data-src="images/clojure_logo.png" width="20%" style="float:right;margin-right:50px;clear:both;" />
 
 					<ul><li>
 						Courte introduction sur Clojure
@@ -93,39 +98,47 @@
 							<li>Idées intéressantes</li>
 						</ul>
 
-						<img data-src="images/clojure_logo.png" width="30%" style="display:block;margin-left:auto;margin-right:auto;" />
 
 					</li>
 					<li>
 						Exercices sur votre machine
-						<p>Réseau internet : devoxxfr-hol</p>
-						<p>Code pour l'internet : hola#4321  </p>
+						<p>SSID : devoxxfr-hol</p>
+						<p>PASS : hola#4321  </p>
 					</li>
 
 					</ul>
 				</section>
 
 				<section>
-					<h2>Rich Hickey</h2>
-					<img data-src="images/rich_hickey.png" width="25%" height="25%" style="display:block;margin-left:auto;margin-right:auto;" />
+					<h2>La genèse</h2>
+
+					<img data-src="images/rich_hickey.png" width="20%" style="display:block;margin-left:auto;margin-right:auto;" />
+
+					<p><b>Clojure</b> a été créé en 2007 par <b>Rich Hickey</b> pour simplifier la programmation sur la JVM en se basant sur les concepts de la programmation fonctionnelle et les idiomes de LISP.</p>
 
 				</section>
 
 
 
 
+			<section>
+<h2>EDN</h2>
+
+				<p><b>E</b>xtensible <b>d</b>ata <b>n</b>otation : <b>EDN</b> est pour <b>Clojure</b> ce que <b>JSON</b> est pour <b>Javascript</b>.</p>
+				<p>C'est un format de donnée sympatique pour les humains et relativement extensible.</p>
+
+
+
+			</section>
 
 				<section>
-
-
-
 
 					<table class="col-pink0 col-pink2 noborder">
 
 						<thead><tr>
-							<th>json</th>
+							<th>JSON</th>
 							<th></th>
-							<th>edn</th>
+							<th>EDN</th>
 						</tr></thead>
 
 						<tr><td>3.14159</td><td>nombres</td><td>3.14159</td></tr>
@@ -142,13 +155,15 @@
 				</section>
 
 
+
+
 				<section>
 					<h2>Les collections</h2>
 
 					<table class="col-pink1 noborder">
 						<tr><td>vector</td><td>[2 3 1]</td><td>ordonné, accès direct (random access) </td></tr>
 						<tr><td>list</td><td>(2 3 1)</td><td>ordonné</td></tr>
-						<tr><td>set</td><td>#{2 3 1}</td><td>non-ordonné, distinct</td></tr>
+						<tr><td>set</td><td>#{2 3 1}</td><td>non-ordonné, valeurs uniques</td></tr>
 					</table>
 
 
@@ -158,62 +173,126 @@
 
 					<h2>Les identifiants</h2>
 
-					<table class="noborder">
-						<tr><td>string</td><td>"name</td><td>texte</td></tr>
-						<tr><td>keyword</td><td></td></tr>
+					<table class="noborder col-pink1">
+						<tr><td>string</td><td>"name"</td><td>texte</td></tr>
+						<tr><td>keyword</td><td>:name</td><td>référence lui-même</td></tr>
+						<tr><td>symbole</td><td>name</td><td>référence quelque chose d'autre</td></tr>
 					</table>
 
 				</section>
 
 				<section>
-					<h2>Exemple</h2>
+					<h2>Un exemple</h2>
+					<pre class="zoom"><code data-trim>
+                       {:nom "Alice"
+                        :sexe :feminin
+                        :job cryptologue}
+					</code></pre>
 				</section>
 
 				<section>
 					<h2>Namespace</h2>
-					mammal.canine/dog
-					:status/ready
-				</section>
-
-				<section>
-					<h2>tags</h2>
-					#inst "1985-04-12T23:20:50.52Z"
-					#uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
-				</section>
-
-				<section>
-					<h2>tags</h2>
-
-
 					<pre class="zoom"><code data-trim>
-					#color/rgb "e8a433"
-					#color/rgb [232 164 51]
+						mammifère.canin/chien
+						:status/pret
+					</code></pre>
+				</section>
+
+				<section>
+					<h2>Tags</h2>
+					<pre class="zoom"><code data-trim>
+						#inst "1985-04-12T23:20:50.52Z"
+						#uuid "f81d4fae-7dec-11d0-a765-00a0c91e6bf6"
 					</code></pre>
 
 				</section>
 
 				<section>
-					<h2>evaluation</h2>
-					La majorité des données s'évalue vers elle-même
+					<h2>Tags</h2>
+					<pre class="zoom"><code data-trim>
+						#color/rgb "e8a433"
+						#color/rgb [232 164 51]
+					</code></pre>
+
+				</section>
+
+				<section>
+					<h2>Evaluation</h2>
+					<p>La majorité des données s'évaluent vers elles-même</p>
+					<pre class="zoom"><code data-trim>
+					 (eval "foo"  ) <=> "foo"
+					 (eval   123  ) <=>   123
+					 (eval [1 2 3]) <=> [1 2 3]
+					 (eval {:x 1} ) <=> {:x 1}
+					</code></pre>
 
 
 				</section>
 
 				<section>
-					<h2>evaluation</h2>
-					Les symboles s'évaluent vers une valeur
+					<h2>Evaluation</h2>
+					<p>Les symboles s'évaluent vers une valeur du contexte</p>
+					<pre class="zoom"><code data-trim>
+						(eval 'pi)      <=>  3.14159
+						(eval 'message) <=> "Hello World"
+					</code></pre>
 				</section>
 
 				<section>
-					<h2>evaluation</h2>
+					<h2>Evaluation</h2>
+					<p>Les listes évaluent en appel de fonction</p>
+					<pre class="zoom"><code data-trim>
+						(+ 1 1)            <=> 2
+						(and true false)   <=> false
+						(f arg1 arg2 arg3) <=> ...
+					</code></pre>
 				</section>
 
 				<section>
-					<h2>evaluation</h2>
+					<h2>Evaluation</h2>
+					<p>Les fonctions évaluent d'abord leurs arguments</p>
+					<pre class="zoom"><code data-trim>
+						(+ (* 3 3) (* 4 4))
+						=> (+ 9 16)
+						=> 25
+					</code></pre>
+				</section>
+<!--
+				<section>
+					<h2>Evaluation</h2>
+					<p>Les macros évaluent leur valeur de retour</p>
+					<pre class="zoom"><code data-trim>
+						(postfix (9 16 +))
+						=> (+ 9 16)
+						=> 25
+					</code></pre>
+				</section>-->
+
+
+				<section>
+
+					<p><b>Clojure</b> c'est <b>EDN</b> + <b>Eval</b></p>
+
+					<p>
+						Et d'autres extensions : <ul>
+
+					<li>Core-Async</li>
+					<li>Specs</li>
+					<li>ClojureScript</li>
+
+				</ul>
+
+					</p>
+
+
 				</section>
 
 				<section>
-					<h2>evaluation</h2>
+					<h2>Merci !</h2>
+
+					<p>A vos claviers !</p><br>
+
+					<p><a href="https://github.com/univalence/introclojure">https://github.com/univalence/introclojure</a></p>
 				</section>
 
 <!--
